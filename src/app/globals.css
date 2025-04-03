@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+  @font-face {
+    font-family: "NeueBold";
+    src: local("NeueBold"),
+        url("../webfonts/NeueHaasDisplayBold.ttf") format("truetype");
+    font-weight: bold;
+  }
+  @font-face {
+  font-family: "NeueMedium";
+  src: local("NeueMedium"),
+      url("../webfonts/NeueHaasDisplayMediu.ttf") format("truetype");
+  font-weight: bold;
+  }
+  @font-face {
+  font-family: "NeueRegular";
+  src: local("NeueRegular"),
+      url("../webfonts/NeueHaasDisplayRoman.ttf") format("truetype");
+  font-weight: bold;
+  }
+  @font-face {
+  font-family: "NeueBlack";
+  src: local("NeueBlack"),
+      url("../webfonts/NeueHaasDisplayBlack.ttf") format("truetype");
+  font-weight: bold;
+  }

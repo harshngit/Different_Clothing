@@ -1,0 +1,84 @@
+.communitywrapper {
+    background-image: url("../../asset/communityBanner.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .galleryImageMain {
+      max-width: 400px;
+      height: 20rem;
+      padding: 0 15px;
+      object-fit: cover;
+      
+  }
+  
+  img:last-of-type {
+      padding-left: 0;
+      
+  }
+  
+  .innertwo {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      height: 20rem;
+  }
+  
+  .wrappertwo {
+      position: absolute;
+      display: flex;
+  }
+  
+  .mainArea {
+      display: flex;
+      animation: swipe var(--speed) linear infinite backwards;
+  }
+  .mainAreaTwo {
+      display: flex;
+      animation: swipeTwo var(--speed) linear infinite backwards;
+  }
+  
+  @media screen and (max-width:450px) {
+      .galleryImageMain {
+          max-width: 200px;
+          height: 12rem;
+          padding: 0 10px;
+          object-fit: cover;
+          
+      }
+      
+      img:last-of-type {
+          padding-left: 0;
+          
+      }
+      
+      .innertwo {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          height: 12rem;
+      }
+      
+      .wrappertwo {
+          position: absolute;
+          display: flex;
+      }
+  }
+  @keyframes swipe {
+      0% {
+          transform: translate(0);
+      }
+  
+      100% {
+          transform: translate(-100%);
+      }
+  }
+  @keyframes swipeTwo {
+      0% {
+          transform: translate(-100%);
+      }
+  
+      100% {
+          transform: translate(0);
+      }
+  }
