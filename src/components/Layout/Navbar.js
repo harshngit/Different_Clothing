@@ -72,7 +72,7 @@ export default function NavbarTwo() {
     >
       {/* Navbar */}
       <nav className="fixed top-0 left-0 z-[999] w-full text-white py-4 lg:py-6 shadow-none">
-        <div className="grid grid-cols-9 items-center px-4 lg:px-16">
+        <div className="grid lg:grid-cols-9 items-center px-4 lg:px-16">
           <div className="hidden lg:block col-span-8">{navList}</div>
 
           <div className="col-span-1 hidden md:flex items-center justify-center">
@@ -103,7 +103,7 @@ export default function NavbarTwo() {
         </div>
 
         {/* Mobile Navigation */}
-        <MobileNav open={openNav}>
+        <MobileNav className="w-full" open={openNav}>
           <div className="container mx-auto">{navList}</div>
         </MobileNav>
       </nav>
