@@ -50,7 +50,7 @@ export default function Main() {
 
   return (
     <main className="">
-      <GoogleAnalytics gaId="G-RZN1HJ2RWE" />
+      {/* <GoogleAnalytics gaId="G-RZN1HJ2RWE" /> */}
       <Home />
 
     </main>
