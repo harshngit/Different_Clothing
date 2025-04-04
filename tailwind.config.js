@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import withMT from "@material-tailwind/react/utils/withMT";
+
 export default withMT({
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,13 +9,23 @@ export default withMT({
   ],
   theme: {
     extend: {
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 10s linear infinite",
+      },
       backgroundImage: {
-        // "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        // "gradient-conic":
-        //   "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "banner": "url('/asset/Home/bannerhome.png')",
+        "banner": "url('/asset/Home/bannerhome.png')", // Ensure image is inside 'public' folder
+      },
+      colors: {
+        "primary": "#565449", // Fixed invalid hex color
+        "secondary": "#11120D",
       },
     },
   },
   plugins: [],
-})
+});

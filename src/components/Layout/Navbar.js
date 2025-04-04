@@ -103,8 +103,8 @@ export default function NavbarTwo() {
         </div>
 
         {/* Mobile Navigation */}
-        <MobileNav className="w-full" open={openNav}>
-          <div className="container mx-auto">{navList}</div>
+        <MobileNav className="w-full backdrop-blur-sm" open={openNav}>
+          <div className="container backdrop-blur-sm  mx-4">{navList}</div>
         </MobileNav>
       </nav>
     </div>
