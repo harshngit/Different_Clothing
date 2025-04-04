@@ -11,16 +11,15 @@ const Home = () => {
     <div>
       <ThemeProvider>
         <NavbarTwo />
-        <div className='relative lg:pt-[120px] pt-[60px]'>
-          <HomeBanner />
-          {/* <Featured />
+
+        <HomeBanner />
+        {/* <Featured />
           <Amenities />
           <Unite />
           <LeftAndRight />
           <TestimonialTwo /> */}
 
-          {/* <Footer /> */}
-        </div>
+        {/* <Footer /> */}
       </ThemeProvider>
     </div>
   )

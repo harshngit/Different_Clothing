@@ -67,8 +67,8 @@ export default function NavbarTwo() {
 
   return (
     <div
-      className="relative w-full h-screen bg-no-repeat bg-cover bg-center"
-      style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}
+    // className="relative w-full h-screen bg-no-repeat bg-cover bg-center"
+    // style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}
     >
       {/* Navbar */}
       <nav className="fixed top-0 left-0 z-[999] w-full text-white py-4 lg:py-6 shadow-none">
