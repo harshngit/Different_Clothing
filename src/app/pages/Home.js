@@ -6,21 +6,29 @@ import { Suspense } from 'react'
 import Head from 'next/head.js'
 import '../../components/Home/Home.css'
 import { ThemeProvider } from "@material-tailwind/react";
+import AboutHome from '@/components/Home/AboutHome.js'
 const Home = () => {
   return (
-    <div>
-      <ThemeProvider>
-        <NavbarTwo />
-
+    <div className='relative'>
+      {/* <ThemeProvider> */}
+      <NavbarTwo />
+      <section className="relative pt-[0px]">
+        {/* Adjust padding to avoid navbar overlap */}
         <HomeBanner />
-        {/* <Featured />
+      </section>
+
+      {/* Second Section Below */}
+      <section className="relative lg:pt-[690px] pt-[600px] overflow-hidden">
+        <AboutHome />
+      </section>
+      {/* <Featured />
           <Amenities />
           <Unite />
           <LeftAndRight />
           <TestimonialTwo /> */}
 
-        {/* <Footer /> */}
-      </ThemeProvider>
+      {/* <Footer /> */}
+      {/* </ThemeProvider> */}
     </div>
   )
 }

@@ -71,7 +71,7 @@ export default function NavbarTwo() {
     // style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}
     >
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 z-[999] w-full text-white py-4 lg:py-6 shadow-none">
+      <nav className="absolute z-10 top-0 left-0  w-full text-white py-4 lg:py-6 shadow-none">
         <div className="grid lg:grid-cols-9 items-center px-4 lg:px-16">
           <div className="hidden lg:block col-span-8">{navList}</div>
 
