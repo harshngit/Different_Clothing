@@ -1,11 +1,12 @@
 import { Button } from '@material-tailwind/react'
 import React from 'react'
 import CountdownTimer from './CountdownTimer'
+import ImageSlider from './ImageSlider'
 
 const Deal = () => {
 	return (
 		<div className='bg-[#FAFAFA] w-full h-screen lg:py-10 lg:px-20 py-5 px-5'>
-			<div className='flex justify-start items-start lg:flex-col flex-row'>
+			<div className='flex justify-start items-start flex-col lg:flex-row'>
 				<div className='lg:w-[40%] w-full flex justify-start items-start flex-col gap-10'>
 					<div className='flex flex-col gap-10'>
 						<h2 className='lg:text-[46px] text-[30px] font-normal text-[#484848]'>Deals Of The Month</h2>
@@ -18,6 +19,9 @@ const Deal = () => {
 						<h2 className='lg:text-[28px] text-[18px] font-normal'>Hurry, Before It’s Too Late!</h2>
 						<CountdownTimer />
 					</div>
+				</div>
+				<div className='lg:w-[60%] w-full gap-10'>
+					<ImageSlider />
 				</div>
 			</div>
 		</div>
