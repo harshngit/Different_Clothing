@@ -4,6 +4,7 @@ import {
   MobileNav,
   Typography,
   IconButton,
+  Collapse,
 } from "@material-tailwind/react";
 // import Logo from "../../asset/logoblack.png"
 import Link from "next/link";
@@ -71,7 +72,7 @@ export default function NavbarTwo() {
     // style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}
     >
       {/* Navbar */}
-      <nav className="absolute z-10 top-0 left-0  w-full text-white py-4 lg:py-6 shadow-none">
+      <nav className="lg:absolute fixed backdrop-blur-sm z-10 top-0 left-0  w-full text-white py-4 lg:py-6 shadow-none">
         <div className="grid lg:grid-cols-9 items-center px-4 lg:px-16">
           <div className="hidden lg:block col-span-8">{navList}</div>
 
@@ -86,7 +87,7 @@ export default function NavbarTwo() {
           {/* Mobile Menu Button */}
           <IconButton
             variant="text"
-            className="ml-auto col-span-4 text-white lg:hidden"
+            className="ml-auto col-span-4 text-secondary lg:hidden"
             ripple={false}
             onClick={() => setOpenNav(!openNav)}
           >
@@ -103,9 +104,9 @@ export default function NavbarTwo() {
         </div>
 
         {/* Mobile Navigation */}
-        <MobileNav className="w-full backdrop-blur-sm" open={openNav}>
+        <Collapse className="w-full backdrop-blur-sm" open={openNav}>
           <div className="container backdrop-blur-sm  mx-4">{navList}</div>
-        </MobileNav>
+        </Collapse>
       </nav>
     </div>
   );

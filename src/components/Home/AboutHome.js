@@ -4,13 +4,16 @@ import React from 'react'
 const AboutHome = () => {
 	return (
 		<section className=" w-full lg:h-[130vh] bg-primary lg:py-10 lg:px-20 py-5 px-5">
-			<div className="lg:block hidden absolute left-[-100px] top-[1000px] -translate-y-1/2 w-[200px] h-[200px] bg-[#4D4B42] rounded-full"></div>
+			<div className="lg:block hidden absolute left-[-100px] top-[1000px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
 
 			{/* Right Semi-circle */}
-			<div className="lg:block hidden absolute right-[-100px] top-[1200px] -translate-y-1/2 w-[200px] h-[200px] bg-[#4D4B42] rounded-full"></div>
+			<div className="lg:block hidden absolute right-[-100px] top-[1200px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
 			<div className='flex justify-center items-center flex-col lg:flex-row'>
 				<div className='flex justify-center items-start lg:w-[60%] w-full flex-col'>
-					<h2 className='lg:text-[64px] text-[20px] font-normal text-[#D8D8D8]'>Change</h2>
+					<div className='flex justify-center items-center gap-8'>
+						<h2 className='lg:text-[64px] text-[20px] font-normal text-[#D8D8D8]'>Change</h2>
+						<div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div>
+					</div>
 					<h1 className='lg:text-[94px] text-[30px] font-normal text-[#fff]'>Your Style</h1>
 				</div>
 				<div className='flex justify-start items-center lg:w-[40%] w-full'>
