@@ -8,6 +8,9 @@ import '../../components/Home/Home.css'
 import { ThemeProvider } from "@material-tailwind/react";
 import AboutHome from '@/components/Home/AboutHome.js'
 import Deal from '@/components/Home/Deal.js'
+import ProductsHome from '@/components/Home/ProductsHome.js'
+import CTA from '@/components/Home/CTA.js'
+import Footer from '@/components/Layout/Footer.js'
 const Home = () => {
   return (
     <div className='relative'>
@@ -26,12 +29,15 @@ const Home = () => {
       <section className="relative  overflow-hidden">
         <Deal />
       </section>
-      {/* <Featured />
-          <Amenities />
-          <Unite />
-          <LeftAndRight />
-          <TestimonialTwo /> */}
-
+      <section className='relative overflow-hidden'>
+        <ProductsHome />
+      </section>
+      <section className='relative overflow-hidden'>
+        <CTA />
+      </section>
+      <section className='relative overflow-hidden'>
+        <Footer />
+      </section>
       {/* <Footer /> */}
       {/* </ThemeProvider> */}
     </div>
