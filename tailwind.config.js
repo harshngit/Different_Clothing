@@ -9,6 +9,9 @@ export default withMT({
   ],
   theme: {
     extend: {
+      screens: {
+        xxl: '1408px', // Custom screen at ~110% of 1280px
+      },
       keyframes: {
         marquee: {
           "0%": { transform: "translateX(0)" },
@@ -19,11 +22,11 @@ export default withMT({
         marquee: "marquee 10s linear infinite",
       },
       backgroundImage: {
-        "banner": "url('/asset/Home/bannerhome.png')", // Ensure image is inside 'public' folder
+        "banner": "url('/asset/Home/bannerhome.png')",
       },
       colors: {
-        "primary": "#565449", // Fixed invalid hex color
-        "secondary": "#11120D",
+        primary: "#565449",
+        secondary: "#11120D",
       },
     },
   },

@@ -4,7 +4,7 @@ import Tshirt from '../../../public/asset/Home/t-shirt.png'
 const HomeBanner = () => {
   return (
     <div className='relative z-0'>
-      <div className="absolute w-full h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}>
+      <div className="absolute w-full lg:h-screen xl:h-screen h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}>
 
         {/* Signature Collection Tag */}
         <div className="absolute top-[80%] left-[5.5rem] lg:top-1/3 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
@@ -26,7 +26,7 @@ const HomeBanner = () => {
         </div>
         {/* T-shirt Image */}
         <div className="relative w-[300px] md:w-[400px] lg:w-[400px]">
-          <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] relative left-[1%]" />
+          <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] xl:h-[450px] relative left-[1%]" />
 
           {/* Labels with Lines */}
           <div className="absolute top-[20%] left-[-50px] flex items-center gap-2">

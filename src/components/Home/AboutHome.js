@@ -3,7 +3,7 @@ import React from 'react'
 
 const AboutHome = () => {
 	return (
-		<section className=" w-full lg:h-[130vh] bg-primary lg:py-10 lg:px-20 py-5 px-5">
+		<section className=" w-full lg:h-[130vh] xl:h-[150vh] bg-primary lg:py-10 lg:px-20 py-5 px-5">
 			<div className="lg:block hidden absolute left-[-100px] top-[1000px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
 
 			{/* Right Semi-circle */}

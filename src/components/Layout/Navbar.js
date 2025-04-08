@@ -25,7 +25,7 @@ export default function NavbarTwo() {
         as="li"
 
         color="white"
-        className="p-1 font-[NeueMedium] tracking-wider text-[17px]"
+        className="p-1 font-[NeueMedium] tracking-wider lg:text-[#fff] text-[#8b8b8b] text-[17px]"
       >
         <Link href="/" className="flex items-center">
           Home
@@ -36,7 +36,7 @@ export default function NavbarTwo() {
         as="li"
 
         color="white"
-        className="p-1 font-[NeueMedium] tracking-wider text-[17px]"
+        className="p-1 font-[NeueMedium] lg:text-[#fff] text-[#8b8b8b] tracking-wider text-[17px]"
       >
         <Link href="/" className="flex items-center">
           Shop
@@ -47,7 +47,7 @@ export default function NavbarTwo() {
         as="li"
         variant="small"
         color="white"
-        className="p-1 font-[NeueMedium] tracking-wider text-[17px]"
+        className="p-1 font-[NeueMedium] lg:text-[#fff] text-[#8b8b8b] tracking-wider text-[17px]"
       >
         <Link href="/" className="flex items-center">
           About
@@ -57,7 +57,7 @@ export default function NavbarTwo() {
         as="li"
         variant="small"
         color="white"
-        className="p-1 font-[NeueMedium] tracking-wider text-[17px]"
+        className="p-1 font-[NeueMedium] lg:text-[#fff] text-[#8b8b8b] tracking-wider text-[17px]"
       >
         <Link href="/" className="flex items-center">
           Contact us
