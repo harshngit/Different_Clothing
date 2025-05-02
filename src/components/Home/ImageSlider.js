@@ -74,9 +74,9 @@ const ImageSlider = () => {
 								className="w-full h-full object-cover"
 							/>
 							{activeIndex === index && (
-								<div className="absolute bottom-6 left-6 bg-white p-4 rounded-md shadow-md z-10">
-									<p className="text-xs text-gray-500">{slide.title}</p>
-									<p className="text-xl font-bold">{slide.discount}</p>
+								<div className="absolute bottom-6 left-6 bg-[#565449] p-4 rounded-md shadow-md z-10">
+									<p className="text-xs text-white">{slide.title}</p>
+									<p className="text-xl font-bold text-white">{slide.discount}</p>
 								</div>
 							)}
 						</div>

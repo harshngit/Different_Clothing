@@ -3,7 +3,7 @@ import React from 'react'
 
 const AboutHome = () => {
 	return (
-		<section className=" w-full lg:h-[130vh] xl:h-[150vh] bg-primary lg:py-10 lg:px-20 py-5 px-5">
+		<section className=" w-full lg:h-[130vh] xl:h-[150vh] bg-whites	 lg:py-10 lg:px-20 py-5 px-5">
 			<div className="lg:block hidden absolute left-[-100px] top-[1000px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
 
 			{/* Right Semi-circle */}
@@ -12,12 +12,12 @@ const AboutHome = () => {
 				<div className='flex justify-center items-start lg:w-[60%] w-full flex-col'>
 					<div className='flex justify-center items-center gap-8'>
 						<h2 className='lg:text-[64px] text-[20px] font-normal text-[#D8D8D8]'>Change</h2>
-						<div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div>
+						<div className='w-[100px] h-2 rounded-lg bg-[#D9D9D966] hidden lg:block'></div>
 					</div>
-					<h1 className='lg:text-[94px] text-[30px] font-normal text-[#fff]'>Your Style</h1>
+					<h1 className='lg:text-[94px] text-[30px] font-normal text-[#565449]'>Your Style</h1>
 				</div>
 				<div className='flex justify-start items-center lg:w-[40%] w-full'>
-					<p className='lg:text-right text-white font-normal lg:text-[24px] text-[15px]'>
+					<p className='lg:text-right text-[#565449] font-normal lg:text-[24px] text-[15px]'>
 						Welcome to Different Clothing , where style meets comfort in every piece. Our collection is designed to offer the perfect balance of quality, versatility, and modern design, making it easy for you to express your unique style.
 					</p>
 				</div>

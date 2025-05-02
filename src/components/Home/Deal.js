@@ -6,7 +6,7 @@ import SimpleSlider from './SimpleSwiper'
 
 const Deal = () => {
 	return (
-		<div className='bg-[#FAFAFA] w-full lg:h-screen h-[160vh] lg:py-10 lg:px-20 py-5 px-5'>
+		<div className='bg-white w-full lg:h-screen h-[160vh] lg:py-10 lg:px-20 py-5 px-5'>
 			<div className='flex justify-start items-start flex-col lg:flex-row'>
 				<div className='lg:w-[40%] w-full flex justify-start items-start flex-col gap-10'>
 					<div className='flex flex-col gap-10'>

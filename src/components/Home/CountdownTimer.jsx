@@ -21,10 +21,10 @@ const CountdownTimer = () => {
 				<div className="flex gap-4">
 					{timeUnits.map((unit, index) => (
 						<div key={index} className="flex flex-col items-center gap-2">
-							<div className="bg-white text-black text-3xl font-mono px-4 py-3 rounded-lg shadow-md text-center lg:w-[79px] lg:h-[79px] w-[70px] lg:text-[40px] text-[30px] flex justify-center items-center">
+							<div className="bg-[#E7E6E2] text-black text-3xl font-mono px-4 py-3 rounded-lg shadow-lg text-center lg:w-[79px] lg:h-[79px] w-[70px] lg:text-[40px] text-[30px] flex justify-center items-center">
 								{String(unit.value).padStart(2, '0')}
 							</div>
-							<div className="text-sm text-gray-600 mt-1 lg:text-[24px] text-[20px] font-normal">{unit.label}</div>
+							<div className="text-sm text-[#484848] mt-1 lg:text-[24px] text-[20px] font-normal">{unit.label}</div>
 						</div>
 					))}
 				</div>

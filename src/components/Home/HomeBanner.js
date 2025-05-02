@@ -4,14 +4,14 @@ import Tshirt from '../../../public/asset/Home/t-shirt.png'
 const HomeBanner = () => {
   return (
     <div className='relative z-0'>
-      <div className="absolute w-full lg:h-screen xl:h-screen h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhome.png')" }}>
+      <div className="absolute w-full lg:h-screen xl:h-screen h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
 
         {/* Signature Collection Tag */}
         <div className="absolute top-[80%] left-[5.5rem] lg:top-1/3 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
           SIGNATURE COLLECTION
         </div>
         <div className="absolute top-1/2 left-1/2 w-[50%]  overflow-hidden">
-          <div className="animate-marquee flex gap-5 text-lg font-semibold -z-10 text-[#ffffff8a] whitespace-nowrap">
+          <div className="animate-marquee flex gap-5 text-lg font-semibold -z-10 text-[#000] whitespace-nowrap">
             <span>• Be Different</span>
             <span>• Be Different</span>
             <span>• Be Different</span>

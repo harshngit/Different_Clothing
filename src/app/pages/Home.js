@@ -22,7 +22,7 @@ const Home = () => {
       </section>
 
       {/* Second Section Below */}
-      <section className="relative lg:pt-[690px] xl:pt-[620px] pt-[600px] overflow-hidden">
+      <section className="relative lg:pt-[690px] xl:pt-[695px] pt-[600px] overflow-hidden">
         <AboutHome />
       </section>
       {/* Second Section Below */}
