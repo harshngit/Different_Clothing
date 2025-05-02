@@ -1,22 +1,21 @@
 'use client';
 import React, { useState } from 'react';
-
 const panels = [
 	{
 		label: 'FOR HIM',
-		image: '/asset/shop/banner1.png',
+		image: '/asset/Shop/banner1.png',
 	},
 	{
 		label: 'FOR HER',
-		image: '/asset/shop/banner2.png',
+		image: '/asset/Shop/banner2.png',
 	},
 	{
 		label: 'ARABIC',
-		image: '/asset/shop/banner3.png',
+		image: '/asset/Shop/banner3.png',
 	},
 	{
 		label: 'SIGNATURE',
-		image: '/asset/shop/banner4.png',
+		image: '/asset/Shop/banner4.png',
 	},
 ];
 
