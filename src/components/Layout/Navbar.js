@@ -43,7 +43,7 @@ export default function NavbarTwo() {
         color="white"
         className="p-1 font-[NeueMedium] lg:text-[#fff] text-[#fff] tracking-wider text-[17px]"
       >
-        <Link href="/" className="flex items-center">
+        <Link href="/shop" className="flex items-center">
           Shop
         </Link>
       </Typography>
@@ -103,7 +103,7 @@ export default function NavbarTwo() {
           <div className="hidden lg:block col-span-8">{navList}</div>
 
           <div className="col-span-1 gap-5 hidden lg:flex items-center justify-center">
-            <Link href="">
+            <Link href="/cart">
               {/* <button className="uppercase flex items-center justify-center rounded-lg shadow-md text-[12px] md:text-[16px] tracking-wider py-[8px] px-[24px] md:py-[12px] md:px-[15px] text-white bg-black hover:bg-white hover:text-black border-2 border-transparent hover:border-black transition-all">
                 My Account
               </button> */}
