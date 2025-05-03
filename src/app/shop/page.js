@@ -15,7 +15,7 @@ const Shop = () => {
 				{/* Adjust padding to avoid navbar overlap */}
 				<ImageAccordion />
 			</section>
-			<section className="relative lg:pt-[60px] xl:pt-[140px] pt-[60px] overflow-hidden">
+			<section className="relative lg:pt-[10px] xl:pt-[10px] pt-[60px] overflow-hidden">
 				<ProductGrid />
 			</section>
 			<section className="relative">

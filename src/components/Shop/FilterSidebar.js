@@ -25,7 +25,7 @@ export default function FilterSidebar({ isOpen, onClose, filters, setFilters, on
 
 	return (
 		<div
-			className={`fixed top-0 right-0 w-[40%] h-full bg-[#f5f5f5] shadow-lg transform transition-transform duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+			className={`fixed top-0 right-0 lg:w-[40%] w-[80%] h-full bg-[#f5f5f5] shadow-lg transform transition-transform duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'
 				}`}
 		>
 			{/* Header */}
@@ -36,8 +36,8 @@ export default function FilterSidebar({ isOpen, onClose, filters, setFilters, on
 
 			{/* Tabs */}
 			<div className="flex h-[calc(100%-150px)]"> {/* minus height of header+buttons */}
-				<Tabs className="flex w-full" value="price" orientation="vertical">
-					<TabsHeader className="w-40 bg-transparent border-r border-gray-300 rounded-none">
+				<Tabs className="flex lg:flex-row flex-col w-full" value="price" orientation="vertical">
+					<TabsHeader className="lg:w-40 w-full bg-transparent border-r border-gray-300 rounded-none">
 						<Tab key="price" value="price" className="justify-start text-left text-sm font-semibold text-[#000]">
 							Price Range
 						</Tab>

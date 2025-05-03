@@ -110,7 +110,7 @@ export default function ProductGrid() {
 							<img
 								src={product.hoverImage} // 👈 Secondary image on hover (add this key in your product object)
 								alt={`${product.title} hover`}
-								className="w-[356px] h-[408px] object-cover rounded-[50px] absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+								className="w-[356px] lg:h-[408px] h-[200px] object-cover rounded-[50px] absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 							/>
 
 							{/* Heart Icon */}
