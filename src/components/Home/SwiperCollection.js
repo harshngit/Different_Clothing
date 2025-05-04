@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import img1 from '../../../public/asset/Home/collection1.png'
-import img2 from '../../../public/asset/Home/collection2.png'
-import img3 from '../../../public/asset/Home/collection3.png'
-import img4 from '../../../public/asset/Home/collection4.png'
-import img5 from '../../../public/asset/Home/collection5.png'
 const images = [
-	img1,
-	img2,
-	img3,
-	img4,
-	img5,
+	'/asset/Home/collection1.png',
+	'/asset/Home/collection5.png',
+	'/asset/Home/collection2.png',
+	'/asset/Home/collection3.png',
+	'/asset/Home/collection4.png',
 ];
 
 const SwiperCollection = () => {
