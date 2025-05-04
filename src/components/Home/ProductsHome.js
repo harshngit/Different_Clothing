@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import React from 'react'
 import img from '../../../public/asset/Home/abouthome2.png'
@@ -5,13 +7,14 @@ import { FaStar } from "react-icons/fa";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Link from 'next/link';
 import SwiperCollection from './SwiperCollection';
+import SwiperMob from './SwiperMob';
 const ProductsHome = () => {
 	return (
-		<div className='w-full lg:h-auto bg-white lg:py-10 lg:px-20 py-5 px-5'>
+		<div className='w-full lg:h-auto bg-white lg:py-5 lg:px-5 py-5 px-5'>
 			<div className='flex flex-col justify-center items-center pt-10 '>
 				{/* <div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div> */}
-				<h2 className='lg:text-[32px] font-light text-[40px] text-center text-[#000]'>Where style meets expression</h2>
-				<h3 className='lg:text-[24px] font-light text-[40px] text-center text-[#000]'>Step into fashion</h3>
+				<h2 className='lg:text-[32px] text-[20px] text-center text-[#000] font-bold'>Where style meets expression</h2>
+				<h3 className='lg:text-[24px] font-light text-[18px] text-center text-[#000]'>Step into fashion</h3>
 				<div className='bg-[#D9D9D9] px-5 py-2 mt-5 rounded-2xl flex gap-3 justify-center items-center'>
 					<h3>New Colection</h3>
 					<Link href="">
@@ -175,8 +178,11 @@ const ProductsHome = () => {
 				</div>
 			</div> */}
 			{/* Slider */}
-			<div className='mt-10'>
+			<div className='mb-[250px] lg:block hidden'>
 				<SwiperCollection />
+			</div>
+			<div className='lg:mb-[250px] lg:hidden block'>
+				<SwiperMob />
 			</div>
 		</div>
 	)

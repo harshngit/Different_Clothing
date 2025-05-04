@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 
+.carousel-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
 .swiper-button-prev,
 .swiper-button-next {
     display: flex;

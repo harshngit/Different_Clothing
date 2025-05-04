@@ -12,6 +12,8 @@
     "@hotjar/browser": "^1.0.9",
     "@material-tailwind/react": "^2.1.8",
     "@next/third-parties": "^14.0.5-canary.59",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "firebase": "^10.12.3",
     "html-react-parser": "^5.1.10",
     "next": "14.2.4",
