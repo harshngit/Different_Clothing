@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
-
+import img1 from '../../../public/asset/Home/abouthome1.png'
+import img2 from '../../../public/asset/Home/abouthome2.png'
+import img3 from '../../../public/asset/Home/abouthome1.png'
 const AboutHome = () => {
 	return (
 		<section className=" w-full lg:h-[130vh] xl:h-[150vh] bg-whites	 lg:py-10 lg:px-20 py-5 px-5">
@@ -26,7 +28,7 @@ const AboutHome = () => {
 				{/* Left Image */}
 				<div className="rounded-[30px] overflow-hidden absolute left-[180px] top-[50px] ">
 					<Image
-						src="/asset/Home/abouthome1.png"
+						src={img1}
 						alt="look1"
 						width={400}
 						height={500}
@@ -37,7 +39,7 @@ const AboutHome = () => {
 				{/* Center Image */}
 				<div className="rounded-[30px] overflow-hidden absolute z-20 top-[190px] left-[450px] ">
 					<Image
-						src="/asset/Home/abouthome2.png"
+						src={img2}
 						alt="look2"
 						width={400}
 						height={500}
@@ -48,7 +50,7 @@ const AboutHome = () => {
 				{/* Right Image */}
 				<div className="rounded-[30px] overflow-hidden absolute top-[250px]  z-10 right-[150px] ">
 					<Image
-						src="/asset/Home/abouthome1.png"
+						src={img3}
 						alt="look3"
 						width={400}
 						height={500}
@@ -59,7 +61,7 @@ const AboutHome = () => {
 			<div className='lg:hidden grid grid-flow-row grid-row-3 mt-5 gap-10'>
 				<div className="rounded-[30px] overflow-hidden ">
 					<Image
-						src="/asset/Home/abouthome1.png"
+						src={img1}
 						alt="look1"
 						width={400}
 						height={500}
@@ -70,7 +72,7 @@ const AboutHome = () => {
 				{/* Center Image */}
 				<div className="rounded-[30px] overflow-hidden">
 					<Image
-						src="/asset/Home/abouthome2.png"
+						src={img2}
 						alt="look2"
 						width={400}
 						height={500}
@@ -81,7 +83,7 @@ const AboutHome = () => {
 				{/* Right Image */}
 				<div className="rounded-[30px] overflow-hidden ">
 					<Image
-						src="/asset/Home/abouthome1.png"
+						src={img3}
 						alt="look3"
 						width={400}
 						height={500}
