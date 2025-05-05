@@ -1,9 +1,17 @@
 'use client';
-import { Slider, Tab, TabPanel, Tabs, TabsBody, TabsHeader } from '@material-tailwind/react';
-import React from 'react';
+import { Slider } from '@material-tailwind/react';
+import React, { useState } from 'react';
 
+export default function FilterSidebar({
+	isOpen,
+	onClose,
+	filters,
+	setFilters,
+	onApply,
+	onReset,
+}) {
+	const [activeTab, setActiveTab] = useState('price');
 
-export default function FilterSidebar({ isOpen, onClose, filters, setFilters, onApply, onReset }) {
 	const sizes = ['XS', 'S', 'M', 'L', 'XL'];
 	const colors = ['#000000', '#FFFFFF', '#C2B280', '#A0522D', '#808080'];
 	const materials = ['Cotton', 'Polyester', 'Linen', 'Wool'];
@@ -25,139 +33,175 @@ export default function FilterSidebar({ isOpen, onClose, filters, setFilters, on
 
 	return (
 		<div
-			className={`fixed top-0 right-0 lg:w-[40%] w-[80%] h-full bg-[#f5f5f5] shadow-lg transform transition-transform duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'
-				}`}
+			className={`
+        fixed top-0 right-0 lg:w-[40%] w-[80%] h-full 
+        bg-[#D9D9D9] shadow-xl 
+        transform transition-transform duration-300 z-50
+        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+      `}
 		>
 			{/* Header */}
-			<div className="flex justify-between items-center px-5 py-4 border-b border-gray-300">
-				<h2 className="text-sm font-semibold uppercase tracking-wider text-gray-800">Filter</h2>
-				<button onClick={onClose} className="text-2xl text-gray-600 hover:text-black">&times;</button>
+			<div className="grid grid-cols-5 px-6 py-5 border-b border-gray-200">
+				<h2 className="col-span-4 text-center font-bold text-gray-900 uppercase tracking-wider">
+					Filters
+				</h2>
+				<button
+					onClick={onClose}
+					className="col-span-1 text-2xl text-black hover:text-white"
+				>
+					&times;
+				</button>
 			</div>
 
-			{/* Tabs */}
-			<div className="flex h-[calc(100%-150px)]"> {/* minus height of header+buttons */}
-				<Tabs className="flex lg:flex-row flex-col w-full" value="price" orientation="vertical">
-					<TabsHeader className="lg:w-40 w-full bg-transparent border-r border-gray-300 rounded-none">
-						<Tab key="price" value="price" className="justify-start text-left text-sm font-semibold text-[#000]">
-							Price Range
-						</Tab>
-						<Tab key="size" value="size" className="justify-start text-left text-sm font-semibold text-[#000]">
-							Size
-						</Tab>
-						<Tab key="color" value="color" className="justify-start text-left text-sm font-semibold text-[#000]">
-							Color
-						</Tab>
-						<Tab key="material" value="material" className="justify-start text-left text-sm font-semibold text-[#000]">
-							Material
-						</Tab>
-						<Tab key="category" value="category" className="justify-start text-left text-sm font-semibold text-[#000]">
-							Category
-						</Tab>
-					</TabsHeader>
+			{/* Tabs - Replace with divs */}
+			<div className="flex h-[calc(100%-150px)]">
+				<div className="lg:w-40 w-full bg-transparent border-r border-gray-200 rounded-none">
+					{['price', 'size', 'color', 'material', 'category'].map((val) => (
+						<div
+							key={val}
+							onClick={() => setActiveTab(val)}
+							className={`
+                relative cursor-pointer text-left text-sm py-3 px-4 font-medium transition
+                ${activeTab === val
+									? `text-[#A6784B]
+                     before:content-['']
+                     before:absolute before:left-0 before:top-0
+                     before:h-full before:w-3
+                     before:bg-[#A6784B]
+                     before:rounded-tr-full before:rounded-br-full`
+									: 'text-gray-700 hover:text-black'}
+              `}
+						>
+							{val.charAt(0).toUpperCase() + val.slice(1)}
+						</div>
+					))}
+				</div>
 
-					<TabsBody className="flex-1  overflow-y-auto ">
-						<TabPanel key="price" value="price">
-							<h3 className="font-semibold text-[#A6784B] mb-3">Price Range</h3>
+				{/* Tab Panels */}
+				<div className="flex-1 overflow-y-auto">
+					{activeTab === 'price' && (
+						<div className="p-5">
+							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
+								Select Price Range
+							</h3>
 							<Slider
 								value={filters.priceRange}
 								min={500}
 								max={3000}
 								onChange={handlePriceChange}
 								valueLabelDisplay="auto"
-								sx={{
-									color: 'black'
-								}}
 							/>
-							<div className="flex justify-between text-sm text-gray-600 mt-2">
-								<span>Rs. {Array.isArray(filters?.priceRange) ? filters.priceRange[0] : 500}</span>
-								<span>Rs. {Array.isArray(filters?.priceRange) ? filters.priceRange[1] : 3000}</span>
+							<div className="flex justify-between text-sm text-black mt-2">
+								<span>Rs. {filters.priceRange[0]}</span>
+								<span>Rs. {filters.priceRange[1]}</span>
 							</div>
-						</TabPanel>
+						</div>
+					)}
 
-						<TabPanel key="size" value="size">
-							<h3 className="font-semibold text-[#A6784B] mb-3">Sizes</h3>
+					{activeTab === 'size' && (
+						<div className="p-5">
+							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
+								Select Sizes
+							</h3>
 							<div className="flex flex-wrap gap-2">
 								{sizes.map((size) => (
 									<button
 										key={size}
 										onClick={() => handleCheckboxChange('sizes', size)}
-										className={`px-3 py-1 border rounded-full text-sm ${filters.sizes.includes(size)
+										className={`px-3 py-1 border rounded-full text-sm transition ${filters.sizes.includes(size)
 											? 'bg-black text-white border-black'
-											: 'bg-gray-100 text-black border-gray-300'
+											: 'bg-white text-black border-gray-300'
 											}`}
 									>
 										{size}
 									</button>
 								))}
 							</div>
-						</TabPanel>
+						</div>
+					)}
 
-						<TabPanel key="color" value="color">
-							<h3 className="font-semibold text-[#A6784B] mb-3">Colors</h3>
+					{activeTab === 'color' && (
+						<div className="p-5">
+							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
+								Select Colors
+							</h3>
 							<div className="flex flex-wrap gap-3">
 								{colors.map((color) => (
 									<button
 										key={color}
 										onClick={() => handleCheckboxChange('colors', color)}
-										className={`w-6 h-6 rounded-full border-2 ${filters.colors.includes(color) ? 'ring-2 ring-black' : ''
+										className={`w-7 h-7 rounded-full border-2 transition ${filters.colors.includes(color)
+											? 'ring-2 ring-black'
+											: 'border-gray-300'
 											}`}
 										style={{ backgroundColor: color }}
-									></button>
+									/>
 								))}
 							</div>
-						</TabPanel>
+						</div>
+					)}
 
-						<TabPanel key="material" value="material">
-							<h3 className="font-semibold text-[#A6784B] mb-3">Clothing Material</h3>
+					{activeTab === 'material' && (
+						<div className="p-5">
+							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
+								Select Materials
+							</h3>
 							<div className="flex flex-col gap-2 text-sm">
 								{materials.map((material) => (
 									<label key={material} className="flex items-center gap-2">
 										<input
 											type="checkbox"
 											checked={filters.materials.includes(material)}
-											onChange={() => handleCheckboxChange('materials', material)}
+											onChange={() =>
+												handleCheckboxChange('materials', material)
+											}
 										/>
 										{material}
 									</label>
 								))}
 							</div>
-						</TabPanel>
+						</div>
+					)}
 
-						<TabPanel key="category" value="category">
-							<h3 className="font-semibold text-[#A6784B] mb-3">Category</h3>
+					{activeTab === 'category' && (
+						<div className="p-5">
+							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
+								Select Category
+							</h3>
 							<div className="flex flex-col gap-2 text-sm">
 								{categories.map((cat) => (
 									<label key={cat} className="flex items-center gap-2">
 										<input
 											type="checkbox"
 											checked={filters.categories.includes(cat)}
-											onChange={() => handleCheckboxChange('categories', cat)}
+											onChange={() =>
+												handleCheckboxChange('categories', cat)
+											}
 										/>
 										{cat}
 									</label>
 								))}
 							</div>
-						</TabPanel>
-					</TabsBody>
-				</Tabs>
+						</div>
+					)}
+				</div>
 			</div>
 
-			{/* Buttons */}
-			<div className="p-5 border-t border-gray-300 flex justify-between mb-5">
-				<button
-					onClick={onApply}
-					className="px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800 text-sm"
-				>
-					Apply
-				</button>
+			{/* Footer Buttons */}
+			<div className="p-5 border-t border-gray-200 flex justify-start gap-10">
 				<button
 					onClick={onReset}
-					className="px-6 py-2 bg-white border border-gray-400 text-black rounded-xl hover:bg-gray-100 text-sm"
+					className="px-5 py-2 border bg-white text-sm border-gray-400 text-gray-700 rounded-full hover:bg-gray-100"
 				>
 					Reset
 				</button>
+				<button
+					onClick={onApply}
+					className="px-6 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800"
+				>
+					Apply Filters
+				</button>
 			</div>
 		</div>
-
 	);
 }
