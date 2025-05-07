@@ -2,6 +2,7 @@
 import { Button } from '@material-tailwind/react';
 import React, { useState } from 'react';
 import FilterSidebar from './FilterSidebar';
+import Link from 'next/link';
 
 const allProducts = [
 	{ id: 1, title: 'For Him', price: '$44', image: '/asset/Shop/shop1.png', hoverImage: '/asset/Shop/shop2.png' },
@@ -135,7 +136,7 @@ export default function ProductGrid() {
 						{/* Product Info */}
 						<div className="p-3 flex justify-between items-center">
 							<div>
-								<h3 className="text-sm font-semibold">{product.title}</h3>
+								<Link href={`shop/${product.id}`}><h3 className="text-sm font-semibold">{product.title}</h3></Link>
 								<p className="text-gray-700 font-bold">{product.price}</p>
 							</div>
 							<div className="flex justify-center items-center gap-2">

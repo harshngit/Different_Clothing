@@ -107,12 +107,12 @@ export default function NavbarTwo() {
               {/* <button className="uppercase flex items-center justify-center rounded-lg shadow-md text-[12px] md:text-[16px] tracking-wider py-[8px] px-[24px] md:py-[12px] md:px-[15px] text-white bg-black hover:bg-white hover:text-black border-2 border-transparent hover:border-black transition-all">
                 My Account
               </button> */}
-              <FaCartShopping className="text-[#000] text-[30px]" />
+              <FaCartShopping className="text-[#fff] text-[30px]" />
 
             </Link>
             <Menu>
               <MenuHandler>
-                <FaUser className="text-[#000] text-[30px] cursor-pointer" />
+                <FaUser className="text-[#fff] text-[30px] cursor-pointer" />
               </MenuHandler>
               <MenuList className="absolute w-[10%] !left-[86%] !top-[10%]">
                 <MenuItem >
