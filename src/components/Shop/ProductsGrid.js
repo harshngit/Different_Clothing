@@ -103,16 +103,19 @@ export default function ProductGrid() {
 					<div key={product.id} className="bg-white rounded-xl overflow-hidden shadow-sm group">
 						<div className="relative">
 							{/* Product Image (Hover effect) */}
-							<img
+							{/* <img
 								src={product.image}
 								alt={product.title}
 								className="w-[356px] lg:h-[408px] h-[200px] object-cover rounded-[50px] transition-opacity duration-300 group-hover:opacity-0"
-							/>
-							<img
+							/> */}
+							<video autoPlay playsInline loop muted className="w-full">
+								<source src="/asset/Shop/NormalT-shirt.mp4" type="video/mp4" />
+							</video>
+							{/* <img
 								src={product.hoverImage} // 👈 Secondary image on hover (add this key in your product object)
 								alt={`${product.title} hover`}
 								className="w-[356px] lg:h-[408px] h-[200px] object-cover rounded-[50px] absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-							/>
+							/> */}
 
 							{/* Heart Icon */}
 							<button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
