@@ -234,7 +234,7 @@ export default function Navbar() {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg> */}
-            <img className="w-[28px]" src="/asset/navbar/cancel.png" alt="" />
+            {/* <img className="w-[28px]" src="/asset/navbar/cancel.png" alt="" /> */}
           </div>
         </div>
         {navListMobile}
@@ -258,9 +258,9 @@ export default function Navbar() {
             <img className="w-[24px]" src="/asset/navbar/Linkedin.png" alt="" />
           </Link>
         </div> */}
-        <div className="flex justify-center item-center">
+        {/* <div className="flex justify-center item-center">
           <img className="w-screen h-[134px]" src="/asset/navbar/havdorblack.png" alt="" />
-        </div>
+        </div> */}
       </div>
     </div>
   );
