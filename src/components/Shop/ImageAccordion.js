@@ -23,7 +23,7 @@ export default function ImageAccordion() {
 	const [activeIndex, setActiveIndex] = useState(null);
 
 	return (
-		<div className="w-full lg:max-w-6xl max-w-[21rem] h-[500px] flex overflow-hidden rounded-3xl mx-auto">
+		<div className="w-full h-[500px] flex overflow-hidden">
 			{panels.map((panel, index) => (
 				<div
 					key={index}

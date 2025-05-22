@@ -1,7 +1,7 @@
 'use client'
 import CTA from '@/components/Home/CTA'
 import Footer from '@/components/Layout/Footer'
-import NavbarWhite from '@/components/Layout/NavbarWhite'
+import Navbar from '@/components/Layout/Navbar'
 import BannerCta from '@/components/Shop/BannerCta'
 import ImageAccordion from '@/components/Shop/ImageAccordion'
 import ProductGrid from '@/components/Shop/ProductsGrid'
@@ -9,8 +9,8 @@ import React from 'react'
 
 const Shop = () => {
 	return (
-		<div>
-			<NavbarWhite />
+		<div className=' font-playfair'>
+			<Navbar />
 			<section className="relative pt-[130px] pb-[50px]">
 				{/* Adjust padding to avoid navbar overlap */}
 				<ImageAccordion />
@@ -20,9 +20,6 @@ const Shop = () => {
 			</section>
 			<section className="relative">
 				<BannerCta />
-			</section>
-			<section className="relative">
-				<CTA />
 			</section>
 			<section className="relative">
 				<Footer />

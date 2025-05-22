@@ -1,30 +1,13 @@
 'use client';
-import { Button } from '@material-tailwind/react';
 import React, { useState } from 'react';
 import FilterSidebar from './FilterSidebar';
 import Link from 'next/link';
 import allProducts from '@/data/ProductData';
 
-
-
-const INITIAL_LOAD = 8;
-const LOAD_MORE_COUNT = 4;
+const ITEMS_PER_PAGE = 8;
 
 export default function ProductGrid() {
-	const [visibleCount, setVisibleCount] = useState(INITIAL_LOAD);
 	const [currentPage, setCurrentPage] = useState(1);
-
-	const visibleProducts = allProducts.slice(0, visibleCount);
-	const totalPages = Math.ceil(allProducts.length / visibleCount);
-
-	const handleLoadMore = () => {
-		setVisibleCount((prev) => Math.min(prev + LOAD_MORE_COUNT, allProducts.length));
-	};
-
-	const handlePageChange = (pageNum) => {
-		setCurrentPage(pageNum);
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	};
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 	const [filters, setFilters] = useState({
@@ -35,9 +18,20 @@ export default function ProductGrid() {
 		categories: [],
 	});
 
+	const totalPages = Math.ceil(allProducts.length / ITEMS_PER_PAGE);
+
+	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+	const endIndex = startIndex + ITEMS_PER_PAGE;
+	const visibleProducts = allProducts.slice(startIndex, endIndex);
+
+	const handlePageChange = (pageNum) => {
+		setCurrentPage(pageNum);
+		window.scrollTo({ top: 500, behavior: 'smooth' });
+	};
+
 	const handleApplyFilters = () => {
 		setIsFilterOpen(false);
-		// Optional: You can trigger filtering logic here
+		// Add filtering logic here if needed
 	};
 
 	const handleResetFilters = () => {
@@ -51,50 +45,62 @@ export default function ProductGrid() {
 	};
 
 	return (
-		<div className="max-w-7xl mx-auto py-8 px-4">
-			<div>
-				<div className='flex justify-end items-center mb-10'>
-					<button
-						className='rounded-xl bg-[#565449] text-white px-4 py-2'
-						onClick={() => setIsFilterOpen(true)}
-					>
-						Filter
-					</button>
-				</div>
-
-				{/* Your ProductGrid here */}
-
-				<FilterSidebar
-					isOpen={isFilterOpen}
-					onClose={() => setIsFilterOpen(false)}
-					filters={filters}
-					setFilters={setFilters}
-					onApply={handleApplyFilters}
-					onReset={handleResetFilters}
-				/>
+		<div className="pb-5">
+			{/* Filter Button */}
+			<div className='flex justify-end items-center mb-10 w-[90%] ml-[5rem]'>
+				<button
+					className='bg-[#565449] text-white px-5 py-3'
+					onClick={() => setIsFilterOpen(true)}
+				>
+					Filter
+				</button>
 			</div>
+
+			{/* Sidebar */}
+			<FilterSidebar
+				isOpen={isFilterOpen}
+				onClose={() => setIsFilterOpen(false)}
+				filters={filters}
+				setFilters={setFilters}
+				onApply={handleApplyFilters}
+				onReset={handleResetFilters}
+			/>
+
 			{/* Grid */}
-			<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px]">
 				{visibleProducts.map((product) => (
-					<div key={product.id} className="bg-white rounded-xl overflow-hidden shadow-sm group">
+					<div key={product.id} className="bg-white overflow-hidden group">
 						<div className="relative">
-							{/* Product Image (Hover effect) */}
-							{/* <img
+							{/* Primary Image */}
+							<img
 								src={product.image}
 								alt={product.title}
-								className="w-[356px] lg:h-[408px] h-[200px] object-cover rounded-[50px] transition-opacity duration-300 group-hover:opacity-0"
-							/> */}
-							<video autoPlay playsInline loop muted className="w-full">
-								<source src="/asset/Shop/NormalT-shirt.mp4" type="video/mp4" />
-							</video>
-							{/* <img
-								src={product.hoverImage} // 👈 Secondary image on hover (add this key in your product object)
+								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 group-hover:opacity-0"
+							/>
+							{/* Hover Image */}
+							<img
+								src={product.hoverImage}
 								alt={`${product.title} hover`}
-								className="w-[356px] lg:h-[408px] h-[200px] object-cover rounded-[50px] absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-							/> */}
+								className="w-full lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+							/>
+						</div>
 
-							{/* Heart Icon */}
-							<button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
+						{/* Product Info */}
+						<div className="p-3 flex justify-between items-start">
+							<div className='flex flex-col gap-2 justify-start items-start'>
+								<div>
+									<Link href={`shop/${product.id}`}>
+										<h3 className="text-sm font-semibold">{product.title}</h3>
+									</Link>
+									<p className="text-gray-700 font-bold">{product.price}</p>
+								</div>
+								<div className="flex justify-center items-center gap-2">
+									<div className="w-5 h-5 rounded-full bg-[#836953] border border-black"></div>
+									<div className="w-5 h-5 rounded-full bg-black border border-black"></div>
+									<div className="w-5 h-5 rounded-full bg-white border border-black"></div>
+								</div>
+							</div>
+							<button>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -111,51 +117,75 @@ export default function ProductGrid() {
 								</svg>
 							</button>
 						</div>
-
-						{/* Product Info */}
-						<div className="p-3 flex justify-between items-center">
-							<div>
-								<Link href={`shop/${product.id}`}><h3 className="text-sm font-semibold">{product.title}</h3></Link>
-								<p className="text-gray-700 font-bold">{product.price}</p>
-							</div>
-							<div className="flex justify-center items-center gap-2">
-								<div className="w-5 h-5 rounded-full bg-[#836953] border border-black"></div>
-								<div className="w-5 h-5 rounded-full bg-black border border-black"></div>
-								<div className="w-5 h-5 rounded-full bg-white border border-black"></div>
-							</div>
-						</div>
 					</div>
-
 				))}
 			</div>
 
-			{/* Load More */}
-			{visibleCount < allProducts.length && (
-				<div className="flex justify-center mt-6">
+			{/* Pagination */}
+			{totalPages > 1 && (
+				<div className="flex justify-center items-center gap-2 mt-6 text-sm">
+					{/* Previous Button */}
 					<button
-						onClick={handleLoadMore}
-						className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition"
+						onClick={() => handlePageChange(currentPage - 1)}
+						disabled={currentPage === 1}
+						className="w-8 h-8 flex items-center justify-center text-black disabled:opacity-40"
 					>
-						Load More
+						‹
+					</button>
+
+					{(() => {
+						const pageNumbers = [];
+						if (totalPages <= 7) {
+							for (let i = 1; i <= totalPages; i++) {
+								pageNumbers.push(i);
+							}
+						} else {
+							pageNumbers.push(1);
+
+							if (currentPage > 4) {
+								pageNumbers.push('...');
+							}
+
+							const start = Math.max(2, currentPage - 1);
+							const end = Math.min(totalPages - 1, currentPage + 1);
+
+							for (let i = start; i <= end; i++) {
+								pageNumbers.push(i);
+							}
+
+							if (currentPage < totalPages - 3) {
+								pageNumbers.push('...');
+							}
+
+							pageNumbers.push(totalPages);
+						}
+
+						return pageNumbers.map((page, index) => (
+							<button
+								key={index}
+								onClick={() => typeof page === 'number' && handlePageChange(page)}
+								disabled={page === '...'}
+								className={`w-8 h-8 flex items-center justify-center rounded-full ${currentPage === page
+									? 'bg-black text-white'
+									: ' text-black'
+									} ${page === '...' && 'cursor-default'}`}
+							>
+								{page}
+							</button>
+						));
+					})()}
+
+					{/* Next Button */}
+					<button
+						onClick={() => handlePageChange(currentPage + 1)}
+						disabled={currentPage === totalPages}
+						className="w-8 h-8 flex items-center justify-center text-black disabled:opacity-40"
+					>
+						›
 					</button>
 				</div>
 			)}
 
-			{/* Pagination */}
-			{visibleCount >= allProducts.length && (
-				<div className="flex justify-center items-center gap-2 mt-6 text-sm">
-					{[...Array(totalPages)].map((_, index) => (
-						<button
-							key={index}
-							onClick={() => handlePageChange(index + 1)}
-							className={`w-8 h-8 flex items-center justify-center rounded-full ${currentPage === index + 1 ? 'bg-black text-white' : 'bg-gray-200 text-black'
-								}`}
-						>
-							{index + 1}
-						</button>
-					))}
-				</div>
-			)}
 		</div>
 	);
 }
