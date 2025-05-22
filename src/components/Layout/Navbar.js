@@ -8,13 +8,14 @@ import {
   MenuList,
   Typography,
 } from "@material-tailwind/react";
+import { RxCross1 } from "react-icons/rx";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 const navItems = [
   {
     label: "FOR HIM",
-    href: "",
+    href: "/forhim",
     children: [
       // { label: "Brand Story", href: "/brand-story" },
     ],
@@ -25,7 +26,7 @@ const navItems = [
   },
   {
     label: "SIGNATURE",
-    href: "",
+    href: "/shop",
   },
   {
     label: "ARABIC",
@@ -82,7 +83,7 @@ export default function Navbar() {
             >
               <Link
                 href={item.href}
-                className={`group px-3 py-2 transition lg:text-[26px] block ${isParentActive ? "bg-[#89898933] text-lightgrey" : "text-black"
+                className={`group px-3 py-2 transition lg:text-[26px] block ${isParentActive ? "text-black" : "text-black"
                   }`}
               >
                 {item.label}
@@ -116,15 +117,17 @@ export default function Navbar() {
 
       <div className="flex flex-col items-center relative">
         <div className="flex justify-center items-center gap-2">
-          <li className="cursor-pointer text-[20px] text-[#2F3435] font-playfair">
-            For him
-          </li>
+          <Link href="/forhim">
+            <li className="cursor-pointer text-[20px] text-[#2F3435] font-playfair">
+              For him
+            </li>
+          </Link>
           <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
-            {isOpen ? <img className="w-[20px]" src="asset/up.png" alt="dropdown icon" /> : <img className="w-[20px]" src="asset/down.png" alt="dropdown icon" />}
+            {/* {isOpen ? <img className="w-[20px]" src="asset/up.png" alt="dropdown icon" /> : <img className="w-[20px]" src="asset/down.png" alt="dropdown icon" />} */}
           </div>
         </div>
 
-        {isOpen && (
+        {/* {isOpen && (
           <div className="absolute top-4 mt-2 left-0 rounded w-[200px] z-10">
             <li>
               <Link
@@ -135,21 +138,36 @@ export default function Navbar() {
               </Link>
             </li>
           </div>
-        )}
+        )} */}
       </div>
 
 
-      {["Door", "Experience Centre", "Contact"].map((item, i) => (
-        <li key={i} className="">
-          <Link
-            href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-            className="cursor-pointer text-[20px] text-[#2F3435] font-playfair  transition"
-          >
-            {item}
-          </Link>
-        </li>
-      ))}
 
+      <li className="">
+        <Link
+          href=""
+          className="cursor-pointer text-[20px] text-[#2F3435] font-playfair  transition"
+        >
+          FOR HER
+        </Link>
+      </li>
+
+      <li className="">
+        <Link
+          href="/shop"
+          className="cursor-pointer text-[20px] text-[#2F3435] font-playfair  transition"
+        >
+          SIGNATURE
+        </Link>
+      </li>
+      <li className="">
+        <Link
+          href=""
+          className="cursor-pointer text-[20px] text-[#2F3435] font-playfair  transition"
+        >
+          FOR HER
+        </Link>
+      </li>
 
     </ul>
   );
@@ -171,7 +189,8 @@ export default function Navbar() {
             </div>
             <div>{navList}</div>
           </div>
-          <div className="lg:hidden w-[33.33%] flex justify-start items-center">
+          <div className="lg:hidden  w-[33.33%] flex justify-start items-center"
+            onClick={() => setOpenDrawer(true)}>
             <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
           </div>
           {/* Logo */}
@@ -213,32 +232,16 @@ export default function Navbar() {
           }`}
       >
         <div className="flex justify-end items-center mb-4">
-          {/* <Typography variant="h5" className="text-white">
-            Menu
-          </Typography> */}
           <div
             variant="text"
-            className="text-white"
+            className="text-black"
             onClick={() => setOpenDrawer(false)}
           >
-            {/* <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg> */}
-            {/* <img className="w-[28px]" src="/asset/navbar/cancel.png" alt="" /> */}
+            <RxCross1 className="text-[20px] " />
           </div>
         </div>
         {navListMobile}
-        <div className="mt-5">
+        {/* <div className="mt-5">
           <ul className="flex flex-col justify-start items-start gap-[15px]">
             <li className="cursor-pointer text-[14px] text-[#2F3435] font-light font-playfair uppercase">FAQS</li>
             <li className="cursor-pointer text-[14px] text-[#2F3435] font-light font-playfair uppercase">Testimonials</li>
@@ -246,7 +249,7 @@ export default function Navbar() {
             <li className="cursor-pointer text-[14px] text-[#2F3435] font-light font-playfair uppercase">Send Inquiry</li>
             <li className="cursor-pointer text-[14px] text-[#2F3435] font-light font-playfair uppercase">Book your visit</li>
           </ul>
-        </div>
+        </div> */}
         {/* <div className="flex justify-start item-center gap-5 mt-5">
           <Link href="">
             <img className="w-[24px]" src="/asset/navbar/Facebook.png" alt="" />

@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Navbar from '@/components/Layout/Navbar';
+import Footer from '@/components/Layout/Footer';
+import ProductDetail from '@/components/Shop/Details/ProductDetail';
 
 export default function ProductDetailPage() {
 	// const { productId } = useParams();
@@ -19,12 +22,18 @@ export default function ProductDetailPage() {
 	// if (!product) return <p>Loading...</p>;
 
 	return (
-		<>shop detail</>
-		// <div className="p-4">
-		// 	<h1 className="text-2xl font-bold mb-2">{product.name}</h1>
-		// 	<img src={product.image} alt={product.name} className="w-full max-w-sm" />
-		// 	<p className="mt-4 text-gray-700">{product.description}</p>
-		// 	<p className="text-lg font-semibold mt-2">${product.price}</p>
-		// </div>
+		<>
+			<div className=' font-playfair'>
+				<Navbar />
+				<section className="relative pt-[130px] pb-[50px]">
+					{/* Adjust padding to avoid navbar overlap */}
+					<ProductDetail />
+				</section>
+
+				<section className="relative">
+					<Footer />
+				</section>
+			</div>
+		</>
 	);
 }

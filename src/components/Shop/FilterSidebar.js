@@ -34,7 +34,7 @@ export default function FilterSidebar({
 	return (
 		<div
 			className={`
-        fixed top-[8rem] right-0 lg:w-[40%] w-[80%] h-full 
+        fixed lg:top-[8rem] top-[7rem] right-0 lg:w-[40%] w-[80%] h-full 
         bg-[#D9D9D9] shadow-xl 
         transform transition-transform duration-300 z-50
         ${isOpen ? 'translate-x-0' : 'translate-x-full'}
@@ -54,8 +54,8 @@ export default function FilterSidebar({
 			</div>
 
 			{/* Tabs - Replace with divs */}
-			<div className="flex h-[calc(76%-100px)]">
-				<div className="lg:w-40 w-full bg-transparent border-r border-gray-200 rounded-none">
+			<div className="flex lg:h-[calc(76%-100px)] h-[calc(70%-100px)]">
+				<div className="lg:w-40 bg-transparent border-r border-gray-200 rounded-none">
 					{['price', 'size', 'color', 'material', 'category'].map((val) => (
 						<div
 							key={val}
