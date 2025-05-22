@@ -13,16 +13,16 @@ const ProductsHome = () => {
 		<div className='w-full lg:h-auto bg-white lg:py-5 lg:px-5 py-5 px-5'>
 			<div className='flex flex-col justify-center items-center pt-10 '>
 				{/* <div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div> */}
-				<h2 className='lg:text-[32px] text-[20px] text-center text-[#000] font-bold'>Where style meets expression</h2>
-				<h3 className='lg:text-[24px] font-light text-[18px] text-center text-[#000]'>Step into fashion</h3>
-				<div className='bg-[#D9D9D9] px-5 py-2 mt-5 rounded-2xl flex gap-3 justify-center items-center'>
+				<h2 className='lg:text-[32px] text-[20px] text-center text-[#000] font-normal font-playfair'>The Art of Fewer, Better Choices</h2>
+				<p className='lg:text-[16px] text-[8px] mt-5 lg:w-[45%] w-[80%] font-light text-center text-[#000]'>Opting for quality over quantity means selecting timeless, durable, and responsibly made items. This approach simplifies our lives and fosters a deeper appreciation for our surroundings. Emphasizing longevity and responsible production resonates with a more sustainable and mindful lifestyle.</p>
+				{/* <div className='bg-[#D9D9D9] px-5 py-2 mt-5 rounded-2xl flex gap-3 justify-center items-center'>
 					<h3>New Colection</h3>
 					<Link href="">
 						<div className='bg-black px-1 py-1 rounded-full text-white'>
 							<IoIosArrowRoundForward className='text-[20px]' />
 						</div>
 					</Link>
-				</div>
+				</div> */}
 				{/* <div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div> */}
 			</div>
 			{/* <div className='grid lg:grid-cols-3 grid-cols-1 mt-7 gap-10	'>

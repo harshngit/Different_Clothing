@@ -11,10 +11,13 @@ import Deal from '@/components/Home/Deal.js'
 import ProductsHome from '@/components/Home/ProductsHome.js'
 import CTA from '@/components/Home/CTA.js'
 import Footer from '@/components/Layout/Footer.js'
+import Photosection from '@/components/Home/Photosection.js'
+import Topbar from '@/components/Layout/Topbar.js'
 const Home = () => {
   return (
     <div className='relative'>
       {/* <ThemeProvider> */}
+      <Topbar />
       <NavbarTwo />
       <section className="relative pt-[0px]">
         {/* Adjust padding to avoid navbar overlap */}
@@ -23,7 +26,7 @@ const Home = () => {
       {/* lg:pt-[690px] xl:pt-[695px] pt-[600px] */}
       {/* Second Section Below */}
       <section className="relative 
-       overflow-hidden">
+       overflow-hidden lg:pt-[690px] xl:pt-[695px] pt-[600px]">
         <AboutHome />
       </section>
       {/* Second Section Below */}
@@ -31,12 +34,15 @@ const Home = () => {
         <Deal />
       </section>
       <section className='relative overflow-hidden'>
+        <Photosection />
+      </section>
+      <section className='relative overflow-hidden'>
         <ProductsHome />
       </section>
-      <section className='relative overflow-hidden'>
+      {/* <section className='relative overflow-hidden'>
         <CTA />
-      </section>
-      <section className='relative overflow-hidden'>
+      </section> */}
+      <section className=''>
         <Footer />
       </section>
       {/* <Footer /> */}

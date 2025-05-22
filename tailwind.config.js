@@ -9,6 +9,10 @@ export default withMT({
   ],
   theme: {
     extend: {
+      fontFamily: {
+        playfair: ['PlayfairDisplay', 'serif'],
+        alike: ['Alike']
+      },
       screens: {
         xxl: '1408px', // Custom screen at ~110% of 1280px
       },
@@ -17,8 +21,13 @@ export default withMT({
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-100%)" },
         },
+        marqueeTop: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
+        },
       },
       animation: {
+        marqueeTop: "marqueeTop 10s linear infinite",
         marquee: "marquee 10s linear infinite",
       },
       backgroundImage: {
