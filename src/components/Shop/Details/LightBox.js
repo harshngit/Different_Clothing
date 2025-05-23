@@ -8,7 +8,7 @@ const LightBox = () => {
 	];
 	const [selectedImage, setSelectedImage] = useState(images[0]);
 	return (
-		<div className="flex flex-col md:flex-row gap-10 items-center justify-center">
+		<div className="flex flex-col-reverse md:flex-row gap-10 items-center justify-center">
 			{/* Thumbnails */}
 			<div className="flex justify-center items-center md:flex-col gap-4">
 				{images.map((img, index) => (
@@ -17,7 +17,7 @@ const LightBox = () => {
 						src={img}
 						alt={`Thumbnail ${index}`}
 						onClick={() => setSelectedImage(img)}
-						className={`w-16 h-16 object-cover cursor-pointer border ${selectedImage === img ? "border-black" : "border-gray-300"
+						className={`w-16 object-cover cursor-pointer border ${selectedImage === img ? "border-black" : "border-gray-300"
 							}`}
 					/>
 				))}
@@ -28,7 +28,7 @@ const LightBox = () => {
 				<img
 					src={selectedImage}
 					alt="Selected"
-					className="w-full h-auto object-cover rounded"
+					className="w-full lg:h-[800px] h-[400px] object-cover rounded"
 				/>
 			</div>
 		</div>
