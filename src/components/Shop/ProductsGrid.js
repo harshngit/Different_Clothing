@@ -80,13 +80,13 @@ export default function ProductGrid() {
 							<img
 								src={product.image}
 								alt={product.title}
-								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 group-hover:opacity-0"
+								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 lg:group-hover:opacity-0"
 							/>
 							{/* Hover Image */}
 							<img
 								src={product.hoverImage}
 								alt={`${product.title} hover`}
-								className="w-full lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+								className="w-full lg:block hidden lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 							/>
 						</div>
 

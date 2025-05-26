@@ -40,7 +40,10 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const isActive = (href) => pathname === href;
+  const [openDropdowncart, setOpenDropdowncart] = useState(false);
 
+  const handleMouseEntercart = () => setOpenDropdown(true);
+  const handleMouseLeavecart = () => setOpenDropdown(false);
   useEffect(() => {
     const handleScroll = () => {
       setScrolling(window.scrollY > window.innerHeight);
@@ -168,6 +171,14 @@ export default function Navbar() {
           FOR HER
         </Link>
       </li>
+      <li className="">
+        <Link
+          href="/wishlist"
+          className="cursor-pointer text-[20px] text-[#2F3435] font-playfair  transition"
+        >
+          Wishlist
+        </Link>
+      </li>
 
     </ul>
   );
@@ -207,9 +218,23 @@ export default function Navbar() {
           </Link>
           {/* menu */}
           <div className="flex lg:w-[40%] w-[33.33%] gap-4 justify-end items-center">
-            <Link href="">
-              <FaShoppingCart className="text-black lg:text-[35px] text-[19px]" />
-            </Link>
+            <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+              <FaShoppingCart className="text-black lg:text-[35px] text-[19px] cursor-pointer" />
+              {openDropdown && (
+                <div className="lg:block hidden absolute left-[20%] mt-1 z-20 shadow-lg lg:w-[100px] w-[60px] bg-white rounded">
+                  <Link href="/wishlist">
+                    <div
+                      className={`lg:px-4 px-1 py-1 lg:py-2 lg:text-[15px] text-[10px] transition cursor-pointer ${isActive()
+                        ? "bg-[#89898933] text-lightgrey"
+                        : "bg-[#DDDDDD33] hover:bg-[#DDDDDD66] border border-[#89898933] text-lightgrey"
+                        }`}
+                    >
+                      Wishlist
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
             <Link href="">
               <FaUser className="text-black lg:text-[35px] text-[19px]" />
             </Link>

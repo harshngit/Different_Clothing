@@ -57,7 +57,7 @@ const SwiperCollection = () => {
 
 	return (
 		<div className="flex justify-center items-center w-[80%] mb-[300px]">
-			<div className="relative w-[80%] h-[200px] carousel-3d">
+			<div className="relative w-[100%] h-[200px] carousel-3d">
 				{images.map((src, index) => {
 					const styles = getTransform(index);
 					return (

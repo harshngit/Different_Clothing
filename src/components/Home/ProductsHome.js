@@ -14,7 +14,7 @@ const ProductsHome = () => {
 			<div className='flex flex-col justify-center items-center pt-10 '>
 				{/* <div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div> */}
 				<h2 className='lg:text-[32px] text-[20px] text-center text-[#000] font-normal font-playfair'>The Art of Fewer, Better Choices</h2>
-				<p className='lg:text-[16px] text-[8px] mt-5 lg:w-[45%] w-[80%] font-light text-center text-[#000]'>Opting for quality over quantity means selecting timeless, durable, and responsibly made items. This approach simplifies our lives and fosters a deeper appreciation for our surroundings. Emphasizing longevity and responsible production resonates with a more sustainable and mindful lifestyle.</p>
+				<p className='lg:text-[16px] text-[13px] mt-5 lg:w-[45%] w-[80%] font-light text-center text-[#000]'>Opting for quality over quantity means selecting timeless, durable, and responsibly made items. This approach simplifies our lives and fosters a deeper appreciation for our surroundings. Emphasizing longevity and responsible production resonates with a more sustainable and mindful lifestyle.</p>
 				{/* <div className='bg-[#D9D9D9] px-5 py-2 mt-5 rounded-2xl flex gap-3 justify-center items-center'>
 					<h3>New Colection</h3>
 					<Link href="">

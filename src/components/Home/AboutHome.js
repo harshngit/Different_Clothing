@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Button } from '@material-tailwind/react'
 const AboutHome = () => {
 	return (
-		<section className=" w-full lg:h-[130vh] xl:h-[150vh] bg-white	lg:pt-10 pt-5">
+		<section className=" w-full lg:h-[120vh] xl:h-[150vh] bg-white	lg:pt-10 pt-5">
 			{/* <div className="lg:block hidden absolute left-[-100px] top-[1000px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
 
 			<div className="lg:block hidden absolute right-[-100px] top-[1200px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>

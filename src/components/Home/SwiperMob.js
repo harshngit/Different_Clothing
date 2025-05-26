@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -27,10 +27,14 @@ const SwiperMob = () => {
 	return (
 		<div className="w-full px-4 py-10">
 			<Swiper
-				modules={[Navigation, Pagination]}
+				modules={[Navigation, Pagination, Autoplay]}
 				spaceBetween={20}
 				slidesPerView={1}
 				navigation
+				autoplay={{
+					delay: 1000,
+					disableOnInteraction: false,
+				}}
 				pagination={{ clickable: true }}
 			>
 				{simpleSlides.map((slide) => (

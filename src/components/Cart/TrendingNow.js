@@ -3,24 +3,16 @@ import Link from 'next/link'
 import React from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 
-const Recommended = () => {
+const TrendingNow = () => {
 	return (
 		<div className='w-full  '>
 			<div className='flex justify-between items-center lg:px-5 px-5 py-5 lg:py-5'>
 				<div className='flex justify-start items-center gap-5'>
-					<h2 className='font-normal lg:text-[32px] text-[22px] text-[#484848]'> Recommended </h2>
-					<div className='px-5 py-1 bg-[#D9D9D9] text-[#000000] lg:text-[24px] text-[15px]'>
-						Show More +
-					</div>
+					<h2 className='font-normal lg:text-[32px] text-[22px] text-[#484848]'> Trending Now  </h2>
 				</div>
 				<div>
-					<Link href="/shop" >
-						<FaArrowRight className="text-black text-[30px]" />
-					</Link>
+					<Link href="/shop"><h3 className='font-bold text-[20px]'>EXPLORE MORE</h3></Link>
 				</div>
-			</div>
-			<div className='felx justify-start item-center  px-5 pb-5'>
-				<p className='text-[#8c8c8c] text-[16px]'>Trending Now </p>
 			</div>
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px] mb-10">
 				{allProducts.slice(0, 4).map((product) => (
@@ -30,13 +22,13 @@ const Recommended = () => {
 							<img
 								src={product.image}
 								alt={product.title}
-								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 lg:group-hover:opacity-0"
+								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 group-hover:opacity-0"
 							/>
 							{/* Hover Image */}
 							<img
 								src={product.hoverImage}
 								alt={`${product.title} hover`}
-								className="w-full lg:block hidden lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+								className="w-full lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 							/>
 						</div>
 
@@ -80,4 +72,4 @@ const Recommended = () => {
 	)
 }
 
-export default Recommended
+export default TrendingNow

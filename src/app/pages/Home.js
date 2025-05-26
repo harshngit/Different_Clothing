@@ -17,7 +17,6 @@ const Home = () => {
   return (
     <div className='relative'>
       {/* <ThemeProvider> */}
-      <Topbar />
       <NavbarTwo />
       <section className="relative pt-[0px]">
         {/* Adjust padding to avoid navbar overlap */}
@@ -26,7 +25,7 @@ const Home = () => {
       {/* lg:pt-[690px] xl:pt-[695px] pt-[600px] */}
       {/* Second Section Below */}
       <section className="relative 
-       overflow-hidden lg:pt-[690px] xl:pt-[695px] pt-[600px]">
+       overflow-hidden lg:pt-[750px] xl:pt-[750px] pb-[100px] pt-[650px]">
         <AboutHome />
       </section>
       {/* Second Section Below */}
