@@ -235,7 +235,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-            <Link href="">
+            <Link href="/login">
               <FaUser className="text-black lg:text-[35px] text-[19px]" />
             </Link>
           </div>

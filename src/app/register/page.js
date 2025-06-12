@@ -1,7 +1,38 @@
+"use client"
+
 import RegisterForm from '@/components/Register/RegisterForm'
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
+import { auth, db } from '../firebase.config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+
 
 const Register = () => {
+	const router = useRouter();
+	const [role, setRole] = useState("")
+	const [name, setName] = useState("")
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
+	const [contact, setContact] = useState("")
+	const handleCreateUser = () => {
+		createUserWithEmailAndPassword(auth, email, password)
+			.then(async (userCredential) => {
+				const user = userCredential.user;
+				await setDoc(doc(db, "users", user.uid), {
+					name: name,
+					email: email,
+					password: password,
+					contact: contact,
+					role: "Customer",
+					service: "Different Clothing",
+					uid: user.uid,
+				})
+				router.push("/login")
+			}).catch((err) => {
+				console.log(err)
+			})
+	}
 	return (
 		<div className="relative w-full h-screen xl:h-screen lg:h-screen flex justify-center items-center overflow-hidden">
 			{/* Blurred Background Layer */}
@@ -12,7 +43,10 @@ const Register = () => {
 
 			{/* Foreground Content */}
 			<div className="relative w-[100%] lg:left-[35%] left-[10%] z-10 ">
-				<RegisterForm />
+				<RegisterForm name={name} setName={setName}
+					email={email} setEmail={setEmail} handleCreateUser={handleCreateUser}
+					password={password} setPassword={setPassword}
+					contact={contact} setContact={setContact} />
 			</div>
 		</div>
 	)
