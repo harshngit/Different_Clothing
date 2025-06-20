@@ -6,7 +6,12 @@ import allProducts from '@/data/ProductData';
 
 const ITEMS_PER_PAGE = 8;
 
-export default function ProductGrid() {
+export default function ProductGrid({ product }) {
+
+
+
+
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -18,11 +23,11 @@ export default function ProductGrid() {
 		categories: [],
 	});
 
-	const totalPages = Math.ceil(allProducts.length / ITEMS_PER_PAGE);
+	const totalPages = Math.ceil(product.length / ITEMS_PER_PAGE);
 
 	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 	const endIndex = startIndex + ITEMS_PER_PAGE;
-	const visibleProducts = allProducts.slice(startIndex, endIndex);
+	const visibleProducts = product.slice(startIndex, endIndex);
 
 	const handlePageChange = (pageNum) => {
 		setCurrentPage(pageNum);
@@ -47,7 +52,7 @@ export default function ProductGrid() {
 	return (
 		<div className="pb-5">
 			{/* Filter Button */}
-			<div className='flex justify-between px-5 items-center mb-10 w-[100%] lg:ml-[5rem]'>
+			<div className='flex justify-between px-5 items-center mb-10 w-[100%] lg:ml-[0.5rem]'>
 				<div>
 					<h2 className='font-normal font-600 lg:text-[32px]'>
 						COLLECTION
@@ -74,38 +79,58 @@ export default function ProductGrid() {
 			{/* Grid */}
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px]">
 				{visibleProducts.map((product) => (
-					<div key={product.id} className="bg-white overflow-hidden group">
+					<div key={product.id} className="bg-white overflow-hidden shadow-sm group">
 						<div className="relative">
-							{/* Primary Image */}
-							<img
-								src={product.image}
-								alt={product.title}
-								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 lg:group-hover:opacity-0"
-							/>
-							{/* Hover Image */}
-							<img
-								src={product.hoverImage}
-								alt={`${product.title} hover`}
-								className="w-full lg:block hidden lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-							/>
+							{/* Product Image (Hover effect) */}
+							<div >
+								<img
+									src={product.productImages?.[0]} // main image
+									alt={product.title}
+									className="w-full h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
+								/>
+
+								<img
+									src={product.productImages?.[1]} // hover image
+									alt={`${product.title} hover`}
+									className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+								/>
+
+							</div>
+							{/* Heart Icon */}
+							{/* <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									strokeWidth={1.5}
+									stroke="currentColor"
+									className="w-5 h-5 text-gray-800"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M21.435 6.577a5.377 5.377 0 00-7.6 0L12 8.412l-1.835-1.835a5.377 5.377 0 00-7.6 7.6l1.835 1.835L12 21.435l7.6-7.6 1.835-1.835a5.377 5.377 0 000-7.6z"
+									/>
+								</svg>
+							</button> */}
 						</div>
 
 						{/* Product Info */}
 						<div className="p-3 flex justify-between items-start">
 							<div className='flex flex-col gap-2 justify-start items-start'>
 								<div>
-									<Link href={`shop/${product.id}`}>
-										<h3 className="text-sm font-semibold">{product.title}</h3>
-									</Link>
-									<p className="text-gray-700 font-bold">{product.price}</p>
+									<Link href={`shop/${product.id}`}><h3 className="text-sm font-semibold">{product.productName}</h3></Link>
+									<p className="text-gray-700 font-bold">${product.productPrice}</p>
 								</div>
-								<div className="flex justify-center items-center gap-2">
-									<div className="w-5 h-5 rounded-full bg-[#836953] border border-black"></div>
-									<div className="w-5 h-5 rounded-full bg-black border border-black"></div>
-									<div className="w-5 h-5 rounded-full bg-white border border-black"></div>
-								</div>
+								{
+									product.variation.map((item) => (
+										<div className="flex justify-center items-center gap-2">
+											<div className={`w-5 h-5 rounded-full border border-black`} style={{ backgroundColor: item.color }}></div>
+										</div>
+									))
+								}
 							</div>
-							<button>
+							<button className="">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"

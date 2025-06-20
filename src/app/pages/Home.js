@@ -1,53 +1,87 @@
-"use client"
-import HomeBanner from '@/components/Home/HomeBanner.js'
-import NavbarTwo from '../../components/Layout/Navbar.js'
-import React from 'react'
-import { Suspense } from 'react'
-import Head from 'next/head.js'
-import '../../components/Home/Home.css'
+"use client";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import { db } from "../firebase.config.js";
+
+import Head from "next/head.js";
 import { ThemeProvider } from "@material-tailwind/react";
-import AboutHome from '@/components/Home/AboutHome.js'
-import Deal from '@/components/Home/Deal.js'
-import ProductsHome from '@/components/Home/ProductsHome.js'
-import CTA from '@/components/Home/CTA.js'
-import Footer from '@/components/Layout/Footer.js'
-import Photosection from '@/components/Home/Photosection.js'
-import Topbar from '@/components/Layout/Topbar.js'
+import HomeBanner from "@/components/Home/HomeBanner.js";
+import NavbarTwo from "../../components/Layout/Navbar.js";
+import AboutHome from "@/components/Home/AboutHome.js";
+import Deal from "@/components/Home/Deal.js";
+import ProductsHome from "@/components/Home/ProductsHome.js";
+import CTA from "@/components/Home/CTA.js";
+import Footer from "@/components/Layout/Footer.js";
+import Photosection from "@/components/Home/Photosection.js";
+import Topbar from "@/components/Layout/Topbar.js";
+import "../../components/Home/Home.css";
+
 const Home = () => {
+  const [product, setProduct] = useState([]);
+
+  const fetchProduct = async () => {
+    try {
+      const productRef = collection(db, "Product");
+      const q = query(productRef, where("productStatus", "==", "Published"), orderBy("createdAtDate", "desc"), limit(5));
+      const querySnapshot = await getDocs(q);
+
+      const products = [];
+      querySnapshot.forEach((doc) => {
+        products.push({ id: doc.id, ...doc.data() });
+      });
+
+      return products;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return [];
+    }
+  };
+
+  console.log(product)
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const latestProducts = await fetchProduct();
+      setProduct(latestProducts);
+    };
+    getProducts();
+  }, []);
+
   return (
-    <div className='relative'>
+    <div className="relative">
       {/* <ThemeProvider> */}
       <NavbarTwo />
       <section className="relative pt-[0px]">
-        {/* Adjust padding to avoid navbar overlap */}
         <HomeBanner />
       </section>
-      {/* lg:pt-[690px] xl:pt-[695px] pt-[600px] */}
-      {/* Second Section Below */}
-      <section className="relative 
-       overflow-hidden lg:pt-[750px] xl:pt-[750px] pb-[100px] pt-[650px]">
+
+      <section className="relative overflow-hidden lg:pt-[750px] xl:pt-[750px] pb-[100px] pt-[650px]">
         <AboutHome />
       </section>
-      {/* Second Section Below */}
-      <section className="relative  overflow-hidden">
-        <Deal />
+
+      <section className="relative overflow-hidden">
+        <Deal productList={product} />
       </section>
-      <section className='relative overflow-hidden'>
+
+      <section className="relative overflow-hidden">
         <Photosection />
       </section>
-      <section className='relative overflow-hidden'>
+
+      <section className="relative overflow-hidden">
+        {/* Optionally pass the latest product data to ProductsHome */}
         <ProductsHome />
       </section>
+
       {/* <section className='relative overflow-hidden'>
         <CTA />
       </section> */}
-      <section className=''>
+
+      <section className="">
         <Footer />
       </section>
-      {/* <Footer /> */}
       {/* </ThemeProvider> */}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

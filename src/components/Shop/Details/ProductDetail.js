@@ -2,16 +2,16 @@ import React from 'react'
 import LightBox from './LightBox'
 import Details from './Details'
 
-const ProductDetail = () => {
+const ProductDetail = ({ productDetails }) => {
 	return (
 		<div className='px-5 py-5 '>
 			<div className='grid lg:grid-cols-2 grid-cols-1'>
 				{/* lightbox */}
 				<div>
-					<LightBox />
+					<LightBox productDetails={productDetails} />
 				</div>
 				<div>
-					<Details />
+					<Details productDetails={productDetails} />
 				</div>
 			</div>
 		</div>

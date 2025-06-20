@@ -6,7 +6,7 @@ import SimpleSlider from './SimpleSwiper'
 import allProducts from '@/data/ProductData'
 import Link from 'next/link'
 
-const Deal = () => {
+const Deal = ({ productList = [] }) => {
 	return (
 		<div className='bg-white w-full lg:h-screen h-auto pt-10'>
 			{/* <div className='flex justify-start items-start flex-col lg:flex-row'>
@@ -35,24 +35,24 @@ const Deal = () => {
 				<Link href="/shop" className='font-normal font-playfair lg:text-[25px] text-[15px]'>EXPLORE MORE</Link>
 			</div>
 			<div className="grid grid-cols-2 lg:grid-cols-4">
-				{allProducts.slice(0, 4).map((product) => (
+				{productList.map((product) => (
 					<div key={product.id} className="bg-white overflow-hidden shadow-sm group">
 						<div className="relative">
 							{/* Product Image (Hover effect) */}
-							<img
-								src={product.image}
-								alt={product.title}
-								className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 group-hover:opacity-0"
-							/>
-							{/* <video autoPlay playsInline loop muted className="w-full">
-								<source src="/asset/Shop/NormalT-shirt.mp4" type="video/mp4" />
-							</video> */}
-							<img
-								src={product.hoverImage} // 👈 Secondary image on hover (add this key in your product object)
-								alt={`${product.title} hover`}
-								className="w-full lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-							/>
+							<div >
+								<img
+									src={product.productImages?.[0]} // main image
+									alt={product.title}
+									className="w-full h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
+								/>
 
+								<img
+									src={product.productImages?.[1]} // hover image
+									alt={`${product.title} hover`}
+									className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+								/>
+
+							</div>
 							{/* Heart Icon */}
 							{/* <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
 								<svg
@@ -76,14 +76,16 @@ const Deal = () => {
 						<div className="p-3 flex justify-between items-start">
 							<div className='flex flex-col gap-2 justify-start items-start'>
 								<div>
-									<Link href={`shop/${product.id}`}><h3 className="text-sm font-semibold">{product.title}</h3></Link>
-									<p className="text-gray-700 font-bold">{product.price}</p>
+									<Link href={`shop/${product.id}`}><h3 className="text-sm font-semibold">{product.productName}</h3></Link>
+									<p className="text-gray-700 font-bold">${product.productPrice}</p>
 								</div>
-								<div className="flex justify-center items-center gap-2">
-									<div className="w-5 h-5 rounded-full bg-[#836953] border border-black"></div>
-									<div className="w-5 h-5 rounded-full bg-black border border-black"></div>
-									<div className="w-5 h-5 rounded-full bg-white border border-black"></div>
-								</div>
+								{
+									product.variation.map((item) => (
+										<div className="flex justify-center items-center gap-2">
+											<div className={`w-5 h-5 rounded-full border border-black`} style={{ backgroundColor: item.color }}></div>
+										</div>
+									))
+								}
 							</div>
 							<button className="">
 								<svg
