@@ -6,7 +6,8 @@ import ProductHim from '@/data/ProductHim';
 
 const ITEMS_PER_PAGE = 8;
 
-const ProductGridFH = () => {
+const ProductGridFH = ({ product }) => {
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -18,11 +19,11 @@ const ProductGridFH = () => {
 		categories: [],
 	});
 
-	const totalPages = Math.ceil(ProductHim.length / ITEMS_PER_PAGE);
+	const totalPages = Math.ceil(product.length / ITEMS_PER_PAGE);
 
 	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 	const endIndex = startIndex + ITEMS_PER_PAGE;
-	const visibleProducts = ProductHim.slice(startIndex, endIndex);
+	const visibleProducts = product.slice(startIndex, endIndex);
 
 	const handlePageChange = (pageNum) => {
 		setCurrentPage(pageNum);
@@ -45,9 +46,9 @@ const ProductGridFH = () => {
 	};
 
 	return (
-		<div className="pb-5">
+		<div className="pb-5 overflow-hidden">
 			{/* Filter Button */}
-			<div className='flex justify-between px-5 items-center mb-10 w-[100%]'>
+			<div className='flex justify-between px-5 items-center mb-10 w-[100%] lg:ml-[0.5rem]'>
 				<div>
 					<h2 className='font-normal font-600 lg:text-[32px]'>
 						COLLECTION
@@ -61,7 +62,6 @@ const ProductGridFH = () => {
 				</button>
 			</div>
 
-
 			{/* Sidebar */}
 			<FilterSidebar
 				isOpen={isFilterOpen}
@@ -73,23 +73,22 @@ const ProductGridFH = () => {
 			/>
 
 			{/* Grid */}
-			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px]">
-				{visibleProducts
-					.filter((product) => product.title === "For Him")
-					.map((product) => (
-						<div key={product.id} className="bg-white overflow-hidden group">
-							<div className="relative">
-								{/* Primary Image */}
+			{visibleProducts && visibleProducts.length > 0 ? (
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px] gap-x-4">
+					{visibleProducts.map((product) => (
+						<div key={product.id} className="bg-white overflow-hidden shadow-sm group">
+							{/* Product Image Section */}
+							<div className="relative w-full h-[400px]">
 								<img
-									src={product.image}
-									alt={product.title}
-									className="w-full lg:h-[408px] h-[200px] object-cover transition-opacity duration-300 lg:group-hover:opacity-0"
+									src={product.productImages?.[0]}
+									alt={product.productName}
+									className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
 								/>
-								{/* Hover Image */}
+
 								<img
-									src={product.hoverImage}
-									alt={`${product.title} hover`}
-									className="w-full lg:block hidden lg:h-[408px] h-[200px] object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									src={product.productImages?.[1]}
+									alt={`${product.productName} hover`}
+									className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 								/>
 							</div>
 
@@ -97,18 +96,26 @@ const ProductGridFH = () => {
 							<div className="p-3 flex justify-between items-start">
 								<div className="flex flex-col gap-2 justify-start items-start">
 									<div>
-										<Link href={`shop/${product.id}`}>
-											<h3 className="text-sm font-semibold">{product.title}</h3>
+										<Link href={`/shop/${product.id}`}>
+											<h3 className="text-sm font-semibold">{product.productName}</h3>
 										</Link>
-										<p className="text-gray-700 font-bold">{product.price}</p>
+										<p className="text-gray-700 font-bold">${product.productPrice}</p>
 									</div>
-									<div className="flex justify-center items-center gap-2">
-										<div className="w-5 h-5 rounded-full bg-[#836953] border border-black"></div>
-										<div className="w-5 h-5 rounded-full bg-black border border-black"></div>
-										<div className="w-5 h-5 rounded-full bg-white border border-black"></div>
+
+									{/* Variation Color Circles */}
+									<div className="flex flex-wrap gap-2 mt-1">
+										{product.variation?.map((item, index) => (
+											<div
+												key={index}
+												className="w-5 h-5 rounded-full border border-black"
+												style={{ backgroundColor: item.color }}
+											></div>
+										))}
 									</div>
 								</div>
-								<button>
+
+								{/* Wishlist Button (Heart Icon) */}
+								<button className="hover:scale-105 transition">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
@@ -127,7 +134,20 @@ const ProductGridFH = () => {
 							</div>
 						</div>
 					))}
-			</div>
+				</div>
+			) : (
+				<div className="flex justify-center gap-[20px] flex-col items-center h-[200px]">
+					<h2 className="text-gray-600 text-lg font-medium">No Collection Till Now</h2>
+					<Link
+						href="/shop"
+						className='bg-[#000] text-white px-5 py-3'
+
+					>
+						Shop
+					</Link>
+				</div>
+			)}
+
 
 			{/* Pagination */}
 			{totalPages > 1 && (

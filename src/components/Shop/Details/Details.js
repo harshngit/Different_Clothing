@@ -7,7 +7,12 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const variation = productDetails.variation || [];
 
 	// ✅ Extract sizes and colors from variation
-	const sizes = [...new Set(variation.map(v => v.size))] || [];
+	const sizes = Array.from(
+		new Set([
+			...(variation?.map(v => v.size) || []),
+			...(productDetails?.productSize ? [productDetails.productSize] : [])
+		])
+	);
 	const colors = [...new Set(variation.map(v => v.color))] || [];
 
 	const data = [
