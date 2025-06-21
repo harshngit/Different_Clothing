@@ -22,15 +22,15 @@ const navItems = [
   },
   {
     label: "FOR HER",
-    href: "",
+    href: "/forher",
   },
   {
     label: "SIGNATURE",
-    href: "/shop",
+    href: "/signature",
   },
   {
     label: "ARABIC",
-    href: "",
+    href: "/arabic",
   },
 ];
 export default function Navbar() {
@@ -41,6 +41,10 @@ export default function Navbar() {
 
   const isActive = (href) => pathname === href;
   const [openDropdowncart, setOpenDropdowncart] = useState(false);
+  const [openDropdownSearch, setOpenDropdownSearch] = useState(null);
+
+  const handleMouseEnterSearch = () => setOpenDropdownSearch(!openDropdownSearch);
+  const handleMouseLeavesearch = () => setOpenDropdownSearch(null);
 
   const handleMouseEntercart = () => setOpenDropdown(true);
   const handleMouseLeavecart = () => setOpenDropdown(false);
@@ -70,9 +74,27 @@ export default function Navbar() {
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
+  const dropdownRef = useRef();
+
+  // Toggle search dropdown
+  const handleToggleSearch = () => {
+    setOpenDropdownSearch((prev) => !prev);
+  };
+
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdownSearch(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
   const navList = (
-    <ul className="flex flex-col lg:flex-row items-start lg:items-center lg:flex-wrap gap-3 lg:gap-3 text-white uppercase font-normal font-playfair !text-sm tracking-wide">
+    <ul className="flex flex-col lg:flex-row items-start lg:items-start lg:flex-wrap gap-3 lg:gap-3 text-white uppercase font-normal font-playfair !text-sm tracking-wide">
       {navItems.map((item, idx) => {
         const hasChildren = item.children && item.children.length > 0;
         const isParentActive =
@@ -86,10 +108,12 @@ export default function Navbar() {
             >
               <Link
                 href={item.href}
-                className={`group px-3 py-2 transition lg:text-[26px] block ${isParentActive ? "text-black" : "text-black"
+                className={`group relative px-3 py-2 transition lg:text-[15px] block overflow-hidden ${isParentActive ? "text-black" : "text-black"
                   }`}
               >
                 {item.label}
+                {/* Underline animation */}
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
               </Link>
 
               {/* Dropdown */}
@@ -113,6 +137,67 @@ export default function Navbar() {
           </li>
         );
       })}
+    </ul>
+  );
+  const navListExtra = (
+    <ul className="flex flex-col lg:flex-row items-end lg:items-end lg:flex-wrap gap-3 text-white uppercase font-normal font-playfair !text-sm tracking-wide">
+      {/* Search with dropdown */}
+      <li className="relative" ref={dropdownRef}>
+        <div onClick={handleToggleSearch}>
+          <Link
+            href="#"
+            className="group relative px-3 py-2 transition text-[15px] block overflow-hidden text-black"
+            onClick={(e) => e.preventDefault()} // prevent anchor jump
+          >
+            Search
+            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+          </Link>
+        </div>
+
+        {openDropdownSearch && (
+          <div className="absolute left-0 mt-2 z-20 shadow-lg w-60 bg-white p-3 rounded border">
+            <input
+              type="text"
+              placeholder="Type to search..."
+              className="w-full px-3 py-2 border border-gray-300 rounded text-black text-sm focus:outline-none"
+            />
+          </div>
+        )}
+      </li>
+
+
+      {/* Login */}
+      <li>
+        <Link
+          href="/login"
+          className="group relative px-3 py-2 transition text-[15px] block overflow-hidden text-black"
+        >
+          Login
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+        </Link>
+      </li>
+
+      {/* Wishlist */}
+      <li>
+        <Link
+          href="/wishlist"
+          className="group relative px-3 py-2 transition text-[15px] block overflow-hidden text-black"
+        >
+          Wishlist
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+        </Link>
+      </li>
+
+      {/* Bag */}
+      <li>
+        <Link
+          href="/cart"
+          className="group relative px-3 py-2 transition text-[15px] block overflow-hidden text-black"
+        >
+          Bag
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+        </Link>
+      </li>
     </ul>
   );
   const navListMobile = (
@@ -183,8 +268,8 @@ export default function Navbar() {
     </ul>
   );
   return (
-    <div className="fixed top-0 left-0 w-screen z-[9999]">
-      <div className='bg-black w-full px-1 py-1 flex justify-center items-center'>
+    <div className="fixed font-playfair top-0 left-0 w-screen z-[9999]">
+      <div className='bg-black h-[35px] w-full px-[12px] py-[8px] flex justify-center items-center'>
         <div className='font-400 font-playfair text-[11px] text-white'>
           Complimentary U.S. No-Rush Shipping on orders of $95 or more. Shop now
         </div>
@@ -194,10 +279,10 @@ export default function Navbar() {
       >
         <div className="w-full lg:pt-[3px] lg:pl-[35px] lg:pb-[2px] flex">
           {/* Desktop Menu */}
-          <div className="hidden lg:w-[46%] lg:flex justify-start items-center ">
-            <div className="">
+          <div className="hidden lg:w-[45%] lg:flex justify-start items-center ">
+            {/* <div className="">
               <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
-            </div>
+            </div> */}
             <div>{navList}</div>
           </div>
           <div className="lg:hidden  w-[33.33%] flex justify-start items-center"
@@ -206,19 +291,19 @@ export default function Navbar() {
           </div>
           {/* Logo */}
           <Link href="/"
-            className="lg:w-[8%] w-[33.33%] lg:flex justify-center items-center"
+            className="lg:w-[10%] w-[33.33%] lg:flex justify-center items-center"
           >
             <div className="">
               <img
-                className="lg:w-[100px] w-[50px] "
+                className="lg:w-[55px] w-[50px] "
                 src="/asset/Navbar/logo.png"
                 alt="logo"
               />
             </div>
           </Link>
           {/* menu */}
-          <div className="flex lg:w-[40%] w-[33.33%] gap-4 justify-end items-center">
-            <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div className="lg:flex hidden lg:w-[45%] w-[33.33%] pr-[2%] gap-4 justify-end items-center">
+            {/* <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               <FaShoppingCart className="text-black lg:text-[35px] text-[19px] cursor-pointer" />
               {openDropdown && (
                 <div className="lg:block hidden absolute left-[20%] mt-1 z-20 shadow-lg lg:w-[100px] w-[60px] bg-white rounded">
@@ -237,7 +322,8 @@ export default function Navbar() {
             </div>
             <Link href="/login">
               <FaUser className="text-black lg:text-[35px] text-[19px]" />
-            </Link>
+            </Link> */}
+            <div>{navListExtra}</div>
           </div>
 
           {/* Mobile Icon */}
