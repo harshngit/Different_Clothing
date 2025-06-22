@@ -293,7 +293,7 @@ export default function Navbar() {
           <Link href="/"
             className="lg:w-[10%] w-[33.33%] lg:flex justify-center items-center"
           >
-            <div className="">
+            <div className="flex justify-center items-center">
               <img
                 className="lg:w-[55px] w-[50px] "
                 src="/asset/Navbar/logo.png"
