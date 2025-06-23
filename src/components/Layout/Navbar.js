@@ -12,6 +12,7 @@ import { RxCross1 } from "react-icons/rx";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 const navItems = [
   {
     label: "FOR HIM",
@@ -34,6 +35,15 @@ const navItems = [
   },
 ];
 export default function Navbar() {
+
+  const {
+    error = null,
+    loading = false,
+    isAuthenticated = false,
+    users = null,
+    userProfile = {}
+  } = useSelector((state) => state.user || {});
+
   const [scrolling, setScrolling] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const pathname = usePathname();
@@ -167,7 +177,7 @@ export default function Navbar() {
 
 
       {/* Login */}
-      <li>
+      {isAuthenticated ? <li>
         <Link
           href="/login"
           className="group relative px-3 py-2 transition text-[15px] block overflow-hidden text-black"
@@ -175,7 +185,16 @@ export default function Navbar() {
           Login
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
         </Link>
-      </li>
+      </li> :
+        <li>
+          <h2
+            className="group relative px-3 py-2 transition text-[15px] block overflow-hidden text-black"
+          >
+            Logout
+            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+          </h2>
+        </li>
+      }
 
       {/* Wishlist */}
       <li>

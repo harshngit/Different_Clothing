@@ -23,15 +23,25 @@ const Login = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
-	const handleLogin = () => {
+	const handleLogin = async () => {
 		if (!email.trim()) {
 			alert("Enter Valid Email");
 		} else if (!password.trim()) {
 			alert("Enter Valid Password");
 		} else {
-			dispatch(loginUsingEmail({ email, password }));
+			try {
+				const user = await dispatch(loginUsingEmail({ email, password })).unwrap();
+				console.log("Login successful", user); // user.uid, email, etc.
+
+				// Optionally navigate after successful login
+				router.push('/');
+			} catch (error) {
+				console.error("Login failed:", error);
+				alert(error); // or use toast, snackbar, etc.
+			}
 		}
 	};
+
 
 	useEffect(() => {
 		if (isAuthenticated) {

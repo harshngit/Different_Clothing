@@ -40,8 +40,8 @@ const LoginForm = ({ password, setPassword, email, setEmail, showPassword, setSh
 					<p className='text-[#004aff]'>Forget Password</p>
 				</Link>
 			</div>
-			<div className='w-full flex justify-center items-center mt-5 bg-primary px-5 py-2 rounded-lg text-white cursor-pointer hover:bg-[#fff]'>
-				<button className='text-center'>Sign In</button>
+			<div onClick={handleLogin} className='w-full flex justify-center items-center mt-5 bg-primary px-5 py-2 rounded-lg text-white cursor-pointer hover:bg-[#fff] hover:border-[2px] hover:text-primary'>
+				Sign In
 			</div>
 			<div className='w-full flex justify-center items-center mt-5 px-5 py-2 rounded-lg text-black gap-5'>
 				<div className='bg-black w-10 h-[0.5px]'></div>

@@ -11,14 +11,23 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // 🔐 Login with Email
 export const loginUsingEmail = createAsyncThunk(
-	"auth/login",
+	'auth/login',
 	async ({ email, password }, { rejectWithValue }) => {
 		try {
-			await setPersistence(auth, browserLocalPersistence); // optional persistence
+			// Set session persistence (optional but recommended)
+			await setPersistence(auth, browserLocalPersistence);
+
+			// Try login
 			const { user } = await signInWithEmailAndPassword(auth, email, password);
-			return user.uid;
+
+			// You can return more info than just uid (like email, name, etc.)
+			return {
+				uid: user.uid,
+				email: user.email,
+				displayName: user.displayName,
+			};
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.message || 'Login failed');
 		}
 	}
 );
