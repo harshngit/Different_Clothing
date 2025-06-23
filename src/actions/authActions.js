@@ -1,30 +1,29 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { auth, db, googleProvider } from "../app/firebase.config";
 import {
 	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
 	signOut,
 	setPersistence,
 	browserLocalPersistence,
+	onAuthStateChanged,
 	signInWithPopup,
-} from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+	GoogleAuthProvider,
+} from 'firebase/auth';
+import { auth } from '@/app/firebase.config';
 
-// 🔐 Login with Email
 export const loginUsingEmail = createAsyncThunk(
 	'auth/login',
 	async ({ email, password }, { rejectWithValue }) => {
 		try {
-			// Set session persistence (optional but recommended)
 			await setPersistence(auth, browserLocalPersistence);
-
-			// Try login
 			const { user } = await signInWithEmailAndPassword(auth, email, password);
-
-			// You can return more info than just uid (like email, name, etc.)
 			return {
 				uid: user.uid,
 				email: user.email,
 				displayName: user.displayName,
+				photoURL: user.photoURL,
+				phoneNumber: user.phoneNumber,
+				emailVerified: user.emailVerified,
 			};
 		} catch (error) {
 			return rejectWithValue(error.message || 'Login failed');
@@ -32,47 +31,80 @@ export const loginUsingEmail = createAsyncThunk(
 	}
 );
 
-// 👤 Load User Profile
-export const loadUser = createAsyncThunk(
-	"auth/loadUser",
-	async (uid, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk(
+	'auth/register',
+	async ({ email, password }, { rejectWithValue }) => {
 		try {
-			const userSnap = await getDoc(doc(db, "users", uid));
-			if (userSnap.exists()) {
-				return userSnap.data();
-			} else {
-				return rejectWithValue("User not found");
-			}
+			const { user } = await createUserWithEmailAndPassword(auth, email, password);
+			return {
+				uid: user.uid,
+				email: user.email,
+				displayName: user.displayName,
+				photoURL: user.photoURL,
+				phoneNumber: user.phoneNumber,
+				emailVerified: user.emailVerified,
+			};
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.message || 'Registration failed');
 		}
 	}
 );
 
-// 🔒 Logout
 export const logout = createAsyncThunk(
-	"auth/logout",
+	'auth/logout',
 	async (_, { rejectWithValue }) => {
 		try {
 			await signOut(auth);
 			return true;
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.message || 'Logout failed');
 		}
 	}
 );
 
-// ✏️ Update Profile
-export const updateProfile = createAsyncThunk(
-	"auth/updateProfile",
-	async ({ uid, name, email, phone, role }, { rejectWithValue }) => {
+export const loadUser = createAsyncThunk(
+	'auth/loadUser',
+	async (_, { rejectWithValue }) => {
 		try {
-			await setDoc(doc(db, "users", uid), {
-				name, email, phone, role, uid,
+			return new Promise((resolve, reject) => {
+				onAuthStateChanged(auth, (user) => {
+					if (user) {
+						resolve({
+							uid: user.uid,
+							email: user.email,
+							displayName: user.displayName,
+							photoURL: user.photoURL,
+							phoneNumber: user.phoneNumber,
+							emailVerified: user.emailVerified,
+						});
+					} else {
+						reject('No user found');
+					}
+				});
 			});
-			return true;
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.message || 'Load user failed');
+		}
+	}
+);
+
+export const loginWithGoogle = createAsyncThunk(
+	'auth/googleLogin',
+	async (_, { rejectWithValue }) => {
+		try {
+			const provider = new GoogleAuthProvider();
+			const result = await signInWithPopup(auth, provider);
+			const user = result.user;
+			return {
+				uid: user.uid,
+				email: user.email,
+				displayName: user.displayName,
+				photoURL: user.photoURL,
+				phoneNumber: user.phoneNumber,
+				emailVerified: user.emailVerified,
+			};
+		} catch (error) {
+			return rejectWithValue(error.message || 'Google login failed');
 		}
 	}
 );
