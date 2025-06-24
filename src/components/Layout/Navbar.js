@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/actions/authActions";
+import { FaUser } from "react-icons/fa";
 
 const navItems = [
   { label: "FOR HIM", href: "/forhim", children: [] },
@@ -76,6 +77,8 @@ export default function Navbar() {
     </ul>
   );
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const navListExtra = (
     <ul className="flex flex-col lg:flex-row items-end gap-3 text-white uppercase font-playfair text-sm">
       <li className="relative" ref={dropdownRef}>
@@ -101,18 +104,38 @@ export default function Navbar() {
         )}
       </li>
       {isAuthenticated ? (
-        <li onClick={handleLogout}>
-          <h2 className="cursor-pointer relative  text-black group">
+        <li
+          className="relative"
+          onMouseEnter={() => setIsOpen(true)}
+          onMouseLeave={() => setIsOpen(false)}
+        >
+          {/* Trigger */}
+          <div className="cursor-pointer relative text-black">
             My Profile
-            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-          </h2>
+            <span
+              className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
+                }`}
+            />
+          </div>
+
+          {/* Dropdown */}
+          <div
+            className={`absolute left-0 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
+          >
+            <ul>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                View Profile</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+            </ul>
+          </div>
         </li>
+
+
       ) : (
         <li>
-          <Link href="/login" className="relative px-3 py-2 text-black group">
-            Login
-            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-          </Link>
+
         </li>
       )}
       <li>
@@ -139,7 +162,7 @@ export default function Navbar() {
       </div>
 
       <div className="w-full py-4 bg-[#fff]">
-        <div className="w-full flex justify-between items-center px-4 lg:px-8">
+        <div className="w-full flex lg:justify-between items-center px-4 lg:px-8">
           <div className="hidden lg:flex lg:w-[45%]">{navList}</div>
           <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={() => setOpenDrawer(true)}>
             <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
@@ -148,6 +171,39 @@ export default function Navbar() {
             <img src="/asset/Navbar/logo.png" className="lg:w-[55px] w-[50px]" alt="Logo" />
           </Link>
           <div className="hidden lg:flex lg:w-[45%] justify-end">{navListExtra}</div>
+          <div className="lg:hidden flex justify-end items-end w-[25%]">
+            {isAuthenticated ? (<>
+              <ul className="">
+                <li
+                  className="relative"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {/* Trigger */}
+                  <div className="cursor-pointer relative text-black">
+                    <FaUser className="w-24" />
+                  </div>
+
+                  {/* Dropdown */}
+                  <div
+                    className={`absolute left-0 top-full text-[10px] mt-1 w-20 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                      }`}
+                  >
+                    <ul>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        View Profile</li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </>) : (<>
+              <Link href="/login" className="relative px-3 py-2 text-black group">
+                Login
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+              </Link>
+            </>)}
+          </div>
         </div>
       </div>
 
