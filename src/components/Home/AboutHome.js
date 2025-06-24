@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Button } from '@material-tailwind/react'
 const AboutHome = () => {
 	return (
-		<section className=" w-full lg:h-[120vh] xl:h-[150vh] bg-white	lg:pt-10 pt-5">
+		<section className=" w-full lg:h-[10vh] xl:h-auto bg-white	lg:pt-10 pt-5">
 			{/* <div className="lg:block hidden absolute left-[-100px] top-[1000px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
 
 			<div className="lg:block hidden absolute right-[-100px] top-[1200px] -translate-y-1/2 w-[200px] h-[200px] bg-[#D9D9D933] rounded-full"></div>
@@ -94,13 +94,13 @@ const AboutHome = () => {
 			</div> */}
 			<div className='flex flex-col  justify-center item-center px-5'>
 				<div className='flex justify-center items-center'>
-					<p className='font-normal font-playfair text-center text-black lg:text-[24px]'>
+					<p className='font-normal font-playfair w-[80%] text-center text-black lg:text-[24px]'>
 						Welcome to Different Clothing , where style meets comfort in every piece. Our collection is designed to offer the perfect balance of quality, versatility, and modern design, making it easy for you to express your unique style.
 					</p>
 				</div>
 				<div className='flex justify-center items-center mt-5'>
-					<Link href="">
-						<Button className='bg-black px-5 py-5 !rounded-none !shadow-none uppercase lg:text-[24px] font-thin'>Explore More</Button>
+					<Link href="/shop">
+						<Button className='bg-black px-3 py-3 !rounded-none !shadow-none uppercase lg:text-[15px] font-thin'>Explore More</Button>
 					</Link>
 				</div>
 			</div>
@@ -111,8 +111,12 @@ const AboutHome = () => {
 						alt="look1"
 						className="w-full object-cover"
 					/>
-					<h2 className='font-500 font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3'>For Him</h2>
-					<h2 className='font-500 font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE</h2>
+					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3'>For Him
+						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+					</h2>
+					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
+						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+					</h2>
 				</div>
 				<div className='lg:w-[50%] w-full relative'>
 					<img
@@ -120,8 +124,12 @@ const AboutHome = () => {
 						alt="look1"
 						className="w-full object-cover"
 					/>
-					<h2 className='font-500 font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3'>FOR HER</h2>
-					<h2 className='font-500 font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE</h2>
+					<h2 className='font-500 font-playfair group text-[18px] absolute z-10 text-white left-[2%] bottom-3'>FOR HER
+						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+					</h2>
+					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
+						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+					</h2>
 				</div>
 			</div>
 		</section>
