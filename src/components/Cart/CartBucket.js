@@ -59,13 +59,14 @@ const CartBucket = () => {
 									<div className="w-[50%] flex-col flex justify-start items-start">
 										<p className="font-semibold text-[22px] mb-2">{item.name}</p>
 										<div className='flex justify-center gap-2 
-										items-center'>
-											<p className='text-[15px] text-[#8A8A8A]'>Color :</p>
+										items-center mb-2'>
+											<p className='text-[15px] text-[#000]'>Color :</p>
 											<div
 												className="w-5 h-5 rounded-full border"
 												style={{ backgroundColor: item.color }}
 											/>
 										</div>
+										<p className=" mb-2">Size:{item?.size}</p>
 										<p className="font-semibold mb-2">₹{Number(item.price).toFixed(2)}</p>
 
 										<div className="w-fit overflow-hidden">

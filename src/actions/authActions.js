@@ -20,10 +20,8 @@ export const loginUsingEmail = createAsyncThunk(
 			return {
 				uid: user.uid,
 				email: user.email,
-				displayName: user.displayName,
-				photoURL: user.photoURL,
-				phoneNumber: user.phoneNumber,
-				emailVerified: user.emailVerified,
+				displayName: user.name,
+				phoneNumber: user.contact,
 			};
 		} catch (error) {
 			return rejectWithValue(error.message || 'Login failed');
@@ -39,10 +37,8 @@ export const registerUser = createAsyncThunk(
 			return {
 				uid: user.uid,
 				email: user.email,
-				displayName: user.displayName,
-				photoURL: user.photoURL,
-				phoneNumber: user.phoneNumber,
-				emailVerified: user.emailVerified,
+				displayName: user.name,
+				phoneNumber: user.contact,
 			};
 		} catch (error) {
 			return rejectWithValue(error.message || 'Registration failed');
@@ -72,10 +68,8 @@ export const loadUser = createAsyncThunk(
 						resolve({
 							uid: user.uid,
 							email: user.email,
-							displayName: user.displayName,
-							photoURL: user.photoURL,
-							phoneNumber: user.phoneNumber,
-							emailVerified: user.emailVerified,
+							displayName: user.name,
+							phoneNumber: user.contact,
 						});
 					} else {
 						reject('No user found');
@@ -98,10 +92,8 @@ export const loginWithGoogle = createAsyncThunk(
 			return {
 				uid: user.uid,
 				email: user.email,
-				displayName: user.displayName,
-				photoURL: user.photoURL,
-				phoneNumber: user.phoneNumber,
-				emailVerified: user.emailVerified,
+				displayName: user.name,
+				phoneNumber: user.contact,
 			};
 		} catch (error) {
 			return rejectWithValue(error.message || 'Google login failed');
