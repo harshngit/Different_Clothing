@@ -18,8 +18,8 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-
-
+  const { cartItems } = useSelector((state) => state.cart);
+  // const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -127,7 +127,7 @@ export default function Navbar() {
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                 View Profile</li>
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+              <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
             </ul>
           </div>
         </li>
@@ -135,7 +135,10 @@ export default function Navbar() {
 
       ) : (
         <li>
-
+          <Link href="/login" className="relative px-3 py-2 text-black group">
+            Login
+            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+          </Link>
         </li>
       )}
       <li>
@@ -146,7 +149,7 @@ export default function Navbar() {
       </li>
       <li>
         <Link href="/cart" className="relative px-3 py-2 text-black group">
-          Bag
+          Bag ({cartItems.length})
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
         </Link>
       </li>

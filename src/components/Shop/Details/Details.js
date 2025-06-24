@@ -1,7 +1,9 @@
+import { addToCart } from "@/actions/cartAction";
 import React, { useEffect, useState } from "react";
 import { FaHeart, FaStar } from 'react-icons/fa';
 import { IoIosArrowDown } from "react-icons/io";
 import { LuShare2 } from "react-icons/lu";
+import { useDispatch, useSelector } from "react-redux";
 
 const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const variation = productDetails.variation || [];
@@ -29,12 +31,20 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			content: productDetails.productDeliveryPayment,
 		},
 	];
-
+	const dispatch = useDispatch();
 	const [timeLeft, setTimeLeft] = useState(5 * 60 + 59 + 47 / 100); // 5:59:47
 	const [selectedSize, setSelectedSize] = useState("");
 	const [selectedColor, setSelectedColor] = useState("");
 	const [openIndex, setOpenIndex] = useState(null);
+	const userState = useSelector((state) => state.user);
 
+	const {
+		error,
+		loading,
+		isAuthenticated,
+		users,
+		userProfile,
+	} = userState || {};
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft((prev) => Math.max(prev - 0.01, 0));
@@ -68,6 +78,24 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const selectedVariation = variation.find(
 		(v) => v.size === selectedSize && v.color === selectedColor
 	);
+
+
+	const handleAddToCart = () => {
+		const cartitem = {
+			user: userProfile,
+			product: productDetails._id || productDetails.id,
+			name: productDetails.productName,
+			price: productDetails.productPrice,
+			image: productDetails.productImages?.[0], // ✅ Fix here
+			size: selectedSize,
+			quantity: "1", // ✅ ensure this exists
+			color: selectedColor,
+		};
+		dispatch(addToCart(cartitem));
+	};
+
+
+
 
 	return (
 		<div className='px-5 py-5 w-full flex flex-col justify-start items-start gap-5'>
@@ -146,7 +174,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 				</div>
 			</div>
 
-			<div className="w-full px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer">
+			<div onClick={handleAddToCart} className="w-full px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer">
 				Add to Cart
 			</div>
 
