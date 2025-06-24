@@ -2,30 +2,29 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCartQuantity, removeCartItem } from '@/actions/cartAction';
+import { Input } from '@material-tailwind/react';
 
 const CartBucket = () => {
 	const dispatch = useDispatch();
 	const { cartItems } = useSelector(state => state.cart);
 
-	// Local state to track quantity per product
-	const [quantities, setQuantities] = useState(
-		cartItems.reduce((acc, item) => {
-			acc[`${item.product}-${item.size}-${item.color}`] = item.quantity;
+	const [quantities, setQuantities] = useState(() => {
+		return cartItems.reduce((acc, item) => {
+			const key = `${item.product}-${item.size}-${item.color}`;
+			acc[key] = item.quantity;
 			return acc;
-		}, {})
-	);
+		}, {});
+	});
 
 	const handleRemove = (item) => {
 		dispatch(removeCartItem(item.product, item.size, item.color));
 	};
 
-	const handleQuantityChange = (item, delta) => {
+	const handleManualQuantityChange = (item, value) => {
 		const key = `${item.product}-${item.size}-${item.color}`;
-		const newQty = (quantities[key] || 1) + delta;
-		if (newQty >= 1) {
-			setQuantities({ ...quantities, [key]: newQty });
-			dispatch(updateCartQuantity(item.product, item.size, item.color, newQty));
-		}
+		const quantity = Math.max(1, parseInt(value) || 1);
+		setQuantities({ ...quantities, [key]: quantity });
+		dispatch(updateCartQuantity(item.product, item.size, item.color, quantity));
 	};
 
 	const total = cartItems.reduce((acc, item) => acc + Number(item.price) * item.quantity, 0);
@@ -50,6 +49,7 @@ const CartBucket = () => {
 						cartItems.map((item, idx) => {
 							const key = `${item.product}-${item.size}-${item.color}`;
 							const quantity = quantities[key] || item.quantity;
+
 							return (
 								<div key={`${item.product}-${idx}`} className="flex gap-5 justify-start items-start p-4 rounded-md">
 									<img src={item.image} alt={item.name} className="w-[168px] object-cover" />
@@ -58,13 +58,21 @@ const CartBucket = () => {
 										<p className="text-sm text-[22px] mb-2 text-[#8A8A8A]">Color: {item.color}</p>
 										<p className="font-semibold mb-2">₹{Number(item.price).toFixed(2)}</p>
 
-										<div className="flex items-center justify-start mt-2 space-x-2">
-											<button onClick={() => handleQuantityChange(item, "-1")} className="px-2 border">-</button>
-											<span>{quantity}</span>
-											<button onClick={() => handleQuantityChange(item, "1")} className="px-2 border">+</button>
+										<div className="w-fit overflow-hidden">
+											<input
+												type="number"
+												label=" "
+												min={1}
+												value={quantity}
+												onChange={(e) => handleManualQuantityChange(item, e.target.value)}
+												className="!w-[50px] px-2 py-1 text-sm !border !border-gray-300"
+												containerProps={{
+													className: "min-w-0",
+												}}
+											/>
 										</div>
 
-										<button onClick={() => handleRemove(item)} className="text-sm text-[22px] text-gray-500 mt-1 underline">Remove</button>
+										<button onClick={() => handleRemove(item)} className="text-sm text-[22px] text-gray-500 mt-2 underline">Remove</button>
 									</div>
 								</div>
 							);
