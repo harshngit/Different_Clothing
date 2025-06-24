@@ -1,14 +1,13 @@
-import { addToCart } from "@/actions/cartAction";
+"use client";
 import React, { useEffect, useState } from "react";
 import { FaHeart, FaStar } from 'react-icons/fa';
 import { IoIosArrowDown } from "react-icons/io";
 import { LuShare2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "@/actions/cartAction";
 
 const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const variation = productDetails.variation || [];
-
-	// ✅ Extract sizes and colors from variation
 	const sizes = Array.from(
 		new Set([
 			...(variation?.map(v => v.size) || []),
@@ -31,20 +30,15 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			content: productDetails.productDeliveryPayment,
 		},
 	];
+
 	const dispatch = useDispatch();
-	const [timeLeft, setTimeLeft] = useState(5 * 60 + 59 + 47 / 100); // 5:59:47
+	const [timeLeft, setTimeLeft] = useState(5 * 60 + 59 + 47 / 100);
 	const [selectedSize, setSelectedSize] = useState("");
 	const [selectedColor, setSelectedColor] = useState("");
 	const [openIndex, setOpenIndex] = useState(null);
 	const userState = useSelector((state) => state.user);
+	const { userProfile } = userState || {};
 
-	const {
-		error,
-		loading,
-		isAuthenticated,
-		users,
-		userProfile,
-	} = userState || {};
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft((prev) => Math.max(prev - 0.01, 0));
@@ -74,11 +68,11 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const hasHalf = rating % 1 >= 0.5;
 	const emptyStars = total - fullStars - (hasHalf ? 1 : 0);
 
-	// ✅ Optional: get selected variation (price, image, etc.)
 	const selectedVariation = variation.find(
-		(v) => v.size === selectedSize && v.color === selectedColor
+		(v) =>
+			v.size === selectedSize &&
+			v.color.toLowerCase() === selectedColor.toLowerCase()
 	);
-
 
 	const handleAddToCart = () => {
 		const cartitem = {
@@ -86,15 +80,13 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			product: productDetails._id || productDetails.id,
 			name: productDetails.productName,
 			price: productDetails.productPrice,
-			image: productDetails.productImages?.[0], // ✅ Fix here
+			image: productDetails.productImages?.[0],
 			size: selectedSize,
-			quantity: "1", // ✅ ensure this exists
+			quantity: "1",
 			color: selectedColor,
 		};
 		dispatch(addToCart(cartitem));
 	};
-
-
 
 
 	return (
@@ -159,18 +151,21 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 					Color: <span className="font-normal">{selectedColor}</span>
 				</div>
 				<div className="flex gap-4">
-					{colors.map((color) => (
-						<button
-							key={color}
-							onClick={() => setSelectedColor(color)}
-							className="w-10 h-10 rounded-full border-2"
-							style={{
-								backgroundColor: color,
-								borderColor: selectedColor === color ? "black" : "#ccc",
-								boxShadow: selectedColor === color ? "0 0 0 3px rgba(0,0,0,0.3)" : "none",
-							}}
-						/>
-					))}
+					{colors.map((color) => {
+						const isSelected = selectedColor.toLowerCase() === color.toLowerCase();
+						return (
+							<button
+								key={color}
+								onClick={() => setSelectedColor(color)}
+								className="w-10 h-10 rounded-full border-2 transition-all duration-200"
+								style={{
+									backgroundColor: color,
+									borderColor: isSelected ? "black" : "#ccc",
+									boxShadow: isSelected ? "0 0 0 3px rgba(0,0,0,0.3)" : "none",
+								}}
+							/>
+						);
+					})}
 				</div>
 			</div>
 

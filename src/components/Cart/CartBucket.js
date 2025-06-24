@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCartQuantity, removeCartItem } from '@/actions/cartAction';
 import { Input } from '@material-tailwind/react';
+import Link from 'next/link';
 
 const CartBucket = () => {
 	const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const CartBucket = () => {
 			<div className="w-full">
 				<h2 className="lg:text-[22px] font-normal mb-4">Your Cart</h2>
 				<div className="grid grid-cols-1 border-y-[2px] py-5 border-[#00000063] md:grid-cols-3 gap-4">
-					{cartItems.length === 0 ? (
+					{!cartItems ? (
 						<p className="col-span-3 text-center text-gray-500">Your cart is empty</p>
 					) : (
 						cartItems.map((item, idx) => {
@@ -52,10 +53,19 @@ const CartBucket = () => {
 
 							return (
 								<div key={`${item.product}-${idx}`} className="flex gap-5 justify-start items-start p-4 rounded-md">
-									<img src={item.image} alt={item.name} className="w-[168px] object-cover" />
+									<div className='w-[168px] object-cover'>
+										<img src={item.image} alt={item.name} className="w-[168px] h-[180px] " />
+									</div>
 									<div className="w-[50%] flex-col flex justify-start items-start">
 										<p className="font-semibold text-[22px] mb-2">{item.name}</p>
-										<p className="text-sm text-[22px] mb-2 text-[#8A8A8A]">Color: {item.color}</p>
+										<div className='flex justify-center gap-2 
+										items-center'>
+											<p className='text-[15px] text-[#8A8A8A]'>Color :</p>
+											<div
+												className="w-5 h-5 rounded-full border"
+												style={{ backgroundColor: item.color }}
+											/>
+										</div>
 										<p className="font-semibold mb-2">₹{Number(item.price).toFixed(2)}</p>
 
 										<div className="w-fit overflow-hidden">
@@ -101,9 +111,11 @@ const CartBucket = () => {
 									<span>Total</span>
 									<span>₹{total.toFixed(2)}</span>
 								</div>
-								<button className="w-full mt-4 bg-black shadow-lg text-white py-2 hover:bg-gray-900">
-									Checkout
-								</button>
+								<Link href={"/checkout"}>
+									<button className="w-full mt-4 bg-black shadow-lg text-white py-2 hover:bg-gray-900">
+										Checkout
+									</button>
+								</Link>
 							</div>
 						</div>
 					</div>
