@@ -65,7 +65,7 @@ const CheckoutForm = () => {
 				<Radio defaultChecked={true} value="cod" label="COD (Cash On Delivery)" />
 			</div>
 			<div className="max-w-lg mx-auto px-4 py-6">
-				<button>Place and Order</button>
+				<button className='bg-black px-5 text-white py-2'>Place Order</button>
 			</div>
 		</div>
 	)

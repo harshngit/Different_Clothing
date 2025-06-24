@@ -10,7 +10,7 @@ const CartCheckoutDetails = () => {
 	const total = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
 
 	return (
-		<div className='bg-gray-600 pt-[50px]'>
+		<div className='bg-gray-600 px-5 py-5 pt-[50px]'>
 			<div className="max-w-xl w-full mx-auto p-6 bg-white rounded-md shadow-md">
 				{/* Cart Items */}
 				<div className='flex flex-col gap-5 h-[250px] overflow-y-scroll scroll-smooth'>
