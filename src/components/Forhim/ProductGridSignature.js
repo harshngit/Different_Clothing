@@ -5,7 +5,8 @@ import FilterSidebar from '../Shop/FilterSidebar';
 
 
 const ITEMS_PER_PAGE = 8;
-const ProductGridFHER = ({ product }) => {
+
+const ProductGridSignature = ({ product }) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -215,4 +216,4 @@ const ProductGridFHER = ({ product }) => {
 	)
 }
 
-export default ProductGridFHER
+export default ProductGridSignature
