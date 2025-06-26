@@ -1,20 +1,22 @@
-"use client"
+"use client";
 
-import RegisterForm from '@/components/Register/RegisterForm'
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
-import { auth, db } from '../firebase.config';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase.config";
+import RegisterForm from "@/components/Register/RegisterForm";
 
 const Register = () => {
 	const router = useRouter();
-	const [role, setRole] = useState("")
+
+	// Form States
 	const [name, setName] = useState("")
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [contact, setContact] = useState("")
+
+	// Register function
 	const handleCreateUser = () => {
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(async (userCredential) => {
@@ -26,25 +28,25 @@ const Register = () => {
 					phoneNumber: contact,
 				});
 
-				// Save user data to Firestore
+
 				await setDoc(doc(db, "users", user.uid), {
 					name,
 					email,
+					password,
 					contact,
 					role: "Customer",
-					service: "Different Clothing",
+					service: "Nutan",
 					uid: user.uid,
-					password,
-				});
-
-				router.push("/login");
+				})
+				router.push("/login")
+			}).catch((err) => {
+				console.log(err)
 			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
+	}
+
+
 	return (
-		<div className="relative w-full h-screen xl:h-screen lg:h-screen flex justify-center items-center overflow-hidden">
+		<div className="relative w-full h-screen flex justify-center items-center overflow-hidden">
 			{/* Blurred Background Layer */}
 			<div
 				className="absolute inset-0 bg-cover bg-no-repeat bg-center blur-sm scale-110"
@@ -52,14 +54,21 @@ const Register = () => {
 			></div>
 
 			{/* Foreground Content */}
-			<div className="relative w-[100%] lg:left-[35%] left-[10%] z-10 ">
-				<RegisterForm name={name} setName={setName}
-					email={email} setEmail={setEmail} handleCreateUser={handleCreateUser}
-					password={password} setPassword={setPassword}
-					contact={contact} setContact={setContact} />
+			<div className="relative w-[100%] lg:left-[35%] left-[10%] z-10">
+				<RegisterForm
+					name={name}
+					setName={setName}
+					email={email}
+					setEmail={setEmail}
+					password={password}
+					setPassword={setPassword}
+					contact={contact}
+					setContact={setContact}
+					handleCreateUser={handleCreateUser}
+				/>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default Register
+export default Register;

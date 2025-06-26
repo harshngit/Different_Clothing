@@ -74,19 +74,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			v.color.toLowerCase() === selectedColor.toLowerCase()
 	);
 
-	const handleAddToCart = () => {
-		const cartitem = {
-			user: userProfile,
-			product: productDetails._id || productDetails.id,
-			name: productDetails.productName,
-			price: productDetails.productPrice,
-			image: productDetails.productImages?.[0],
-			size: selectedSize,
-			quantity: "1",
-			color: selectedColor,
-		};
-		dispatch(addToCart(cartitem));
-	};
+
 
 
 	return (

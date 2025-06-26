@@ -120,19 +120,21 @@ export default function Navbar() {
 
           {/* Dropdown */}
           <div
-            className={`absolute left-0 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+            className={`absolute -left-12 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
           >
             <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
               <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
-              <h2 className="font-normal lg:text-[10px] text-[10px]">
-                {userProfile?.email}
+              <h2 className="font-normal  lg:text-[10px] text-[10px]">
+                {userProfile?.displayName}
               </h2>
             </div>
             <ul>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                View Profile</li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+              <Link href={"/viewProfile"}>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  My Account</li>
+              </Link>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
               <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
             </ul>
           </div>
@@ -140,11 +142,45 @@ export default function Navbar() {
 
 
       ) : (
-        <li>
-          <Link href="/login" className="relative px-3 py-2 text-black group">
+        <li
+          className="relative"
+          onMouseEnter={() => setIsOpen(true)}
+          onMouseLeave={() => setIsOpen(false)}
+        >
+          {/* Trigger */}
+
+          <div className="cursor-pointer relative text-black">
             Login
-            <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-          </Link>
+            <span
+              className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
+                }`}
+            />
+          </div>
+
+
+          {/* Dropdown */}
+          <div
+            className={`absolute -left-24 top-full mt-1 w-[317px] p-3 bg-white text-black shadow-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
+          >
+            {/* <ul>
+              <Link href={"/viewProfile"}>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  View Profile</li>
+              </Link>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
+              <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+            </ul> */}
+
+            <Link href={"/login"}>
+              <div className="bg-[#000] text-white text-center px-2 py-3">
+                SIGN IN
+              </div>
+            </Link>
+            <div className="px-2 py-3 text-black flex justify-center items-center">
+              <h2 className="text-[10px] font-thin">DONT HAVE AN ACCOUNT? <Link href={"/register"} className="font-bold text-[10px] hover:underline">REGISTER</Link></h2>
+            </div>
+          </div>
         </li>
       )}
       <li>
