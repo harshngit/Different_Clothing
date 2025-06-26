@@ -8,7 +8,16 @@ import Link from 'next/link';
 const CartBucket = () => {
 	const dispatch = useDispatch();
 	const { cartItems } = useSelector(state => state.cart);
+	const userState = useSelector((state) => state.user);
 
+	const {
+		error,
+		loading,
+		isAuthenticated,
+		users,
+		userProfile,
+	} = userState || {};
+	console.log(users)
 	const [quantities, setQuantities] = useState(() => {
 		return cartItems.reduce((acc, item) => {
 			const key = `${item.product}-${item.size}-${item.color}`;
@@ -112,11 +121,15 @@ const CartBucket = () => {
 									<span>Total</span>
 									<span>₹{total.toFixed(2)}</span>
 								</div>
-								<Link href={"/checkout"}>
+								{isAuthenticated ? (<Link href={"/checkout"}>
 									<button className="w-full mt-4 bg-black shadow-lg text-white py-2 hover:bg-gray-900">
 										Checkout
 									</button>
-								</Link>
+								</Link>) : (<Link href={"/login"}>
+									<button className="w-full mt-4 bg-black shadow-lg text-white py-2 hover:bg-gray-900">
+										Login
+									</button>
+								</Link>)}
 							</div>
 						</div>
 					</div>

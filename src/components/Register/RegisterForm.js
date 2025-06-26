@@ -27,7 +27,7 @@ const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, c
 					<input type="number" value={contact} onChange={(e) => setContact(e.target.value)} className='w-full py-2 px-2 rounded-md border-[2px] border-[#ccc]' placeholder='Enter Phone Number' />
 				</div>
 			</div>
-			<div className='flex justify-start items-start w-[100%] mt-5 gap-5'>
+			<div className='flex justify-start items-start w-[100%] mt-5 gap-5 relative'>
 				<div className='w-full flex flex-col justify-center items-start gap-2'>
 					<label htmlFor="" className='text-[15px]'>Password</label>
 					<Input
@@ -47,7 +47,7 @@ const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, c
 
 						disabled={!password}
 						onClick={() => setShowPassword(!showPassword)}
-						className="!absolute  right-2 top-9"
+						className="!absolute  right-2 top-11"
 					>{showPassword ? <FaRegEye className='w-[15px]  text-blue-500' /> : <FaRegEyeSlash className='w-[15px] text-blue-500' />}
 					</button>
 				</div>

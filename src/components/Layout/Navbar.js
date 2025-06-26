@@ -62,7 +62,7 @@ export default function Navbar() {
   const isActive = (href) => pathname === href;
 
   const navList = (
-    <ul className="flex flex-col lg:flex-row items-start gap-3 text-white uppercase font-playfair text-sm">
+    <ul className="flex flex-col lg:flex-row items-start gap-3 text-white uppercase font-playfair font-semibold">
       {navItems.map((item, idx) => (
         <li key={idx} className="relative group">
           <Link
@@ -80,7 +80,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navListExtra = (
-    <ul className="flex flex-col lg:flex-row items-end gap-3 text-white uppercase font-playfair text-sm">
+    <ul className="flex flex-col lg:flex-row items-end gap-3 text-white uppercase font-playfair lg:text-[15px] font-semibold">
       <li className="relative" ref={dropdownRef}>
         <Link
           href="#"
@@ -123,6 +123,12 @@ export default function Navbar() {
             className={`absolute left-0 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
           >
+            <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
+              <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
+              <h2 className="font-normal lg:text-[10px] text-[10px]">
+                {userProfile?.email}
+              </h2>
+            </div>
             <ul>
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                 View Profile</li>

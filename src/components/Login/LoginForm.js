@@ -10,8 +10,8 @@ const LoginForm = ({ password, setPassword, email, setEmail, showPassword, setSh
 				<h2 className='text-[#000] font-semibold text-[30px]'>Login</h2>
 				<p className='text-gray-400 text-center'>Hey, Enter your details to get sign in <br /> to your account</p>
 			</div>
-			<div className='flex justify-start items-start flex-col w-[100%] mt-8 gap-5'>
-				<input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full py-2 px-4 rounded-md border-[2px] border-[#ccc]' placeholder='Enter Email / Phone No' />
+			<div className='flex justify-start items-start flex-col w-[100%] mt-8 gap-5 relative'>
+				<input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full py-2 px-4 rounded-md border-[2px] border-[#ccc] ' placeholder='Enter Email / Phone No' />
 				<Input
 
 					label="Password"
@@ -19,7 +19,7 @@ const LoginForm = ({ password, setPassword, email, setEmail, showPassword, setSh
 
 					onChange={(e) => { setPassword(e.target.value) }}
 					type={showPassword ? "text" : "password"}
-					className="pr-20"
+					className="pr-20 "
 					containerProps={{
 						className: "min-w-0",
 					}}
@@ -29,7 +29,7 @@ const LoginForm = ({ password, setPassword, email, setEmail, showPassword, setSh
 
 					disabled={!password}
 					onClick={() => setShowPassword(!showPassword)}
-					className="!absolute  right-2 top-9"
+					className="!absolute  right-2 top-[70%]"
 				>
 					{showPassword ? <FaRegEye className='w-[15px]  text-blue-500' /> : <FaRegEyeSlash className='w-[15px] text-blue-500' />}
 				</button>
