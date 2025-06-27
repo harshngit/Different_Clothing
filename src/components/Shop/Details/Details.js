@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { LuShare2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/actions/cartAction";
+import { toast } from "react-toastify";
 
 const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const variation = productDetails.variation || [];
@@ -38,7 +39,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const [openIndex, setOpenIndex] = useState(null);
 	const userState = useSelector((state) => state.user);
 	const { userProfile } = userState || {};
-
+	const { cartItems } = useSelector((state) => state.cart);
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft((prev) => Math.max(prev - 0.01, 0));
@@ -73,7 +74,36 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			v.size === selectedSize &&
 			v.color.toLowerCase() === selectedColor.toLowerCase()
 	);
+	const handleAddToCart = () => {
+		if (!selectedSize || !selectedColor) {
+			return toast.error("Please select size and color");
+		}
 
+		const itemExists = cartItems?.some(
+			(item) =>
+				item.product === (productDetails._id || productDetails.id) &&
+				item.size === selectedSize &&
+				item.color === selectedColor
+		);
+
+		if (itemExists) {
+			toast.success("This item is already in your cart.");
+			return;
+		}
+
+		const cartItem = {
+			user: userProfile,
+			product: productDetails._id || productDetails.id,
+			name: productDetails.productName,
+			price: productDetails.productPrice,
+			image: productDetails.productImages?.[0],
+			size: selectedSize,
+			quantity: "1",
+			color: selectedColor,
+		};
+
+		dispatch(addToCart(cartItem));
+	};
 
 
 

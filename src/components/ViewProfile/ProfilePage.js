@@ -1,25 +1,38 @@
 "use client"
 
+import { logout } from '@/actions/authActions';
 import Link from 'next/link';
 import React from 'react'
 import { FiArrowRight } from "react-icons/fi";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 const ProfilePage = () => {
 	const { userProfile } = useSelector(state => state.user)
 	const menuItems = [
 		{
 			name: "My Purchases",
-			link: "",
+			link: "/orders", // Update with actual path if needed
 		},
 		{
 			name: "My Details",
-			link: "/accoutDetails",
+			link: "/accountDetails", // fixed spelling
 		},
 		{
 			name: "Wishlist",
 			link: "/wishlist",
 		}
 	];
+
+	const dispatch = useDispatch()
+	const handleLogout = async () => {
+		try {
+			await dispatch(logout()).unwrap();
+			router.push("/");
+			toast.success("Logout Successfull")
+		} catch (error) {
+			console.error("Logout failed:", error);
+		}
+	};
 	return (
 		<div className="w-full max-w-md mx-auto p-6">
 			<div>
@@ -40,7 +53,7 @@ const ProfilePage = () => {
 
 			<div className="mt-12">
 				<button
-					// onClick={onSignOut}
+					onClick={handleLogout}
 					className="text-sm hover:underline text-black hover:text-gray-800"
 				>
 					Sign out
