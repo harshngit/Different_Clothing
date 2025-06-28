@@ -216,7 +216,7 @@ export default function Navbar() {
             <img src="/asset/Navbar/logo.png" className="lg:w-[55px] w-[50px]" alt="Logo" />
           </Link>
           <div className="hidden lg:flex lg:w-[45%] justify-end">{navListExtra}</div>
-          <div className="lg:hidden flex justify-end items-end w-[25%]">
+          <div className="lg:hidden flex justify-center items-center w-[25%]">
             {isAuthenticated ? (<>
               <ul className="">
                 <li
@@ -233,6 +233,12 @@ export default function Navbar() {
                     className={`absolute left-0 top-full text-[10px] mt-1 w-20 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
                       }`}
                   >
+                    <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
+                      <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
+                      <h2 className="font-normal  lg:text-[10px] text-[10px]">
+                        {userProfile?.displayName}
+                      </h2>
+                    </div>
                     <ul>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         View Profile</li>
@@ -241,6 +247,22 @@ export default function Navbar() {
                     </ul>
                   </div>
                 </li>
+              </ul>
+            </>) : (<>
+              <Link href="/login" className="relative px-3 py-2 text-black group">
+                Login
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+              </Link>
+            </>)}
+            {isAuthenticated ? (<>
+              <ul className="">
+                <Link href={'/cart'}>
+                  <li
+                    className="relative text-[15px]"
+                  >
+                    BAG({cartItems.length})
+                  </li>
+                </Link>
               </ul>
             </>) : (<>
               <Link href="/login" className="relative px-3 py-2 text-black group">

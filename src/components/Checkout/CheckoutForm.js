@@ -12,7 +12,8 @@ const CheckoutForm = () => {
 	const router = useRouter();
 
 	const { cartItems } = useSelector((state) => state.cart);
-	const { userProfile } = useSelector((state) => state.user); // update if different key
+	const { userProfile } = useSelector((state) => state.user);
+
 	const [formData, setFormData] = useState({
 		email: "",
 		country: "",
@@ -27,33 +28,42 @@ const CheckoutForm = () => {
 		paymentMethod: "cod",
 	});
 
+	// 🧮 Total Price (before discount)
 	const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+	// 🧾 Total Discount
+	const totalDiscount = cartItems.reduce((acc, item) => {
+		const discount = parseFloat(item?.discountAmount || 0);
+		return acc + discount;
+	}, 0);
+
+	// ✅ Final Amount after discount
+	const finalAmount = Math.max(totalAmount - totalDiscount, 0);
+
+	// Get first coupon info (assuming one coupon applies across cart)
+	const appliedCoupon = cartItems.find(item => item?.couponId);
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
 	const handlePlaceOrder = () => {
-		dispatch(
-			placeOrder(
-				{
-					...formData,
-					name: `${formData.firstName} ${formData.lastName}`,
-				},
-				cartItems,
-				userProfile,
-				totalAmount,
-				router
-			)
-		)
+		const orderData = {
+			...formData,
+			name: `${formData.firstName} ${formData.lastName}`,
+			couponId: appliedCoupon?.couponId || null,
+			couponCode: appliedCoupon?.couponCode || null,
+			discountAmount: totalDiscount.toFixed(2),
+		};
+
+		dispatch(placeOrder(orderData, cartItems, userProfile, finalAmount, router))
 			.then(() => {
 				toast.success("Order placed successfully!");
 			})
 			.catch((error) => {
-				console.error(error); // already shown in toast inside action
+				console.error(error); // toast already handled in action
 			});
 	};
-
 
 	return (
 		<>
@@ -168,7 +178,11 @@ const CheckoutForm = () => {
 				</div>
 
 				<div className="max-w-lg mx-auto px-4 py-6">
-					<button onClick={handlePlaceOrder} className="bg-black px-5 text-white py-2">
+					<div className="text-sm text-gray-700 mb-2 flex justify-between">
+						<span>Total:</span>
+						<span>₹{finalAmount.toFixed(2)}</span>
+					</div>
+					<button onClick={handlePlaceOrder} className="bg-black px-5 text-white py-2 w-full">
 						Place Order
 					</button>
 				</div>

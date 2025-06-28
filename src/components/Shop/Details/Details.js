@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const variation = productDetails.variation || [];
+
 	const sizes = Array.from(
 		new Set([
 			...(variation?.map(v => v.size) || []),
@@ -18,18 +19,9 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const colors = [...new Set(variation.map(v => v.color))] || [];
 
 	const data = [
-		{
-			title: "Description",
-			content: productDetails.productDescription,
-		},
-		{
-			title: "Materials",
-			content: productDetails.productMaterial,
-		},
-		{
-			title: "Delivery And Payment",
-			content: productDetails.productDeliveryPayment,
-		},
+		{ title: "Description", content: productDetails.productDescription },
+		{ title: "Materials", content: productDetails.productMaterial },
+		{ title: "Delivery And Payment", content: productDetails.productDeliveryPayment },
 	];
 
 	const dispatch = useDispatch();
@@ -37,9 +29,11 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const [selectedSize, setSelectedSize] = useState("");
 	const [selectedColor, setSelectedColor] = useState("");
 	const [openIndex, setOpenIndex] = useState(null);
-	const userState = useSelector((state) => state.user);
-	const { userProfile } = userState || {};
+
+	const { userProfile } = useSelector((state) => state.user) || {};
 	const { cartItems } = useSelector((state) => state.cart);
+
+	// Countdown timer
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft((prev) => Math.max(prev - 0.01, 0));
@@ -47,10 +41,15 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		return () => clearInterval(timer);
 	}, []);
 
+	// Default size & color selector
 	useEffect(() => {
-		if (sizes.length > 0) setSelectedSize(sizes[0]);
-		if (colors.length > 0) setSelectedColor(colors[0]);
-	}, [productDetails]);
+		if (sizes.length > 0 && !selectedSize) {
+			setSelectedSize(sizes[0]);
+		}
+		if (colors.length > 0 && !selectedColor) {
+			setSelectedColor(colors[0]);
+		}
+	}, [sizes, colors]);
 
 	const toggle = (index) => {
 		setOpenIndex(index === openIndex ? null : index);
@@ -64,7 +63,6 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	};
 
 	const { hours, minutes, seconds } = formatTime(timeLeft);
-
 	const fullStars = Math.floor(rating);
 	const hasHalf = rating % 1 >= 0.5;
 	const emptyStars = total - fullStars - (hasHalf ? 1 : 0);
@@ -74,9 +72,10 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			v.size === selectedSize &&
 			v.color.toLowerCase() === selectedColor.toLowerCase()
 	);
+
 	const handleAddToCart = () => {
 		if (!selectedSize || !selectedColor) {
-			return toast.error("Please select size and color");
+			toast.error("Please select size and color");
 		}
 
 		const itemExists = cartItems?.some(
@@ -98,14 +97,17 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			price: productDetails.productPrice,
 			image: productDetails.productImages?.[0],
 			size: selectedSize,
-			quantity: "1",
+			quantity: 1,
 			color: selectedColor,
+			couponId: "",
+			couponCode: "",
+			discountAmount: "",
+			couponAmountDetails: "",
 		};
 
 		dispatch(addToCart(cartItem));
+		toast.success("Item added to cart!");
 	};
-
-
 
 	return (
 		<div className='px-5 py-5 w-full flex flex-col justify-start items-start gap-5'>
@@ -187,10 +189,14 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 				</div>
 			</div>
 
-			<div onClick={handleAddToCart} className="w-full px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer">
+			<div
+				onClick={handleAddToCart}
+				className="w-full px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer"
+			>
 				Add to Cart
 			</div>
 
+			{/* Rating */}
 			<div className="flex items-center gap-1 text-black">
 				{[...Array(fullStars)].map((_, i) => (
 					<FaStar key={`full-${i}`} fill="black" className="w-4 h-4" />
@@ -202,11 +208,13 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 				<span className="ml-1 text-sm font-medium">({count})</span>
 			</div>
 
+			{/* Share */}
 			<div className="flex gap-2 items-center cursor-pointer text-black">
 				<LuShare2 className="text-[19px]" />
 				<h3>Share</h3>
 			</div>
 
+			{/* Accordion */}
 			<div className="w-full divide-y divide-gray-200">
 				{data.map((item, index) => (
 					<div key={index}>
