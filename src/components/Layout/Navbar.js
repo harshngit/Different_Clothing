@@ -134,7 +134,9 @@ export default function Navbar() {
                 <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                   My Account</li>
               </Link>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
+              <Link href={'/orders'} >
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
+              </Link>
               <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
             </ul>
           </div>
