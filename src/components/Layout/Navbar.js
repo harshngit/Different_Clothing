@@ -61,6 +61,22 @@ export default function Navbar() {
 
   const isActive = (href) => pathname === href;
 
+  const [isOpenlogin, setIsOpenlogin] = useState(false);
+  const dropdownReflogin = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownReflogin.current && !dropdownReflogin.current.contains(event.target)) {
+        setIsOpenlogin(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const navList = (
     <ul className="flex flex-col lg:flex-row items-start gap-3 text-white uppercase font-playfair font-semibold">
       {navItems.map((item, idx) => (
@@ -104,44 +120,52 @@ export default function Navbar() {
         )}
       </li>
       {isAuthenticated ? (
-        <li
-          className="relative"
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
-        >
-          {/* Trigger */}
-          <div className="cursor-pointer relative text-black">
-            My Profile
-            <span
-              className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
-                }`}
-            />
-          </div>
-
-          {/* Dropdown */}
-          <div
-            className={`absolute -left-12 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-              }`}
+        <>
+          <li
+            className="relative"
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
           >
-            <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
-              <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
-              <h2 className="font-normal  lg:text-[10px] text-[10px]">
-                {userProfile?.displayName}
-              </h2>
+            {/* Trigger */}
+            <div className="cursor-pointer relative text-black">
+              My Profile
+              <span
+                className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
+                  }`}
+              />
             </div>
-            <ul>
-              <Link href={"/viewProfile"}>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  My Account</li>
-              </Link>
-              <Link href={'/orders'} >
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
-              </Link>
-              <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
-            </ul>
-          </div>
-        </li>
 
+            {/* Dropdown */}
+            <div
+              className={`absolute -left-12 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                }`}
+            >
+              <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
+                <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
+                <h2 className="font-normal  lg:text-[10px] text-[10px]">
+                  {userProfile?.displayName}
+                </h2>
+              </div>
+              <ul>
+                <Link href={"/viewProfile"}>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    My Account</li>
+                </Link>
+                <Link href={'/orders'} >
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
+                </Link>
+                <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+              </ul>
+            </div>
+          </li>
+          <Link href={'/cart'}>
+            <li
+              className="lg:hidden relative text-[15px]"
+            >
+              BAG({cartItems.length})
+            </li>
+          </Link>
+        </>
 
       ) : (
         <li
@@ -232,7 +256,7 @@ export default function Navbar() {
 
                   {/* Dropdown */}
                   <div
-                    className={`absolute left-0 top-full text-[10px] mt-1 w-20 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                    className={`absolute left-0 top-full text-[10px] mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
                       }`}
                   >
                     <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
@@ -242,19 +266,19 @@ export default function Navbar() {
                       </h2>
                     </div>
                     <ul>
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        View Profile</li>
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+                      <Link href={"/viewProfile"}>
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                          My Account</li>
+                      </Link>
+                      <Link href={"/orders"}>
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Orders</li>
+                      </Link>
+                      <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
                     </ul>
                   </div>
                 </li>
               </ul>
             </>) : (<>
-              <Link href="/login" className="relative px-3 py-2 text-black group">
-                Login
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-              </Link>
             </>)}
             {isAuthenticated ? (<>
               <ul className="">
@@ -267,8 +291,12 @@ export default function Navbar() {
                 </Link>
               </ul>
             </>) : (<>
-              <Link href="/login" className="relative px-3 py-2 text-black group">
+              <Link href="/login" className="relative px-3 text-[15px] py-2 text-black group">
                 Login
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+              </Link>
+              <Link href="/register" className="relative px-3 text-[15px] py-2 text-black group">
+                Sign
                 <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
               </Link>
             </>)}

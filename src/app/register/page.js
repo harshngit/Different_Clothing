@@ -6,6 +6,9 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase.config";
 import RegisterForm from "@/components/Register/RegisterForm";
+import Navbar from "@/components/Layout/Navbar";
+import Footer from "@/components/Layout/Footer";
+import { toast } from "react-toastify";
 
 const Register = () => {
 	const router = useRouter();
@@ -32,13 +35,14 @@ const Register = () => {
 				await setDoc(doc(db, "users", user.uid), {
 					name,
 					email,
-					password,
+					password: password,
 					contact,
 					role: "Customer",
-					service: "Nutan",
+					service: "Diiferent Clothing",
 					uid: user.uid,
 				})
 				router.push("/login")
+				toast.success("Account Created")
 			}).catch((err) => {
 				console.log(err)
 			})
@@ -46,15 +50,9 @@ const Register = () => {
 
 
 	return (
-		<div className="relative w-full h-screen flex justify-center items-center overflow-hidden">
-			{/* Blurred Background Layer */}
-			<div
-				className="absolute inset-0 bg-cover bg-no-repeat bg-center blur-sm scale-110"
-				style={{ backgroundImage: "url('/asset/Login/loginbanner.png')" }}
-			></div>
-
-			{/* Foreground Content */}
-			<div className="relative w-[100%] lg:left-[35%] left-[10%] z-10">
+		<div className=' font-playfair'>
+			<Navbar />
+			<section className="relative flex justify-center items-center w-full pt-[130px] pb-[50px]">
 				<RegisterForm
 					name={name}
 					setName={setName}
@@ -66,7 +64,10 @@ const Register = () => {
 					setContact={setContact}
 					handleCreateUser={handleCreateUser}
 				/>
-			</div>
+			</section>
+			<section className="relative">
+				<Footer />
+			</section>
 		</div>
 	);
 };

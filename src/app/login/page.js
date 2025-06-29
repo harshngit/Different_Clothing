@@ -1,6 +1,8 @@
 "use client";
 
 import { loadUser, loginUsingEmail } from "@/actions/authActions";
+import Footer from "@/components/Layout/Footer";
+import Navbar from "@/components/Layout/Navbar";
 import LoginForm from "@/components/Login/LoginForm";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -41,15 +43,9 @@ const Login = () => {
 	}, [isAuthenticated, router]);
 
 	return (
-		<div className="relative w-full h-screen flex justify-center items-center overflow-hidden">
-			{/* Blurred background */}
-			<div
-				className="absolute inset-0 bg-cover bg-no-repeat bg-center blur-sm scale-110"
-				style={{ backgroundImage: "url('/asset/Login/loginbanner.png')" }}
-			></div>
-
-			{/* Login Form */}
-			<div className="relative w-full lg:left-[35%] left-[5%] z-10">
+		<div className=' font-playfair'>
+			<Navbar />
+			<section className="relative flex justify-center items-center w-full pt-[130px] pb-[50px]">
 				<LoginForm
 					handleLogin={handleLogin}
 					email={email}
@@ -60,7 +56,10 @@ const Login = () => {
 					setShowPassword={setShowPassword}
 					loading={loading}
 				/>
-			</div>
+			</section>
+			<section className="relative">
+				<Footer />
+			</section>
 		</div>
 	);
 };
