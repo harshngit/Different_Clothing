@@ -5,7 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/actions/authActions";
-import { FaUser } from "react-icons/fa";
+import { FaSearch, FaUser } from "react-icons/fa";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { db } from "@/app/firebase.config";
 
 const navItems = [
   { label: "FOR HIM", href: "/forhim", children: [] },
@@ -24,11 +26,12 @@ export default function Navbar() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openDropdownSearch, setOpenDropdownSearch] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
 
   const userState = useSelector((state) => state.user);
-
   const {
     error,
     loading,
@@ -39,6 +42,40 @@ export default function Navbar() {
 
   console.log(isAuthenticated)
   console.log(userProfile)
+
+  const fetchProduct = async () => {
+    try {
+      const productRef = collection(db, "Product");
+      const q = query(
+        productRef,
+        where("productStatus", "==", "Published"),
+        // orderBy("createdAtDate", "desc") // Ensure `createdAtDate` is a Firestore Timestamp
+      );
+      const querySnapshot = await getDocs(q);
+
+      const products = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setProduct(products); // <-- move setProduct here instead of returning
+    } catch (error) {
+      console.error("Error fetching products:", error.message);
+    }
+  };
+
+  console.log(product)
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+
+  const filteredProducts = product.filter((p) =>
+    p.productName?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+
 
   const handleLogout = async () => {
     try {
@@ -77,6 +114,11 @@ export default function Navbar() {
     };
   }, []);
 
+
+  // Mobile
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const navList = (
     <ul className="flex flex-col lg:flex-row items-start gap-3 text-white uppercase font-playfair font-semibold">
       {navItems.map((item, idx) => (
@@ -109,16 +151,128 @@ export default function Navbar() {
           Search
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
         </Link>
+
         {openDropdownSearch && (
-          <div className="absolute left-0 mt-2 z-20 shadow-lg w-60 bg-white p-3 rounded border">
-            <input
-              type="text"
-              placeholder="Type to search..."
-              className="w-full px-3 py-2 border border-gray-300 rounded text-black text-sm focus:outline-none"
-            />
+          <div
+            className={`fixed top-0 left-0 w-full z-50 bg-white border-b shadow-md px-6 py-4 transform transition-all duration-700 ease-in-out ${openDropdownSearch ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+              }`}
+          >
+            <div className="h-auto flex justify-center items-center">
+              <h2 className="text-[30px] text-[#8A8A8A]">DIFFERENT CLOTHING</h2>
+            </div>
+
+            {/* Top Bar */}
+            <div className="flex items-center justify-between flex-wrap">
+              <div className="flex items-center space-x-4 flex-grow">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="px-4 py-2 border-b border-black text-black text-sm focus:outline-none flex-1"
+                />
+                <button
+                  onClick={() => setOpenDropdownSearch(false)}
+                  className="hover:text-black text-gray-800 text-2xl ml-4"
+                >
+                  &times;
+                </button>
+                <div className="flex space-x-4 text-sm text-gray-600 font-medium">
+                  {isAuthenticated ? (<>
+                    <li
+                      className="relative"
+                      onMouseEnter={() => setIsOpen(true)}
+                      onMouseLeave={() => setIsOpen(false)}
+                    >
+                      {/* Trigger */}
+                      <div className="cursor-pointer mt-2 ml-2 relative text-black">
+                        My Profile
+                        <span
+                          className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
+                            }`}
+                        />
+                      </div>
+
+                      {/* Dropdown */}
+                      {/* <div
+                        className={`absolute -left-12 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                          }`}
+                      >
+                        <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
+                          <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
+                          <h2 className="font-normal  lg:text-[10px] text-[10px]">
+                            {userProfile?.displayName}
+                          </h2>
+                        </div>
+                        <ul>
+                          <Link href={"/viewProfile"}>
+                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                              My Account</li>
+                          </Link>
+                          <Link href={'/orders'} >
+                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
+                          </Link>
+                          <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+                        </ul>
+                      </div> */}
+                    </li>
+                  </>) : (<><Link href="/login" className="relative px-3 py-2 text-black group">
+                    Login
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+                  </Link></>)}
+                  <Link href="/cart" className="relative px-3 py-2 text-black group">
+                    Bag ({cartItems.length})
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                  <Link href="/wishlist" className="relative px-3 py-2 text-black group">
+                    Wishlist
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Featured Product Section */}
+            <div className="flex flex-col m-5 justify-start items-center w-full">
+              <div className="flex w-[30%] justify-start items-start">
+                <h4 className="text-xs text-left font-semibold text-gray-700 mb-4">FEATURED PRODUCTS</h4>
+              </div>
+              <div className="space-y-3  h-[20vh] overflow-y-scroll w-[30%]">
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((item) => (
+                    <Link href={`/shop/${item?.id}`}>
+                      <div
+                        key={item.id}
+                        className="flex gap-4 items-center p-3  transition duration-300 "
+                      >
+                        {/* Product Image */}
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                          <img
+                            src={item.productImages?.[1] || "/placeholder.jpg"} // fallback image
+                            alt={item.productName}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+
+                        {/* Product Info */}
+                        <div className="flex flex-col justify-center">
+                          <span className="text-xs text-gray-500">{item.productSku || "No SKU"}</span>
+                          <span className="text-sm font-medium text-gray-800">{item.productName || "Unnamed Product"}</span>
+                        </div>
+                      </div>
+                    </Link>
+
+                  ))
+                ) : (
+                  <div className="text-sm text-gray-500">No matching products</div>
+                )}
+              </div>
+            </div>
           </div>
         )}
+
       </li>
+
       {isAuthenticated ? (
         <>
           <li
@@ -164,6 +318,7 @@ export default function Navbar() {
             >
               BAG({cartItems.length})
             </li>
+
           </Link>
         </>
 
@@ -238,11 +393,11 @@ export default function Navbar() {
           <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={() => setOpenDrawer(true)}>
             <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
           </div>
-          <Link href="/" className="w-[33.33%] flex justify-center items-center">
+          <Link href="/" className="w-[40%] flex justify-center items-center">
             <img src="/asset/Navbar/logo.png" className="lg:w-[55px] w-[50px]" alt="Logo" />
           </Link>
           <div className="hidden lg:flex lg:w-[45%] justify-end">{navListExtra}</div>
-          <div className="lg:hidden flex justify-center items-center w-[25%]">
+          <div className="lg:hidden flex justify-center items-center w-[20%]">
             {isAuthenticated ? (<>
               <ul className="">
                 <li
@@ -251,7 +406,7 @@ export default function Navbar() {
                 >
                   {/* Trigger */}
                   <div className="cursor-pointer relative text-black">
-                    <FaUser className="w-24" />
+                    <FaUser className="w-10" />
                   </div>
 
                   {/* Dropdown */}
@@ -280,8 +435,8 @@ export default function Navbar() {
               </ul>
             </>) : (<>
             </>)}
-            {isAuthenticated ? (<>
-              <ul className="">
+            {isAuthenticated ? (<div className="flex justify-center items-center">
+              <ul className="flex justify-center items-center gap-3">
                 <Link href={'/cart'}>
                   <li
                     className="relative text-[15px]"
@@ -289,8 +444,65 @@ export default function Navbar() {
                     BAG({cartItems.length})
                   </li>
                 </Link>
+                <li onClick={() => setIsSearchOpen(true)} className="block lg:hidden cursor-pointer">
+                  <FaSearch className="text-xl text-black" />
+                </li>
+                {isSearchOpen && (
+                  <div className="fixed inset-0 z-[9999] bg-white transition-all duration-500 ease-in-out lg:hidden">
+                    <div className="flex justify-center items-center"></div>
+                    {/* Header */}
+                    <div className="flex justify-between items-center px-4 py-4 border-b shadow">
+                      <h2 className="text-lg font-semibold text-gray-800">Search</h2>
+                      <button
+                        onClick={() => setIsSearchOpen(false)}
+                        className="text-2xl text-gray-700 hover:text-black"
+                      >
+                        &times;
+                      </button>
+                    </div>
+
+                    {/* Search Input */}
+                    <div className="p-4">
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black text-sm"
+                        placeholder="Search for products..."
+                      />
+                    </div>
+
+                    {/* Search Results */}
+                    <div className="p-4 overflow-y-auto h-[70vh] space-y-3">
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map((item) => (
+                          <Link href={`/shop/${item.id}`}>
+                            <div
+                              key={item.id}
+                              className="flex gap-4 items-center p-3 border rounded-lg shadow-sm hover:shadow-md transition duration-300"
+                            >
+                              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                                <img
+                                  src={item.productImages?.[1] || "/placeholder.jpg"}
+                                  alt={item.productName}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs text-gray-500">{item.productSku}</span>
+                                <span className="text-sm font-medium text-gray-800">{item.productName}</span>
+                              </div>
+                            </div>
+                          </Link>
+                        ))
+                      ) : (
+                        <p className="text-sm text-gray-500">No matching products</p>
+                      )}
+                    </div>
+                  </div>
+                )}
               </ul>
-            </>) : (<>
+            </div>) : (<>
               <Link href="/login" className="relative px-3 text-[15px] py-2 text-black group">
                 Login
                 <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
