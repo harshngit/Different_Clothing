@@ -34,28 +34,30 @@ export default function FilterSidebar({
 	return (
 		<div
 			className={`
-        fixed lg:top-[8rem] top-[7rem] right-0 lg:w-[40%] w-[80%] h-full 
+        fixed lg:top-[0rem] top-[0rem] right-0 lg:w-[40%] w-[80%] h-full 
         bg-[#D9D9D9] shadow-xl 
-        transform transition-transform duration-300 z-50
+        transform transition-transform duration-300 z-[1000]
         ${isOpen ? 'translate-x-0' : 'translate-x-full'}
       `}
 		>
 			{/* Header */}
-			<div className="grid grid-cols-5 px-6 py-5 border-b border-gray-200">
-				<h2 className="col-span-4 text-center font-bold text-gray-900 uppercase tracking-wider">
-					Filters
-				</h2>
+			<div className="flex justify-between items-center px-6 py-5">
+				<div className='w-[90%]'>
+					<h2 className="col-span-4 text-center font-bold text-gray-900 uppercase tracking-wider">
+						Filters
+					</h2>
+				</div>
 				<button
 					onClick={onClose}
-					className="col-span-1 text-2xl text-black hover:text-white"
+					className=" text-2xl text-black hover:text-white"
 				>
 					&times;
 				</button>
 			</div>
 
 			{/* Tabs - Replace with divs */}
-			<div className="flex lg:h-[calc(76%-100px)] h-[calc(70%-100px)]">
-				<div className="lg:w-40 bg-transparent border-r border-gray-200 rounded-none">
+			<div className="flex lg:h-[calc(92%-100px)] h-[calc(92%-100px)]">
+				<div className="lg:w-40 pl-2 bg-transparent border-r border-black rounded-none">
 					{['price', 'size', 'color', 'material', 'category'].map((val) => (
 						<div
 							key={val}
@@ -188,18 +190,19 @@ export default function FilterSidebar({
 			</div>
 
 			{/* Footer Buttons */}
-			<div className="p-5 border-t border-gray-200 flex justify-start gap-10">
-				<button
-					onClick={onReset}
-					className="px-5 py-2 border bg-white text-sm border-gray-400 text-gray-700 rounded-full hover:bg-gray-100"
-				>
-					Reset
-				</button>
+			<div className="p-5 border-t border-black flex justify-start gap-10">
+
 				<button
 					onClick={onApply}
-					className="px-6 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800"
+					className="px-6 py-2 w-[240px] h-[50px] text-sm bg-black text-white hover:bg-gray-800"
 				>
-					Apply Filters
+					Apply
+				</button>
+				<button
+					onClick={onReset}
+					className="px-5 py-2  w-[240px] h-[50px] border bg-white text-sm border-gray-400 text-gray-700 hover:bg-gray-100"
+				>
+					Reset
 				</button>
 			</div>
 		</div>

@@ -81,7 +81,7 @@ export default function ProductDetailPage({ params }) {
 	return (
 		<div className="font-playfair">
 			<Navbar />
-			<section className="relative pt-[130px] pb-[50px]">
+			<section className="relative pt-[10px] pb-[50px]">
 				<ProductDetail productDetails={productDetails} />
 			</section>
 			<section className="relative">

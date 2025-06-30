@@ -422,7 +422,7 @@ export default function Navbar() {
         </div>
       </div>
       <div ref={navRef}
-        className={`w-full z-[9999] bg-white font-playfair transition-all duration-300 ${isSticky ? "fixed top-0 shadow-sm" : "relative"
+        className={`w-full z-[999] bg-white font-playfair transition-all duration-300 ${isSticky ? "fixed top-0 shadow-sm" : "relative"
           }`}>
         <div className="w-full  py-1 bg-[#fff]">
           <div className="w-full flex lg:justify-between items-center px-4 lg:px-8">

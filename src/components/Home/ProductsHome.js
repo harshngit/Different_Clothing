@@ -10,7 +10,7 @@ import SwiperCollection from './SwiperCollection';
 import SwiperMob from './SwiperMob';
 const ProductsHome = () => {
 	return (
-		<div className='w-full lg:h-auto bg-white lg:py-5 lg:px-5 py-5 px-5'>
+		<div className='w-full lg:h-auto bg-[#EFEFEF] lg:py-5 lg:px-5 py-5 px-5'>
 			<div className='flex flex-col justify-center items-center pt-10 '>
 				{/* <div className='w-[100px] h-2 rounded-lg bg-[#D9D9D933] hidden lg:block'></div> */}
 				<h2 className='lg:text-[32px] text-[20px] text-center text-[#000] font-normal font-playfair'>The Art of Fewer, Better Choices</h2>

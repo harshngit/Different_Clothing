@@ -6,24 +6,20 @@ import Tshirt from '../../../public/asset/Home/t-shirt.png'
 
 const HomeBanner = () => {
   return (
-    <div className='relative z-0'>
+    <div className='relative font-playfair z-0'>
       <div className="absolute w-full lg:h-screen xl:h-screen h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
 
-        <div className="absolute top-[80%] left-[5.5rem] lg:top-1/3 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
+        <div className="absolute top-[80%] left-[5.5rem] lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
           SIGNATURE COLLECTION
         </div>
         <div className="absolute top-1/2 left-1/2 w-[50%]  overflow-hidden">
           <div className="animate-marquee flex gap-5 text-lg font-semibold -z-10 text-[#565449] whitespace-nowrap">
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
-            <span>• Be Different</span>
+            {Array(10).fill("• Be Different").map((text, idx) => (
+              <span key={`a-${idx}`} className="mr-2">{text}</span>
+            ))}
+            {Array(10).fill("• Be Different").map((text, idx) => (
+              <span key={`b-${idx}`} className="mr-2">{text}</span>
+            ))}
           </div>
         </div>
         <div className="relative w-[300px] md:w-[400px] lg:w-[400px]">
@@ -64,7 +60,11 @@ const HomeBanner = () => {
         </div>
 
 
-        <h1 className="absolute bottom-10 text-3xl md:text-[80px] font-bold">
+        <h1 className="absolute lg:hidden bottom-10 text-3xl md:text-[80px] font-bold">
+          <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
+        </h1>
+
+        <h1 className="absolute lg:block hidden bottom-20 text-3xl md:text-[80px] font-bold">
           <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
         </h1>
 

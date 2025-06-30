@@ -7,7 +7,7 @@ const ViewProfile = () => {
 	return (
 		<div className=' font-playfair'>
 			<Navbar />
-			<section className="relative pt-[130px] pb-[50px]">
+			<section className="relative pt-[10px] pb-[50px]">
 				<ProfilePage />
 			</section>
 			<section className="relative">

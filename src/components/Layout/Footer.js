@@ -34,7 +34,7 @@ const Footer = () => {
         //     </div>
         // </div>
         <>
-            <footer className="bg-[#000] text-white px-10 w-full py-10 overflow-hidden font-alike">
+            <footer className="bg-[#000] text-gray-200 px-10 w-full py-10 overflow-hidden font-alike">
                 <div className='grid lg:grid-cols-4 grid-cols-1'>
 
                     {/* Column 1 */}
@@ -83,8 +83,8 @@ const Footer = () => {
                     {/* Vertical Text on Right */}
 
                 </div>
-                <div className="lg:w-[80%] w-full ">
-                    <h1 className='font-normal lg:text-[95px] text-[31px] mt-5'>DIFFERENT CLOTHING</h1>
+                <div className="lg:w-[80%] font-playfair w-full ">
+                    <h1 className='font-semibold lg:text-[95px] text-[31px] mt-5'>DIFFERENT CLOTHING</h1>
                 </div>
             </footer>
         </>

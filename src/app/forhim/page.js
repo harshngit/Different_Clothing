@@ -46,7 +46,7 @@ const ForHim = () => {
 	return (
 		<div className=' font-playfair'>
 			<Navbar />
-			<section className="relative pt-[130px] pb-[50px]">
+			<section className="relative pt-[10px] pb-[50px]">
 				{/* Adjust padding to avoid navbar overlap */}
 				<BannerFH title={"For Him"} desc={"Welcome to Different Clothing , where style meets comfort in every piece. Our collection is designed to offer the perfect balance of quality, versatility, and modern design, making it easy for you to express your unique style."} />
 			</section>

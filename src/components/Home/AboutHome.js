@@ -92,15 +92,15 @@ const AboutHome = () => {
 					/>
 				</div>
 			</div> */}
-			<div className='flex flex-col  justify-center item-center px-5'>
+			<div className='flex flex-col  justify-center item-center lg:py-[5rem] py-[2rem] px-5'>
 				<div className='flex justify-center items-center'>
-					<p className='font-normal font-playfair w-[80%] text-center text-black lg:text-[24px]'>
+					<p className='font-normal font-playfair w-[80%] text-center text-[#565449] lg:text-[24px]'>
 						Welcome to Different Clothing , where style meets comfort in every piece. Our collection is designed to offer the perfect balance of quality, versatility, and modern design, making it easy for you to express your unique style.
 					</p>
 				</div>
-				<div className='flex justify-center items-center mt-5'>
+				<div className='flex justify-center  items-center mt-5'>
 					<Link href="/shop">
-						<Button className='bg-black px-3 py-3 !rounded-none !shadow-none uppercase lg:text-[15px] font-thin'>Explore More</Button>
+						<Button className='bg-black px-3 py-3 !font-playfair !rounded-none !shadow-none uppercase lg:text-[15px] font-thin'>Explore More</Button>
 					</Link>
 				</div>
 			</div>
@@ -109,27 +109,27 @@ const AboutHome = () => {
 					<img
 						src="/asset/Home/1.png"
 						alt="look1"
-						className="w-full object-cover"
+						className="w-full lg:h-[91.5vh] object-cover"
 					/>
-					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3'>For Him
-						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3 hover:uppercase transition duration-500'>For Him
 					</h2>
-					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
-						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
-					</h2>
+					<Link href={'/forhim'}>
+						<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
+							<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" /></h2>
+					</Link>
 				</div>
 				<div className='lg:w-[50%] w-full relative'>
 					<img
 						src="/asset/Home/2.png"
 						alt="look1"
-						className="w-full object-cover"
+						className="w-full lg:h-[91.5vh] object-cover"
 					/>
-					<h2 className='font-500 font-playfair group text-[18px] absolute z-10 text-white left-[2%] bottom-3'>FOR HER
-						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+					<h2 className='font-500 font-playfair group text-[18px] absolute z-10 text-white left-[2%] bottom-3 hover:uppercase transition duration-500'>For Her
 					</h2>
-					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
-						<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
-					</h2>
+					<Link href={'/forher'}>
+						<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
+							<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" /></h2>
+					</Link>
 				</div>
 			</div>
 		</section>

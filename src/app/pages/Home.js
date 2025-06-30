@@ -48,7 +48,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative font-playfair">
       {/* <ThemeProvider> */}
       <NavbarTwo />
       <section className="relative pt-[0px]">

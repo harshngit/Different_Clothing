@@ -44,7 +44,7 @@ const Orderpage = () => {
 	}
 
 	if (!orders.length) {
-		return <div className="p-10">
+		return <div className="py-2 px-5">
 			<div className='flex justify-start items-start lg:px-10 lg:py-10 px-5 py-5'>
 				<h2 className='font-semibold lg:text-[30px] text-lg text-[#000]'>My Orders</h2>
 			</div>

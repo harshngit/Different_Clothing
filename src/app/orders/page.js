@@ -45,7 +45,7 @@ const Orders = () => {
 	return (
 		<div className="font-playfair">
 			<Navbar />
-			<section className="relative pt-[130px] pb-[50px]">
+			<section className="relative pt-[0px] pb-[50px]">
 				<Orderpage order={order} />
 			</section>
 			<Footer />

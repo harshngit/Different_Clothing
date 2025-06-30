@@ -54,7 +54,7 @@ const AccountDetails = () => {
 	return (
 		<div className="font-playfair">
 			<Navbar />
-			<section className="relative pt-[130px] pb-[50px]">
+			<section className="relative pt-[10px] pb-[50px]">
 				<Account accountDetails={accountDetails} deleteUserAccount={deleteUserAccount} />
 			</section>
 			{/* <section className="relative">

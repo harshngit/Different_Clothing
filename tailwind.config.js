@@ -11,31 +11,37 @@ export default withMT({
     extend: {
       fontFamily: {
         playfair: ['PlayfairDisplay', 'serif'],
-        alike: ['Alike']
+        alike: ['Alike'],
       },
       screens: {
-        xxl: '1408px', // Custom screen at ~110% of 1280px
+        xxl: '1500px',
+        lg: '1440px'
       },
       keyframes: {
+        // Continuous horizontal marquee
         marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-100%)" },
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' }, // scroll half of full (duplicated) content
         },
+        // Reverse (right to left)
         marqueeTop: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(100%)" },
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
       },
       animation: {
-        marqueeTop: "marqueeTop 10s linear infinite",
-        marquee: "marquee 10s linear infinite",
+        marquee: 'marquee 10s linear infinite',
+        marqueeTop: 'marqueeTop 10s linear infinite',
       },
       backgroundImage: {
-        "banner": "url('/asset/Home/bannerhome.png')",
+        banner: "url('/asset/Home/bannerhome.png')",
       },
       colors: {
         primary: "#565449",
         secondary: "#11120D",
+      },
+      perspective: {
+        '1500': '1500px',
       },
     },
   },

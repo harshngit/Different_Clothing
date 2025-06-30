@@ -50,8 +50,11 @@ export default function ProductGrid({ product }) {
 	};
 	const [liked, setLiked] = useState(false);
 
-	const handleToggle = () => {
-		setLiked((prev) => !prev);
+	const handleToggle = (productId) => {
+		setLiked((prev) => ({
+			...prev,
+			[productId]: !prev[productId],
+		}));
 	};
 
 	return (
@@ -85,7 +88,7 @@ export default function ProductGrid({ product }) {
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px]">
 				{visibleProducts.map((product) => (
 					<Link href={`shop/${product.id}`}>
-						<div key={product.id} className="bg-white overflow-hidden shadow-sm group">
+						<div key={product.id} className="bg-white group">
 							<div className="relative">
 								{/* Product Image (Hover effect) */}
 								<div >
@@ -137,7 +140,10 @@ export default function ProductGrid({ product }) {
 										))
 									}
 								</div>
-								<button onClick={handleToggle} className="">
+								<button onClick={(e) => {
+									e.preventDefault(); // Prevent Link navigation on button click
+									handleToggle(product.id);
+								}} className="">
 
 									<img
 										src={liked ? '/asset/heartred.png' : '/asset/heart.png'}
