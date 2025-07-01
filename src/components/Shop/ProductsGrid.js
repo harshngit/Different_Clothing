@@ -56,7 +56,6 @@ export default function ProductGrid({ product }) {
 			[productId]: !prev[productId],
 		}));
 	};
-
 	return (
 		<div className="pb-5">
 			{/* Filter Button */}
