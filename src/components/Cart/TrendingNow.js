@@ -40,8 +40,11 @@ const TrendingNow = () => {
 
 	const [liked, setLiked] = useState(false);
 
-	const handleToggle = () => {
-		setLiked((prev) => !prev);
+	const handleToggle = (productId) => {
+		setLiked((prev) => ({
+			...prev,
+			[productId]: !prev[productId],
+		}));
 	};
 
 	return (
@@ -57,7 +60,7 @@ const TrendingNow = () => {
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px] mb-10">
 				{product.slice(0, 4).map((product) => (
 					<Link href={`shop/${product.id}`}>
-						<div key={product.id} className="bg-white overflow-hidden shadow-sm group">
+						<div key={product.id} className="bg-white overflow-hidden group">
 							<div className="relative">
 								{/* Product Image (Hover effect) */}
 								<div >
@@ -74,23 +77,6 @@ const TrendingNow = () => {
 									/>
 
 								</div>
-								{/* Heart Icon */}
-								{/* <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="w-5 h-5 text-gray-800"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M21.435 6.577a5.377 5.377 0 00-7.6 0L12 8.412l-1.835-1.835a5.377 5.377 0 00-7.6 7.6l1.835 1.835L12 21.435l7.6-7.6 1.835-1.835a5.377 5.377 0 000-7.6z"
-									/>
-								</svg>
-							</button> */}
 							</div>
 
 							{/* Product Info */}
@@ -109,10 +95,12 @@ const TrendingNow = () => {
 										))
 									}
 								</div>
-								<button onClick={handleToggle} className="">
-
+								<button onClick={(e) => {
+									e.preventDefault(); // Prevent Link navigation on button click
+									handleToggle(product.id);
+								}}>
 									<img
-										src={liked ? '/asset/heartred.png' : '/asset/heart.png'}
+										src={liked[product.id] ? '/asset/heartred.png' : '/asset/heart.png'}
 										alt="heart icon"
 										className="w-6 h-6"
 									/>
