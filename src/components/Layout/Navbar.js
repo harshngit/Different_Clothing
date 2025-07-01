@@ -6,7 +6,7 @@ import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/actions/authActions";
 import { FaAngleRight, FaArrowRight, FaSearch, FaUser } from "react-icons/fa";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/app/firebase.config";
 import { MdChevronRight } from "react-icons/md";
 const navItems = [
@@ -40,7 +40,24 @@ export default function Navbar() {
     userProfile,
   } = userState || {};
 
+  // User Profile 
+  const [accountDetails, setAccountDetails] = useState({});
+  useEffect(() => {
+    if (!userProfile?.uid) return;
 
+    const unsubscribe = onSnapshot(doc(db, "users", userProfile.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        setAccountDetails(docSnap.data());
+      } else {
+        console.warn("User document not found");
+      }
+    }, (error) => {
+      console.error("Error fetching user data:", error);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, [userProfile?.uid]);
+  console.log(accountDetails)
 
   const fetchProduct = async () => {
     try {
@@ -412,23 +429,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // User Profile 
-  const [accountDetails, setAccountDetails] = useState({});
-  useEffect(() => {
-    if (!userProfile?.uid) return;
-
-    const unsubscribe = onSnapshot(doc(db, "users", userProfile.uid), (docSnap) => {
-      if (docSnap.exists()) {
-        setAccountDetails(docSnap.data());
-      } else {
-        console.warn("User document not found");
-      }
-    }, (error) => {
-      console.error("Error fetching user data:", error);
-    });
-
-    return () => unsubscribe(); // Cleanup on unmount
-  }, [userProfile?.uid]);
 
   return (
     <>
