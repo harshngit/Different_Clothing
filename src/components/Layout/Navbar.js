@@ -201,7 +201,7 @@ export default function Navbar() {
                         <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
                           <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
                           <h2 className="font-normal  lg:text-[10px] text-[10px]">
-                            {userProfile?.displayName}
+                            {accountDetails?.name}
                           </h2>
                         </div>
                         <ul>
@@ -297,7 +297,7 @@ export default function Navbar() {
               <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
                 <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
                 <h2 className="font-normal  lg:text-[10px] text-[10px]">
-                  {userProfile?.displayName}
+                  {accountDetails?.name}
                 </h2>
               </div>
               <ul className="divide-y divide-gray-200 !text-[12px] ">
@@ -414,6 +414,24 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // User Profile 
+  const [accountDetails, setAccountDetails] = useState({});
+  useEffect(() => {
+    if (!userProfile?.uid) return;
+
+    const unsubscribe = onSnapshot(doc(db, "users", userProfile.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        setAccountDetails(docSnap.data());
+      } else {
+        console.warn("User document not found");
+      }
+    }, (error) => {
+      console.error("Error fetching user data:", error);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, [userProfile?.uid]);
+
   return (
     <>
       <div className="bg-black h-[35px] w-full flex justify-center items-center z-10">
@@ -454,7 +472,7 @@ export default function Navbar() {
                       <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
                         <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
                         <h2 className="font-normal  lg:text-[10px] text-[10px]">
-                          {userProfile?.displayName}
+                          {accountDetails?.name}
                         </h2>
                       </div>
                       <ul className="divide-y divide-gray-200 !text-[10px] ">

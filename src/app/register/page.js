@@ -52,7 +52,7 @@ const Register = () => {
 	return (
 		<div className=' font-playfair'>
 			<Navbar />
-			<section className="relative flex justify-center items-center w-full pt-[130px] pb-[50px]">
+			<section className="relative flex justify-center items-center w-full pt-[10px] pb-[50px]">
 				<RegisterForm
 					name={name}
 					setName={setName}
