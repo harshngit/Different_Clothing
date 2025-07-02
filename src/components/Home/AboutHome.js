@@ -111,7 +111,7 @@ const AboutHome = () => {
 						alt="look1"
 						className="w-full lg:h-[91.5vh] object-cover"
 					/>
-					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3 hover:uppercase transition duration-500'>For Him
+					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3'>FOR HIM
 					</h2>
 					<Link href={'/forhim'}>
 						<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE
@@ -124,7 +124,7 @@ const AboutHome = () => {
 						alt="look1"
 						className="w-full lg:h-[91.5vh] object-cover"
 					/>
-					<h2 className='font-500 font-playfair group text-[18px] absolute z-10 text-white left-[2%] bottom-3 hover:uppercase transition duration-500'>For Her
+					<h2 className='font-500 font-playfair group text-[18px] absolute z-10 text-white left-[2%] bottom-3 hover:uppercase transition duration-500'>FOR HER
 					</h2>
 					<Link href={'/forher'}>
 						<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white right-[2%] bottom-3'>EXPLORE

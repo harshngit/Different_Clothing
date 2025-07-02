@@ -93,4 +93,6 @@ export default function ProductDetailPage({ params }) {
 			<Footer />
 		</div>
 	);
+
+
 }
