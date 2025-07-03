@@ -16,7 +16,7 @@ const Deal = ({ productList = [] }) => {
 
 	const { userProfile } = useSelector((state) => state.user)
 	const userId = userProfile?.uid;
-
+	console.log(productList)
 	useEffect(() => {
 		dispatch(loadWishlistFromStorage());
 	}, [dispatch]);

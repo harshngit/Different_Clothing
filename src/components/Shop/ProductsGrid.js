@@ -1,8 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FilterSidebar from './FilterSidebar';
 import Link from 'next/link';
 import allProducts from '@/data/ProductData';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ITEMS_PER_PAGE = 8;
 
@@ -48,14 +51,28 @@ export default function ProductGrid({ product }) {
 			categories: [],
 		});
 	};
-	const [liked, setLiked] = useState(false);
+	const dispatch = useDispatch();
+	const wishlist = useSelector((state) => state.wishlist.wishlist);
 
-	const handleToggle = (productId) => {
-		setLiked((prev) => ({
-			...prev,
-			[productId]: !prev[productId],
-		}));
+	const { userProfile } = useSelector((state) => state.user)
+	const userId = userProfile?.uid;
+
+	useEffect(() => {
+		dispatch(loadWishlistFromStorage());
+	}, [dispatch]);
+
+	const handleToggle = (product) => {
+		dispatch(toggleWishlistItem(userId, product));
+
+		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
+		if (!isInWishlist) {
+			toast.success("Product added to wishlist", { autoClose: 1500 });
+		} else {
+			toast.info("Product removed from wishlist", { autoClose: 1500 });
+		}
 	};
+
+	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
 	return (
 		<div className="pb-5">
 			{/* Filter Button */}
@@ -139,13 +156,14 @@ export default function ProductGrid({ product }) {
 										))
 									}
 								</div>
-								<button onClick={(e) => {
-									e.preventDefault(); // Prevent Link navigation on button click
-									handleToggle(product.id);
-								}} className="">
-
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										handleToggle(product);
+									}}
+								>
 									<img
-										src={liked ? '/asset/heartred.png' : '/asset/heart.png'}
+										src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
 										alt="heart icon"
 										className="w-6 h-6"
 									/>
@@ -220,7 +238,7 @@ export default function ProductGrid({ product }) {
 					</button>
 				</div>
 			)}
-
+			<ToastContainer position="bottom-left" />
 		</div>
 	);
 }

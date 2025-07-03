@@ -22,7 +22,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { cartItems } = useSelector((state) => state.cart);
   // const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
+  const wishlist = useSelector((state) => state.wishlist.wishlist || {});
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openDropdownSearch, setOpenDropdownSearch] = useState(false);
@@ -240,7 +240,7 @@ export default function Navbar() {
                     <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
                   </Link>
                   <Link href="/wishlist" className="relative px-3 py-2 text-black group">
-                    Wishlist
+                    Wishlist ({wishlist.length})
                     <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
                   </Link>
                 </div>

@@ -1,7 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import FilterSidebar from '../Shop/FilterSidebar';
+import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const ITEMS_PER_PAGE = 8;
@@ -44,14 +47,28 @@ const ProductGridSignature = ({ product }) => {
 		});
 	};
 
-	const [liked, setLiked] = useState(false);
+	const dispatch = useDispatch();
+	const wishlist = useSelector((state) => state.wishlist.wishlist);
 
-	const handleToggle = (productId) => {
-		setLiked((prev) => ({
-			...prev,
-			[productId]: !prev[productId],
-		}));
+	const { userProfile } = useSelector((state) => state.user)
+	const userId = userProfile?.uid;
+
+	useEffect(() => {
+		dispatch(loadWishlistFromStorage());
+	}, [dispatch]);
+
+	const handleToggle = (product) => {
+		dispatch(toggleWishlistItem(userId, product));
+
+		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
+		if (!isInWishlist) {
+			toast.success("Product added to wishlist", { autoClose: 1500 });
+		} else {
+			toast.info("Product removed from wishlist", { autoClose: 1500 });
+		}
 	};
+
+	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
 
 	return (
 		<div className="pb-5 overflow-hidden">
@@ -120,12 +137,14 @@ const ProductGridSignature = ({ product }) => {
 											))
 										}
 									</div>
-									<button onClick={(e) => {
-										e.preventDefault(); // Prevent Link navigation on button click
-										handleToggle(product.id);
-									}}>
+									<button
+										onClick={(e) => {
+											e.preventDefault();
+											handleToggle(product);
+										}}
+									>
 										<img
-											src={liked[product.id] ? '/asset/heartred.png' : '/asset/heart.png'}
+											src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
 											alt="heart icon"
 											className="w-6 h-6"
 										/>
@@ -213,6 +232,8 @@ const ProductGridSignature = ({ product }) => {
 					</button>
 				</div>
 			)}
+
+			<ToastContainer position="bottom-left" />
 
 		</div>
 	)

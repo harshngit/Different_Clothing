@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { Button } from '@material-tailwind/react';
 
 const Whislistdetail = () => {
 	const dispatch = useDispatch();
@@ -15,16 +16,7 @@ const Whislistdetail = () => {
 	const wishlist = useSelector((state) => state.wishlist.wishlist || {});
 	const userWishlist = wishlist?.[userId] || [];
 
-	useEffect(() => {
-		dispatch(loadWishlistFromStorage());
-	}, [dispatch]);
-
-	console.log(userWishlist)
-
-	if (!userId || userWishlist.length === 0) {
-		return <p className="text-center text-gray-500">Your wishlist is empty.</p>;
-	}
-
+	// ✅ Hooks should always be called
 	useEffect(() => {
 		dispatch(loadWishlistFromStorage());
 	}, [dispatch]);
@@ -34,14 +26,23 @@ const Whislistdetail = () => {
 
 		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
 		if (!isInWishlist) {
-			toast.success("Product added to wishlist ❤️", { autoClose: 1500 });
+			toast.success("Product added to wishlist", { autoClose: 1500 });
 		} else {
-			toast.info("Product removed from wishlist 🤍", { autoClose: 1500 });
+			toast.info("Product removed from wishlist", { autoClose: 1500 });
 		}
 	};
 
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
 
+	// ✅ Safe to return after hooks
+	if (!userId || userWishlist.length === 0) {
+		return <div className="text-center h-[500px] flex justify-center gap-2 items-center flex-col">
+			<h2 className='text-black text-[2rem]'> Your Wishlist is empty</h2>
+			<Link href={"/shop"}>
+				<button className='h-[45px] bg-black hover:bg-gray-800 text-white px-2 py-2'>EXPLORE MORE</button>
+			</Link>
+		</div>;
+	}
 	return (
 		<div className="px-5 lg:px-10">
 			<h2 className="text-[28px] font-semibold mb-6">Your Wishlist</h2>
