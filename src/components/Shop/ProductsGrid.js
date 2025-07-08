@@ -106,8 +106,7 @@ export default function ProductGrid({ product }) {
 					<Link href={`shop/${product.id}`}>
 						<div key={product.id} className="bg-white group">
 							<div className="relative">
-								{/* Product Image (Hover effect) */}
-								<div >
+								<div>
 									<img
 										src={product.productImages?.[0]} // main image
 										alt={product.title}
@@ -121,23 +120,7 @@ export default function ProductGrid({ product }) {
 									/>
 
 								</div>
-								{/* Heart Icon */}
-								{/* <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="w-5 h-5 text-gray-800"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M21.435 6.577a5.377 5.377 0 00-7.6 0L12 8.412l-1.835-1.835a5.377 5.377 0 00-7.6 7.6l1.835 1.835L12 21.435l7.6-7.6 1.835-1.835a5.377 5.377 0 000-7.6z"
-									/>
-								</svg>
-							</button> */}
+
 							</div>
 
 							{/* Product Info */}

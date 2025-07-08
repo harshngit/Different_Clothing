@@ -430,6 +430,9 @@ export default function Navbar() {
   }, []);
 
 
+
+
+
   return (
     <>
       <div className="bg-black h-[35px] w-full flex justify-center items-center z-10">
@@ -438,7 +441,7 @@ export default function Navbar() {
         </div>
       </div>
       <div ref={navRef}
-        className={`w-full z-[999] bg-white font-playfair transition-all duration-300 ${isSticky ? "fixed top-0 shadow-sm" : "relative"
+        className={`w-full z-[99] bg-white font-playfair transition-all duration-300 ${isSticky ? "fixed top-0 shadow-sm" : "relative"
           }`}>
         <div className="w-full  py-1 bg-[#fff]">
           <div className="w-full flex lg:justify-between items-center px-4 lg:px-8">

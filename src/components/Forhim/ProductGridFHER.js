@@ -98,42 +98,49 @@ const ProductGridFHER = ({ product }) => {
 			{visibleProducts && visibleProducts.length > 0 ? (
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px] gap-x-4">
 					{visibleProducts.map((product) => (
-						<Link href={`shop/${product.id}`}>
-							<div key={product.id} className="bg-white overflow-hidden group">
+						<Link key={product.id} href={`shop/${product.id}`}>
+							<div className="bg-white overflow-hidden group">
 								<div className="relative">
-									{/* Product Image (Hover effect) */}
-									<div >
+									<img
+										src={product.productImages?.[0]}
+										alt={product.title}
+										className="w-full lg:h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
+									/>
+									{product.productImages?.[1] ? (
 										<img
-											src={product.productImages?.[0]} // main image
-											alt={product.title}
-											className="w-full lg:h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
-										/>
-
-										<img
-											src={product.productImages?.[1]} // hover image
+											src={product.productImages[1]}
 											alt={`${product.title} hover`}
 											className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 										/>
-
-									</div>
+									) : product.productVideo ? (
+										<video
+											src={product.productVideo}
+											muted
+											loop
+											autoPlay
+											playsInline
+											className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+										/>
+									) : null}
 								</div>
 
-								{/* Product Info */}
 								<div className="p-3 flex justify-between items-start">
 									<div className='flex flex-col gap-2 justify-start items-start'>
-										<div>
-											<p className='text-black lg:text-[15px] text-[10px]'>{product?.productCategory}</p>
-											<Link href={`shop/${product.id}`}><h3 className="lg:text-[20px] text-[12px] font-semibold">{product.productName}</h3></Link>
-											<p className="text-gray-700 font-bold lg:-text-[15px] text-[12px]">${product.productPrice}</p>
-										</div>
-										{
-											product.variation.map((item) => (
-												<div className="flex justify-center items-center gap-2">
-													<div className={`w-5 h-5 rounded-full border border-black`} style={{ backgroundColor: item.color }}></div>
-												</div>
-											))
-										}
+										<p className='text-black lg:text-[15px] text-[10px]'>{product?.productCategory}</p>
+										<h3 className="lg:text-[20px] text-[12px] font-semibold">{product.productName}</h3>
+										<p className="text-gray-700 font-bold lg:-text-[15px] text-[12px]">${product.productPrice}</p>
+
+										{product.variation.map((item, index) => (
+											<div key={index} className="flex justify-center items-center gap-2">
+												<div
+													className="w-5 h-5 rounded-full border border-black"
+													style={{ backgroundColor: item.color }}
+												/>
+											</div>
+										))}
 									</div>
+
+									{/* Wishlist Toggle */}
 									<button
 										onClick={(e) => {
 											e.preventDefault();

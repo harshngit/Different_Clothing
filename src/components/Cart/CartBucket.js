@@ -121,7 +121,9 @@ const CartBucket = () => {
 										<input
 											type="number"
 											min={1}
+											max={item?.totalQuantity}
 											value={qty}
+
 											onChange={(e) => handleManualQuantityChange(item, e.target.value)}
 											className="w-[50px] px-2 py-1 border text-sm"
 										/>

@@ -6,6 +6,7 @@ import { LuShare2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/actions/cartAction";
 import { toast } from "react-toastify";
+import { loadWishlistFromStorage, toggleWishlistItem } from "@/actions/wishlistActions";
 
 const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const variation = productDetails.variation || [];
@@ -32,6 +33,8 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 
 	const { userProfile } = useSelector((state) => state.user) || {};
 	const { cartItems } = useSelector((state) => state.cart);
+	const wishlist = useSelector((state) => state.wishlist.wishlist);
+	const userId = userProfile?.uid;
 
 	// Countdown timer
 	useEffect(() => {
@@ -40,6 +43,11 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		}, 10);
 		return () => clearInterval(timer);
 	}, []);
+
+	// Load wishlist from storage
+	useEffect(() => {
+		dispatch(loadWishlistFromStorage());
+	}, [dispatch]);
 
 	// Default size & color selector
 	useEffect(() => {
@@ -76,6 +84,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const handleAddToCart = () => {
 		if (!selectedSize || !selectedColor) {
 			toast.error("Please select size and color");
+			return;
 		}
 
 		const itemExists = cartItems?.some(
@@ -98,6 +107,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 			image: productDetails.productImages?.[0],
 			size: selectedSize,
 			quantity: 1,
+			totalQuantity: productDetails.productQuantity,
 			color: selectedColor,
 			couponId: "",
 			couponCode: "",
@@ -109,11 +119,41 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		toast.success("Item added to cart!");
 	};
 
+	// Wishlist functions
+	const handleToggleWishlist = () => {
+		if (!userId) {
+			toast.error("Please log in to use wishlist.");
+			return;
+		}
+
+		dispatch(toggleWishlistItem(userId, productDetails));
+
+		const isInWishlist = wishlist?.[userId]?.some(p => p.id === productDetails.id);
+		if (!isInWishlist) {
+			toast.success("Product added to wishlist", { autoClose: 1500 });
+		} else {
+			toast.info("Product removed from wishlist", { autoClose: 1500 });
+		}
+	};
+
+	const isLiked = () => wishlist?.[userId]?.some(p => p.id === productDetails.id);
+
 	return (
 		<div className='px-5 py-5 w-full flex flex-col justify-start items-start gap-5'>
 			<div className='flex justify-between items-center w-full'>
 				<p className='font-thin text-[15px] text-[#666666]'>{productDetails.productSku}</p>
-				<FaHeart className='text-[#F24822] text-[25px]' />
+				<button
+					onClick={(e) => {
+						e.preventDefault();
+						handleToggleWishlist();
+					}}
+				>
+					<img
+						src={isLiked() ? '/asset/heartred.png' : '/asset/heart.png'}
+						alt="heart icon"
+						className="w-6 h-6"
+					/>
+				</button>
 			</div>
 
 			<div className='w-full'>
@@ -132,20 +172,13 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 				<div className='bg-[#836953] rounded-xl text-[12px] text-white px-3 py-1'>SAVE 33%</div>
 			</div>
 
-			<div className='w-full bg-[#FDEFEE] border-2 border-[#F8CCCC] text-[#FF706B] px-5 py-5 flex justify-between text-[20px]'>
-				<h3>Hurry up! Sale ends in:</h3>
-				<div className='font-bold tracking-widest flex gap-2'>
-					<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-				</div>
-			</div>
-
 			<div className='w-full'>
 				<p className='text-[18px] text-[#666666]'>
 					Only <span className="font-bold">{productDetails.productQuantity}</span> item(s) left in stock!
 				</p>
 			</div>
 
-			{/* Size */}
+			{/* Size Selection */}
 			<div className="w-full">
 				<div className="flex justify-between items-center mb-4">
 					<div className="text-lg font-semibold">
@@ -158,15 +191,14 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 						<button
 							key={size}
 							onClick={() => setSelectedSize(size)}
-							className={`w-10 h-10 text-sm font-medium rounded border transition-all duration-150 ${selectedSize === size ? "bg-black text-white" : "bg-white text-black border-black hover:bg-gray-100"
-								}`}
+							className={`w-10 h-10 text-sm font-medium rounded border transition-all duration-150 ${selectedSize === size ? "bg-black text-white" : "bg-white text-black border-black hover:bg-gray-100"}`}
 						>
 							{size}
 						</button>
 					))}
 				</div>
 
-				{/* Color */}
+				{/* Color Selection */}
 				<div className="text-lg font-semibold mb-2">
 					Color: <span className="font-normal">{selectedColor}</span>
 				</div>
@@ -189,6 +221,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 				</div>
 			</div>
 
+			{/* Add to Cart */}
 			<div
 				onClick={handleAddToCart}
 				className="w-full px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer"
@@ -228,8 +261,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 							/>
 						</button>
 						<div
-							className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-								}`}
+							className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
 						>
 							<p className="py-2 text-gray-700">
 								{(item?.content || '').replace(/<[^>]+>/g, '')}

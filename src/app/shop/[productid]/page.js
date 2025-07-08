@@ -17,6 +17,7 @@ import ProductDetail from '@/components/Shop/Details/ProductDetail';
 import Recommended from '@/components/Shop/Details/Recommended';
 import DetailCta from '@/components/Shop/Details/DetailCta';
 import { db } from '@/app/firebase.config';
+import LoadingScreen from '@/components/Loader/LoadingScreen';
 
 export default function ProductDetailPage({ params }) {
 	const [productDetails, setProductDetails] = useState(null);
@@ -74,7 +75,11 @@ export default function ProductDetailPage({ params }) {
 	}, []);
 
 	// 📄 Loading / Not Found States
-	if (loading) return <div className="text-center py-20">Loading...</div>;
+	if (loading) {
+		return (
+			<LoadingScreen />
+		);
+	}
 	if (!productDetails) return <div className="text-center py-20 text-red-600">Product not found</div>;
 
 	// ✅ Render

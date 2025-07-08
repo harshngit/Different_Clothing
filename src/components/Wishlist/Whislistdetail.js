@@ -56,11 +56,22 @@ const Whislistdetail = () => {
 									alt={product.title}
 									className="w-full lg:h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
 								/>
-								<img
-									src={product.productImages?.[1]}
-									alt={`${product.title} hover`}
-									className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-								/>
+								{product.productImages?.[1] ? (
+									<img
+										src={product.productImages[1]}
+										alt={`${product.title} hover`}
+										className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									/>
+								) : product.productVideo ? (
+									<video
+										src={product.productVideo}
+										muted
+										loop
+										autoPlay
+										playsInline
+										className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									/>
+								) : null}
 							</div>
 
 							<div className="p-3 flex justify-between items-start">

@@ -6,6 +6,7 @@ import { db } from '@/app/firebase.config'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions'
 import { toast, ToastContainer } from 'react-toastify'
+import ProductCard from '../ProductCard'
 
 const TrendingNow = () => {
 
@@ -64,6 +65,7 @@ const TrendingNow = () => {
 
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
 
+
 	return (
 		<div className='w-full  '>
 			<div className='flex justify-between items-center lg:px-5 px-5 py-5 lg:py-5'>
@@ -74,61 +76,9 @@ const TrendingNow = () => {
 					<Link href="/shop"><h3 className='font-bold text-[20px]'>EXPLORE MORE</h3></Link>
 				</div>
 			</div>
-			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px] mb-10">
-				{product.slice(0, 4).map((product) => (
-					<Link href={`shop/${product.id}`}>
-						<div key={product.id} className="bg-white overflow-hidden group">
-							<div className="relative">
-								{/* Product Image (Hover effect) */}
-								<div >
-									<img
-										src={product.productImages?.[0]} // main image
-										alt={product.title}
-										className="w-full lg:h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
-									/>
 
-									<img
-										src={product.productImages?.[1]} // hover image
-										alt={`${product.title} hover`}
-										className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-									/>
+			<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
 
-								</div>
-							</div>
-
-							{/* Product Info */}
-							<div className="p-3 flex justify-between items-start">
-								<div className='flex flex-col gap-2 justify-start items-start'>
-									<div>
-										<p className='text-black lg:text-[15px] text-[10px]'>{product?.productCategory}</p>
-										<Link href={`shop/${product.id}`}><h3 className="lg:text-[20px] text-[12px] font-semibold">{product.productName}</h3></Link>
-										<p className="text-gray-700 font-bold lg:-text-[15px] text-[12px]">${product.productPrice}</p>
-									</div>
-									{
-										product.variation.map((item) => (
-											<div className="flex justify-center items-center gap-2">
-												<div className={`w-5 h-5 rounded-full border border-black`} style={{ backgroundColor: item.color }}></div>
-											</div>
-										))
-									}
-								</div>
-								<button
-									onClick={(e) => {
-										e.preventDefault();
-										handleToggle(product);
-									}}
-								>
-									<img
-										src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
-										alt="heart icon"
-										className="w-6 h-6"
-									/>
-								</button>
-							</div>
-						</div>
-					</Link>
-				))}
-			</div>
 			<ToastContainer position="bottom-left" />
 		</div>
 	)
