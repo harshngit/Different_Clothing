@@ -6,7 +6,7 @@ import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API,
   authDomain: "diffclothing-56379.firebaseapp.com",
   projectId: "diffclothing-56379",
   storageBucket: "diffclothing-56379.firebasestorage.app",
