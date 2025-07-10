@@ -9,7 +9,7 @@ const HomeBanner = () => {
     <div className='relative font-playfair z-0'>
       <div className="absolute w-full lg:h-[80vh] xl:h-[85vh] h-[85vh] flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
 
-        <div className="absolute top-[70%] left-[5rem] lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
+        <div className="absolute top-[70%] left-1/2 lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
           SIGNATURE COLLECTION
         </div>
         <div className="absolute lg:top-1/2 top-1/3 left-1/2 w-[50%]  overflow-hidden">
