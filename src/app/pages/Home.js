@@ -55,7 +55,7 @@ const Home = () => {
         <HomeBanner />
       </section>
 
-      <section className="relative overflow-hidden lg:pt-[70px] xl:pt-[600px] pt-[650px]">
+      <section className="relative overflow-hidden lg:pt-[70px] xl:pt-[600px] pt-[550px]">
         <AboutHome />
       </section>
 

@@ -172,9 +172,9 @@ export default function Navbar() {
             className={`fixed top-0 left-0 w-full  z-50 bg-white border-b shadow-md px-6 py-4 transform transition-all duration-700 ease-in-out ${openDropdownSearch ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
               }`}
           >
-            <div className="h-auto flex justify-center items-center">
+            {/* <div className="h-auto flex justify-center items-center">
               <h2 className="text-[30px] text-[#8A8A8A]">DIFFERENT CLOTHING</h2>
-            </div>
+            </div> */}
 
             {/* Top Bar */}
             <div className="flex items-center justify-between flex-wrap">
@@ -184,7 +184,7 @@ export default function Navbar() {
                   placeholder="Search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="px-4 py-2 border-b border-black text-black text-sm focus:outline-none flex-1"
+                  className="px-4 py-2 border-b border-black w-[80%] text-black text-sm focus:outline-none flex-1"
                 />
                 <button
                   onClick={() => setOpenDropdownSearch(false)}
@@ -200,47 +200,24 @@ export default function Navbar() {
                       onMouseLeave={() => setIsOpen(false)}
                     >
                       {/* Trigger */}
-                      <div className="cursor-pointer mt-2 ml-2 relative text-black">
+                      <div className="cursor-pointer text-[12px] mt-2 ml-2 relative text-black">
                         My Profile
                         <span
                           className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
                             }`}
                         />
                       </div>
-
-                      {/* Dropdown */}
-                      {/* <div
-                        className={`absolute -left-12 top-full mt-1 w-40 bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                          }`}
-                      >
-                        <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
-                          <p className="font-thin lg:text-[10px] text-[10px]">HI,</p>
-                          <h2 className="font-normal  lg:text-[10px] text-[10px]">
-                            {accountDetails?.name}
-                          </h2>
-                        </div>
-                        <ul>
-                          <Link href={"/viewProfile"}>
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                              My Account</li>
-                          </Link>
-                          <Link href={'/orders'} >
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Order</li>
-                          </Link>
-                          <li onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
-                        </ul>
-                      </div> */}
                     </li>
-                  </>) : (<><Link href="/login" className="relative px-3 py-2 text-black group">
+                  </>) : (<><Link href="/login" className="relative px-3 py-2 text-[12px] text-black group">
                     Login
                     <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
                   </Link></>)}
-                  <Link href="/cart" className="relative px-3 py-2 text-black group">
-                    Bag ({cartItems.length})
+                  <Link href="/wishlist" className="relative px-3 py-2 text-[12px] text-black group">
+                    Wishlist
                     <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
                   </Link>
-                  <Link href="/wishlist" className="relative px-3 py-2 text-black group">
-                    Wishlist ({wishlist.length})
+                  <Link href="/cart" className="relative px-3 py-2 text-[12px] text-black group">
+                    Bag ({cartItems.length})
                     <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
                   </Link>
                 </div>
@@ -252,7 +229,7 @@ export default function Navbar() {
               <div className="flex w-[30%] justify-start items-start">
                 <h4 className="text-xs text-left font-semibold text-gray-700 mb-4">FEATURED PRODUCTS</h4>
               </div>
-              <div className="space-y-3  h-[20vh] overflow-y-scroll w-[30%]">
+              <div className="space-y-3  h-[20vh] overflow-y-scroll scrollbar-hide w-[30%]">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((item) => (
                     <Link href={`/shop/${item?.id}`}>
@@ -261,17 +238,17 @@ export default function Navbar() {
                         className="flex gap-4 items-center p-3  transition duration-300 "
                       >
                         {/* Product Image */}
-                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                        <div className="w-12 h-12 object-fill overflow-hidden bg-gray-100 flex items-center justify-center">
                           <img
-                            src={item.productImages?.[1] || "/placeholder.jpg"} // fallback image
+                            src={item.productImages?.[0] || "/placeholder.jpg"} // fallback image
                             alt={item.productName}
-                            className="object-cover w-full h-full"
+                            className="object-contain w-full h-full"
                           />
                         </div>
 
                         {/* Product Info */}
                         <div className="flex flex-col justify-center">
-                          <span className="text-xs text-gray-500">{item.productSku || "No SKU"}</span>
+                          <span className="text-xs text-gray-500">{item.productCategory || "No SKU"}</span>
                           <span className="text-sm font-medium text-gray-800">{item.productName || "Unnamed Product"}</span>
                         </div>
                       </div>
@@ -296,7 +273,7 @@ export default function Navbar() {
             onMouseLeave={() => setIsOpen(false)}
           >
             {/* Trigger */}
-            <div className="cursor-pointer relative text-black">
+            <div className="cursor-pointer relative !text-[12px] text-black">
               My Profile
               <span
                 className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
@@ -436,7 +413,7 @@ export default function Navbar() {
   return (
     <>
       <div className="bg-black h-[35px] w-full flex justify-center items-center z-10">
-        <div className="text-[11px] text-white">
+        <div className="lg:text-[11px] text-[10px] text-white">
           Complimentary U.S. No-Rush Shipping on orders of $95 or more. Shop now
         </div>
       </div>
@@ -557,11 +534,11 @@ export default function Navbar() {
                                 key={item.id}
                                 className="flex gap-4 items-center p-3 border rounded-lg shadow-sm hover:shadow-md transition duration-300"
                               >
-                                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                                <div className="w-12 h-12 overflow-hidden bg-gray-100">
                                   <img
-                                    src={item.productImages?.[1] || "/placeholder.jpg"}
+                                    src={item.productImages?.[0] || "/placeholder.jpg"}
                                     alt={item.productName}
-                                    className="object-cover w-full h-full"
+                                    className="object-fill w-full h-full"
                                   />
                                 </div>
                                 <div className="flex flex-col">
@@ -572,7 +549,9 @@ export default function Navbar() {
                             </Link>
                           ))
                         ) : (
-                          <p className="text-sm text-gray-500">No matching products</p>
+                          <div className="flex justify-center items-center h-[500px]">
+                            <p className="text-[20px]">No Match Found</p>
+                          </div>
                         )}
                       </div>
                     </div>
