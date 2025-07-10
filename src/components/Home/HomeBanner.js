@@ -12,7 +12,7 @@ const HomeBanner = () => {
         <div className="absolute top-[70%] left-[5rem] lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
           SIGNATURE COLLECTION
         </div>
-        <div className="absolute top-1/2 left-1/2 w-[50%]  overflow-hidden">
+        <div className="absolute lg:top-1/2 top-1/3 left-1/2 w-[50%]  overflow-hidden">
           <div className="animate-marquee flex gap-5 text-lg font-semibold -z-10 text-[#565449] whitespace-nowrap">
             {Array(10).fill("• Be Different").map((text, idx) => (
               <span key={`a-${idx}`} className="mr-2">{text}</span>
@@ -22,8 +22,8 @@ const HomeBanner = () => {
             ))}
           </div>
         </div>
-        <div className="relative -lg:top-[10rem] w-[300px] md:w-[400px] lg:w-[400px]">
-          <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] xl:h-[450px] relative left-[1%]" />
+        <div className="relative  w-[300px] md:w-[400px] lg:w-[400px]">
+          <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] lg:top-[-10rem] top-[-5rem] xl:h-[450px] relative left-[1%]" />
 
           <div className="absolute lg:top-[20%] top-[2%] lg:left-[-50px] flex items-center gap-2">
 
