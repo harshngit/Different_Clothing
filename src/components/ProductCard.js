@@ -31,22 +31,22 @@ const ProductCard = ({ visibleProducts, product }) => {
 	const productsToShow = visibleProducts || product || [];
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px] gap-x-4">
+		<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[20px] gap-x-2">
 			{productsToShow.map((product) => (
 				<Link key={product.id} href={`/shop/${product.id}`}>
-					<div className="bg-white overflow-hidden group">
+					<div className="bg-white overflow-hidden ">
 						{/* Product Image + Hover */}
-						<div className="relative">
+						<div className="relative group">
 							<img
 								src={product.productImages?.[0]}
 								alt={product.title}
-								className="w-full lg:h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
+								className="w-full lg:h-[450px] h-[250px] lg:object-cover object-fill transition-opacity duration-300 group-hover:opacity-0"
 							/>
 							{product.productImages?.[1] ? (
 								<img
 									src={product.productImages[1]}
 									alt={`${product.title} hover`}
-									className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									className="w-full lg:h-[450px] h-[250px] lg:object-cover object-fill absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 								/>
 							) : product.productVideo ? (
 								<video
@@ -55,21 +55,21 @@ const ProductCard = ({ visibleProducts, product }) => {
 									loop
 									autoPlay
 									playsInline
-									className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									className="w-full lg:h-[450px] h-[250px] lg:object-cover object-fill absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
 								/>
 							) : null}
 						</div>
 
 						{/* Product Info + Wishlist */}
 						<div className="p-3 flex justify-between items-start">
-							<div className="flex flex-col gap-2">
-								<p className="text-black lg:text-[15px] text-[10px]">
+							<div className="flex flex-col gap-[5px]">
+								{/* <p className="text-black lg:text-[15px] text-[10px]">
 									{product?.productCategory}
-								</p>
-								<h3 className="lg:text-[20px] text-[12px] font-semibold">
+								</p> */}
+								<h3 className="lg:text-[20px] text-[15px] font-semibold">
 									{product.productName}
 								</h3>
-								<p className="text-gray-700 font-bold lg:text-[15px] text-[12px]">
+								<p className="text-gray-700 font-bold lg:text-[15px] text-[15px]">
 									${product.productPrice}
 								</p>
 
@@ -77,7 +77,7 @@ const ProductCard = ({ visibleProducts, product }) => {
 									{product.variation.map((item, index) => (
 										<div
 											key={index}
-											className="w-5 h-5 rounded-full border border-black"
+											className="w-5 h-5 border border-black"
 											style={{ backgroundColor: item.color }}
 										/>
 									))}

@@ -13,10 +13,10 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 
 	const sizes = Array.from(
 		new Set([
-			...(variation?.map(v => v.size) || []),
-			...(productDetails?.productSize ? [productDetails.productSize] : [])
+			...(productDetails?.productSize ? productDetails.productSize : [])
 		])
 	);
+
 	const colors = [...new Set(variation.map(v => v.color))] || [];
 
 	const data = [
@@ -54,9 +54,9 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		if (sizes.length > 0 && !selectedSize) {
 			setSelectedSize(sizes[0]);
 		}
-		if (colors.length > 0 && !selectedColor) {
-			setSelectedColor(colors[0]);
-		}
+		// if (colors.length > 0 && !selectedColor) {
+		// 	setSelectedColor(colors[0]);
+		// }
 	}, [sizes, colors]);
 
 	const toggle = (index) => {
@@ -119,6 +119,12 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		toast.success("Item added to cart!");
 	};
 
+	const variantColors = productDetails?.variation?.map(v => v.color) || [];
+	const baseColor = productDetails?.productColor ? [productDetails.productColor] : [];
+
+	const allColors = Array.from(new Set([...variantColors, ...baseColor])); // remove duplicates
+
+
 	// Wishlist functions
 	const handleToggleWishlist = () => {
 		if (!userId) {
@@ -139,14 +145,91 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const isLiked = () => wishlist?.[userId]?.some(p => p.id === productDetails.id);
 
 	return (
-		<div className='px-5 py-5 w-full flex flex-col justify-start items-start gap-5'>
-			<div className='flex justify-between items-center w-full'>
-				<p className='font-thin text-[15px] text-[#666666]'>{productDetails.productSku}</p>
+		<div className='px-5 py-5 w-full flex flex-col justify-start items-start gap-[10px]'>
+			<div>
+				<div className='flex justify-between items-center w-full'>
+					<p className='font-thin lg:text-[15px] text-[15px] text-[#000]'>{productDetails.productCategory}</p>
+				</div>
+				<div className='w-full'>
+					<h2 className='font-normal lg:text-[25px] text-[25px] text-[#000]'>{productDetails.productName}</h2>
+				</div>
+
+			</div>
+
+
+			<div className='flex items-center gap-5 w-full'>
+				<h2 className='font-normal text-[20px] text-[#000]'>
+					₹{productDetails.productPrice}
+				</h2>
+				{/* <div className='bg-[#836953] rounded-xl text-[12px] text-white px-3 py-1'>SAVE 33%</div> */}
+			</div>
+
+			<div className='w-full'>
+				<p className='lg:text-[15px] text-[#666666]'>
+					Only <span className="font-bold">{productDetails.productQuantity}</span> item(s) left in stock!
+				</p>
+			</div>
+
+			{/* color selection */}
+
+			<div className="flex flex-col gap-2">
+				<div className="text-base font-medium">Select Color</div>
+				<div className="flex gap-3">
+					{allColors.map((color, index) => (
+						<button
+							key={index}
+							onClick={() => setSelectedColor(color)}
+							className={`w-6 h-6 rounded-sm border 
+              ${selectedColor === color ? 'ring-2 ring-black' : 'border-black'}`}
+							style={{ backgroundColor: color }}
+						/>
+					))}
+				</div>
+			</div>
+
+
+			{/* Size Selection */}
+			<div className="w-full">
+				<div className="flex justify-between items-center mb-2">
+					<div className="text-lg font-semibold">
+						Size: <span className="font-normal">{selectedSize}</span>
+					</div>
+					<a href="#" className="underline font-medium text-black hover:text-blue-600">Size Guide</a>
+				</div>
+				<div className="flex flex-col gap-2 w-full">
+					<div className="flex gap-3 flex-wrap">
+						{sizes.map((size, index) => (
+							<button
+								key={index}
+								onClick={() => setSelectedSize(size)}
+								className={`px-4 py-2 border rounded-md text-sm 
+              ${selectedSize === size ? 'bg-black text-white' : 'bg-white text-black'} 
+              border-black`}
+							>
+								{size}
+							</button>
+						))}
+					</div>
+				</div>
+
+				{/* Color Selection */}
+
+			</div>
+
+			{/* Add to Cart */}
+			<div className="w-full flex justify-start items-center">
+				<div
+					onClick={handleAddToCart}
+					className="w-[90%] px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer"
+				>
+					Add to Cart
+				</div>
 				<button
 					onClick={(e) => {
 						e.preventDefault();
 						handleToggleWishlist();
 					}}
+					className="px-4 py-4 bg-white border-[1px] border-black text-[18px]"
 				>
 					<img
 						src={isLiked() ? '/asset/heartred.png' : '/asset/heart.png'}
@@ -156,81 +239,8 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 				</button>
 			</div>
 
-			<div className='w-full'>
-				<h2 className='font-normal text-[25px] text-[#000]'>{productDetails.productName}</h2>
-			</div>
-
-			<div className='flex items-center gap-5 w-full'>
-				<h2 className='font-normal text-[27px] text-[#000]'>
-					₹{productDetails.productPrice}
-					{selectedVariation && (
-						<span className='text-[18px] text-[#442D2D] ml-3 line-through'>
-							₹{selectedVariation.price}
-						</span>
-					)}
-				</h2>
-				<div className='bg-[#836953] rounded-xl text-[12px] text-white px-3 py-1'>SAVE 33%</div>
-			</div>
-
-			<div className='w-full'>
-				<p className='text-[18px] text-[#666666]'>
-					Only <span className="font-bold">{productDetails.productQuantity}</span> item(s) left in stock!
-				</p>
-			</div>
-
-			{/* Size Selection */}
-			<div className="w-full">
-				<div className="flex justify-between items-center mb-4">
-					<div className="text-lg font-semibold">
-						Size: <span className="font-normal">{selectedSize}</span>
-					</div>
-					<a href="#" className="underline font-medium text-black hover:text-blue-600">Size Guide</a>
-				</div>
-				<div className="flex gap-4 mb-6">
-					{sizes.map((size) => (
-						<button
-							key={size}
-							onClick={() => setSelectedSize(size)}
-							className={`w-10 h-10 text-sm font-medium rounded border transition-all duration-150 ${selectedSize === size ? "bg-black text-white" : "bg-white text-black border-black hover:bg-gray-100"}`}
-						>
-							{size}
-						</button>
-					))}
-				</div>
-
-				{/* Color Selection */}
-				<div className="text-lg font-semibold mb-2">
-					Color: <span className="font-normal">{selectedColor}</span>
-				</div>
-				<div className="flex gap-4">
-					{colors.map((color) => {
-						const isSelected = selectedColor.toLowerCase() === color.toLowerCase();
-						return (
-							<button
-								key={color}
-								onClick={() => setSelectedColor(color)}
-								className="w-10 h-10 rounded-full border-2 transition-all duration-200"
-								style={{
-									backgroundColor: color,
-									borderColor: isSelected ? "black" : "#ccc",
-									boxShadow: isSelected ? "0 0 0 3px rgba(0,0,0,0.3)" : "none",
-								}}
-							/>
-						);
-					})}
-				</div>
-			</div>
-
-			{/* Add to Cart */}
-			<div
-				onClick={handleAddToCart}
-				className="w-full px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer"
-			>
-				Add to Cart
-			</div>
-
 			{/* Rating */}
-			<div className="flex items-center gap-1 text-black">
+			{/* <div className="flex items-center gap-1 text-black">
 				{[...Array(fullStars)].map((_, i) => (
 					<FaStar key={`full-${i}`} fill="black" className="w-4 h-4" />
 				))}
@@ -239,7 +249,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 					<FaStar key={`empty-${i}`} className="w-4 h-4 opacity-20" />
 				))}
 				<span className="ml-1 text-sm font-medium">({count})</span>
-			</div>
+			</div> */}
 
 			{/* Share */}
 			<div className="flex gap-2 items-center cursor-pointer text-black">

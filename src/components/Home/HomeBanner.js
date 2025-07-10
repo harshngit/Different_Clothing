@@ -7,9 +7,9 @@ import Tshirt from '../../../public/asset/Home/t-shirt.png'
 const HomeBanner = () => {
   return (
     <div className='relative font-playfair z-0'>
-      <div className="absolute w-full lg:h-screen xl:h-screen h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
+      <div className="absolute w-full lg:h-[80vh] xl:h-[85vh] h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
 
-        <div className="absolute top-[80%] left-[5.5rem] lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
+        <div className="absolute top-[80%] left-[7rem] lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
           SIGNATURE COLLECTION
         </div>
         <div className="absolute top-1/2 left-1/2 w-[50%]  overflow-hidden">
@@ -22,7 +22,7 @@ const HomeBanner = () => {
             ))}
           </div>
         </div>
-        <div className="relative w-[300px] md:w-[400px] lg:w-[400px]">
+        <div className="relative -lg:top-[10rem] w-[300px] md:w-[400px] lg:w-[400px]">
           <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] xl:h-[450px] relative left-[1%]" />
 
           <div className="absolute top-[20%] left-[-50px] flex items-center gap-2">
@@ -64,7 +64,7 @@ const HomeBanner = () => {
           <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
         </h1>
 
-        <h1 className="absolute lg:block hidden bottom-20 text-3xl md:text-[80px] font-bold">
+        <h1 className="absolute lg:block hidden bottom-14 text-3xl md:text-[80px] font-bold">
           <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
         </h1>
 

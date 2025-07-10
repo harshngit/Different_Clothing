@@ -98,7 +98,7 @@ const ProductGridArabic = ({ product }) => {
 
 			{/* Grid */}
 			{visibleProducts && visibleProducts.length > 0 ? (
-				<ProductCard isLiked={isLiked} handleToggle={handleToggle} visibleProducts={visibleProducts} />
+				<ProductCard visibleProducts={visibleProducts} />
 			) : (
 				<div className="flex justify-center gap-[20px] flex-col items-center h-[200px]">
 					<h2 className="text-gray-600 text-lg font-medium">No Collection Till Now</h2>

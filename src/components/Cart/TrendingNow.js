@@ -70,10 +70,10 @@ const TrendingNow = () => {
 		<div className='w-full  '>
 			<div className='flex justify-between items-center lg:px-5 px-5 py-5 lg:py-5'>
 				<div className='flex justify-start items-center gap-5'>
-					<h2 className='font-normal lg:text-[32px] text-[22px] text-[#484848]'> Trending Now  </h2>
+					<h2 className='font-normal lg:text-[32px] text-[20px] text-[#484848]'> Trending Now  </h2>
 				</div>
 				<div>
-					<Link href="/shop"><h3 className='font-bold text-[20px]'>EXPLORE MORE</h3></Link>
+					<Link href="/shop"><h3 className='font-bold lg:text-[20px] text-[15px]'>EXPLORE MORE</h3></Link>
 				</div>
 			</div>
 

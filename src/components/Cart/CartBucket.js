@@ -115,7 +115,7 @@ const CartBucket = () => {
 										<p className="text-sm mb-2">Size: {item.size}</p>
 										<div className="flex items-center gap-2 mb-2">
 											<p className="text-sm">Color:</p>
-											<div className="w-5 h-5 rounded-full border" style={{ backgroundColor: item.color }} />
+											<div className="w-5 h-5 border-[1px  ] border-black" style={{ backgroundColor: item.color }} />
 										</div>
 										<p className="font-semibold mb-2">₹{Number(item.price).toFixed(2)}</p>
 										<input
