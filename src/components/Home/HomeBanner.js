@@ -23,7 +23,7 @@ const HomeBanner = () => {
           </div>
         </div>
         <div className="relative  w-[300px] md:w-[400px] lg:w-[400px]">
-          <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] lg:top-[-10rem] top-[-5rem] xl:h-[450px] relative left-[1%]" />
+          <Image src={Tshirt} alt="T-shirt" width={600} height={700} className="w-[500px] lg:top-[0rem] top-[-5rem] xl:h-[450px] relative left-[1%]" />
 
           <div className="absolute lg:top-[20%] top-[2%] lg:left-[-50px] flex items-center gap-2">
 
