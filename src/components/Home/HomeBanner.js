@@ -7,7 +7,7 @@ import Tshirt from '../../../public/asset/Home/t-shirt.png'
 const HomeBanner = () => {
   return (
     <div className='relative font-playfair z-0'>
-      <div className="absolute w-full lg:h-[80vh] xl:h-[85vh] h-[90vh] flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
+      <div className="absolute w-full lg:h-[80vh] xl:h-[85vh] h-[100vh] flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/asset/Home/bannerhomediff.png')" }}>
 
         <div className="absolute top-[70%] left-[5rem] lg:top-1/2 md:top-1/2 lg:left-10 bg-primary text-white px-4 py-2 rounded-lg shadow-md">
           SIGNATURE COLLECTION
@@ -64,7 +64,7 @@ const HomeBanner = () => {
           <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
         </h1>
 
-        <h1 className="absolute lg:block hidden bottom-14 text-3xl md:text-[80px] font-bold">
+        <h1 className="absolute lg:block hidden top-[80%] text-3xl md:text-[80px] font-bold">
           <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
         </h1>
 
