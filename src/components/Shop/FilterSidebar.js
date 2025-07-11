@@ -1,25 +1,23 @@
 'use client';
-import { Slider } from '@material-tailwind/react';
 import React, { useState } from 'react';
 
-export default function FilterSidebar({
+const formatRupees = (value) =>
+	`Rs. ${value.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+
+const FilterSidebar = ({
 	isOpen,
 	onClose,
 	filters,
 	setFilters,
 	onApply,
 	onReset,
-}) {
+}) => {
 	const [activeTab, setActiveTab] = useState('price');
 
 	const sizes = ['XS', 'S', 'M', 'L', 'XL'];
-	const colors = ['#000000', '#FFFFFF', '#C2B280', '#A0522D', '#808080'];
+	const colors = ['#000000', '#FFFFFF'];
 	const materials = ['Cotton', 'Polyester', 'Linen', 'Wool'];
 	const categories = ['For Him', 'For Her', 'Arabic', 'Signature'];
-
-	const handlePriceChange = (_, newValue) => {
-		setFilters({ ...filters, priceRange: newValue });
-	};
 
 	const handleCheckboxChange = (key, value) => {
 		const current = filters[key];
@@ -31,48 +29,40 @@ export default function FilterSidebar({
 		});
 	};
 
+	const handleMinChange = (e) => {
+		const value = Math.min(Number(e.target.value), filters.priceRange?.[1]);
+		setFilters({ ...filters, priceRange: [value, filters.priceRange?.[1]] });
+	};
+
+	const handleMaxChange = (e) => {
+		const value = Math.max(Number(e.target.value), filters.priceRange?.[0]);
+		setFilters({ ...filters, priceRange: [filters.priceRange?.[0], value] });
+	};
+
 	return (
-		<div
-			className={`
-        fixed lg:top-[0rem] top-[0rem] right-0 lg:w-[40%] w-[80%] h-full 
-        bg-[#D9D9D9] shadow-xl 
-        transform transition-transform duration-300 z-[1000]
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-      `}
-		>
+		<div className={`fixed top-0 right-0 lg:w-[40%] w-[80%] h-full bg-white shadow-xl transform transition-transform duration-300 z-[1000] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
 			{/* Header */}
 			<div className="flex justify-between items-center px-6 py-5">
-				<div className='w-[90%]'>
-					<h2 className="col-span-4 text-center font-bold text-gray-900 uppercase tracking-wider">
-						Filters
-					</h2>
-				</div>
-				<button
-					onClick={onClose}
-					className=" text-2xl text-black hover:text-white"
-				>
+				<h2 className="w-full text-center font-bold text-gray-900 uppercase tracking-wider">
+					Filters
+				</h2>
+				<button onClick={onClose} className="text-2xl text-black hover:text-gray-800">
 					&times;
 				</button>
 			</div>
 
-			{/* Tabs - Replace with divs */}
-			<div className="flex lg:h-[calc(92%-100px)] h-[calc(92%-100px)]">
-				<div className="lg:w-40 pl-2 bg-transparent border-r border-black rounded-none">
+			{/* Tabs */}
+			<div className="flex h-[calc(92%-100px)]">
+				{/* Sidebar Tabs */}
+				<div className="lg:w-40 pl-2 border-r border-black">
 					{['price', 'size', 'color', 'material', 'category'].map((val) => (
 						<div
 							key={val}
 							onClick={() => setActiveTab(val)}
-							className={`
-                relative cursor-pointer text-left text-sm py-3 px-4 font-medium transition
-                ${activeTab === val
-									? `text-[#A6784B]
-                     before:content-['']
-                     before:absolute before:left-0 before:top-0
-                     before:h-full before:w-3
-                     before:bg-[#A6784B]
-                     before:rounded-tr-full before:rounded-br-full`
-									: 'text-gray-700 hover:text-black'}
-              `}
+							className={`relative cursor-pointer text-left text-lg py-3 px-4 font-medium transition text-[25px] ${activeTab === val
+								? `text-[#000] before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-3 before:bg-[#000] before:rounded-tr-full before:rounded-br-full`
+								: 'text-gray-700 hover:text-black'
+								}`}
 						>
 							{val.charAt(0).toUpperCase() + val.slice(1)}
 						</div>
@@ -81,36 +71,91 @@ export default function FilterSidebar({
 
 				{/* Tab Panels */}
 				<div className="flex-1 overflow-y-auto">
+					{/* Price Tab */}
 					{activeTab === 'price' && (
 						<div className="p-5">
-							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
+							<h3 className="text-lg font-semibold text-black mb-3">
 								Select Price Range
 							</h3>
-							<Slider
-								value={filters.priceRange}
-								min={500}
-								max={3000}
-								onChange={handlePriceChange}
-								valueLabelDisplay="auto"
-							/>
-							<div className="flex justify-between text-sm text-black mt-2">
-								<span>Rs. {filters.priceRange[0]}</span>
-								<span>Rs. {filters.priceRange[1]}</span>
+
+							<div className="flex justify-between text-sm text-black mb-2 font-medium">
+								<span>{formatRupees(filters.priceRange?.[0] ?? 0)}</span>
+								<span>{formatRupees(filters.priceRange?.[1] ?? 10000)}</span>
+							</div>
+
+							{/* Dual Slider */}
+							<div className="relative h-12">
+								{/* Full Track */}
+								<div className="absolute top-1/2 left-0 w-full h-1 bg-gray-300 rounded-full transform -translate-y-1/2 z-0" />
+
+								{/* Active Range Track (black between two thumbs) */}
+								<div
+									className="absolute top-1/2 h-1 bg-black z-0 rounded-full transform -translate-y-1/2"
+									style={{
+										left: `${(filters.priceRange?.[0] / 10000) * 100}%`,
+										width: `${((filters.priceRange?.[1] - filters.priceRange?.[0]) / 10000) * 100}%`,
+									}}
+								/>
+
+								{/* Min Thumb */}
+								<input
+									type="range"
+									min="0"
+									max="10000"
+									step="100"
+									value={filters.priceRange?.[0] ?? 0}
+									onChange={handleMinChange}
+									className="absolute z-10 w-full h-2 bg-transparent appearance-none pointer-events-none"
+									style={{ WebkitAppearance: 'none' }}
+								/>
+
+								{/* Max Thumb */}
+								<input
+									type="range"
+									min="0"
+									max="10000"
+									step="100"
+									value={filters.priceRange?.[1] ?? 10000}
+									onChange={handleMaxChange}
+									className="absolute z-10 w-full h-2 bg-transparent appearance-none pointer-events-none"
+									style={{ WebkitAppearance: 'none' }}
+								/>
+
+								{/* Thumb styling */}
+								<style jsx>{`
+				input[type='range']::-webkit-slider-thumb {
+					-webkit-appearance: none;
+					height: 16px;
+					width: 16px;
+					border-radius: 50%;
+					background: black;
+					cursor: pointer;
+					margin-top: 40px;
+					pointer-events: auto;
+				}
+				input[type='range']::-moz-range-thumb {
+					height: 16px;
+					width: 16px;
+					border-radius: 50%;
+					background: black;
+					cursor: pointer;
+					pointer-events: auto;
+				}
+			`}</style>
 							</div>
 						</div>
 					)}
 
+					{/* Size Tab */}
 					{activeTab === 'size' && (
 						<div className="p-5">
-							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
-								Select Sizes
-							</h3>
+							<h3 className="text-lg font-semibold text-black mb-3">Select Sizes</h3>
 							<div className="flex flex-wrap gap-2">
 								{sizes.map((size) => (
 									<button
 										key={size}
 										onClick={() => handleCheckboxChange('sizes', size)}
-										className={`px-3 py-1 border rounded-full text-sm transition ${filters.sizes.includes(size)
+										className={`px-3 py-1 border  text-sm transition ${filters.sizes.includes(size)
 											? 'bg-black text-white border-black'
 											: 'bg-white text-black border-gray-300'
 											}`}
@@ -122,11 +167,10 @@ export default function FilterSidebar({
 						</div>
 					)}
 
+					{/* Color Tab */}
 					{activeTab === 'color' && (
 						<div className="p-5">
-							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
-								Select Colors
-							</h3>
+							<h3 className="text-lg font-semibold text-black mb-3">Select Colors</h3>
 							<div className="flex flex-wrap gap-3">
 								{colors.map((color) => (
 									<button
@@ -143,20 +187,17 @@ export default function FilterSidebar({
 						</div>
 					)}
 
+					{/* Material Tab */}
 					{activeTab === 'material' && (
 						<div className="p-5">
-							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
-								Select Materials
-							</h3>
+							<h3 className="text-lg font-semibold text-black mb-3">Select Materials</h3>
 							<div className="flex flex-col gap-2 text-sm">
 								{materials.map((material) => (
 									<label key={material} className="flex items-center gap-2">
 										<input
 											type="checkbox"
 											checked={filters.materials.includes(material)}
-											onChange={() =>
-												handleCheckboxChange('materials', material)
-											}
+											onChange={() => handleCheckboxChange('materials', material)}
 										/>
 										{material}
 									</label>
@@ -165,20 +206,17 @@ export default function FilterSidebar({
 						</div>
 					)}
 
+					{/* Category Tab */}
 					{activeTab === 'category' && (
 						<div className="p-5">
-							<h3 className="text-sm font-semibold text-[#A6784B] mb-3">
-								Select Category
-							</h3>
+							<h3 className="text-lg font-semibold text-black mb-3">Select Category</h3>
 							<div className="flex flex-col gap-2 text-sm">
 								{categories.map((cat) => (
 									<label key={cat} className="flex items-center gap-2">
 										<input
 											type="checkbox"
 											checked={filters.categories.includes(cat)}
-											onChange={() =>
-												handleCheckboxChange('categories', cat)
-											}
+											onChange={() => handleCheckboxChange('categories', cat)}
 										/>
 										{cat}
 									</label>
@@ -189,9 +227,8 @@ export default function FilterSidebar({
 				</div>
 			</div>
 
-			{/* Footer Buttons */}
+			{/* Footer */}
 			<div className="p-5 border-t border-black flex justify-start gap-10">
-
 				<button
 					onClick={onApply}
 					className="px-6 py-2 w-[240px] h-[50px] text-sm bg-black text-white hover:bg-gray-800"
@@ -200,11 +237,13 @@ export default function FilterSidebar({
 				</button>
 				<button
 					onClick={onReset}
-					className="px-5 py-2  w-[240px] h-[50px] border bg-white text-sm border-gray-400 text-gray-700 hover:bg-gray-100"
+					className="px-5 py-2 w-[240px] h-[50px] border bg-white text-sm border-gray-400 text-gray-700 hover:bg-gray-100"
 				>
 					Reset
 				</button>
 			</div>
 		</div>
 	);
-}
+};
+
+export default FilterSidebar;

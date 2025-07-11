@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import { toast, ToastContainer } from 'react-toastify';
 import ProductCard from '../ProductCard';
+import { FiColumns, FiGrid, FiSquare } from 'react-icons/fi';
 
 const ProductGridArabic = ({ product }) => {
 	const ITEMS_PER_PAGE = 8;
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-
+	const [gridView, setGridView] = useState('four'); // 'four' by default
 	const [filters, setFilters] = useState({
 		priceRange: [500, 3000],
 		sizes: [],
@@ -78,12 +79,43 @@ const ProductGridArabic = ({ product }) => {
 						COLLECTION
 					</h2>
 				</div>
-				<button
-					className='bg-[#565449] text-white px-5 py-3'
-					onClick={() => setIsFilterOpen(true)}
-				>
-					Filter
-				</button>
+				<div className='flex items-center gap-4'>
+					{/* Grid Toggle */}
+					<div className='lg:flex hidden gap-2 overflow-hidden'>
+						<button
+							onClick={() => setGridView('two')}
+							className={`p-2 ${gridView === 'two' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiColumns size={20} />
+						</button>
+						<button
+							onClick={() => setGridView('four')}
+							className={`p-2 ${gridView === 'four' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiGrid size={20} />
+						</button>
+					</div>
+					<div className='flex lg:hidden gap-2 overflow-hidden'>
+						<button
+							onClick={() => setGridView('two')}
+							className={`p-2 ${gridView === 'two' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiColumns size={20} />
+						</button>
+						<button
+							onClick={() => setGridView('four')}
+							className={`p-2 ${gridView === 'four' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiSquare size={20} />
+						</button>
+					</div>
+					<button
+						className='bg-[#000] text-white px-5 py-3'
+						onClick={() => setIsFilterOpen(true)}
+					>
+						Filter
+					</button>
+				</div>
 			</div>
 
 			{/* Sidebar */}
@@ -98,7 +130,7 @@ const ProductGridArabic = ({ product }) => {
 
 			{/* Grid */}
 			{visibleProducts && visibleProducts.length > 0 ? (
-				<ProductCard visibleProducts={visibleProducts} />
+				<ProductCard gridView={gridView} visibleProducts={visibleProducts} />
 			) : (
 				<div className="flex justify-center gap-[20px] flex-col items-center h-[200px]">
 					<h2 className="text-gray-600 text-lg font-medium">No Collection Till Now</h2>

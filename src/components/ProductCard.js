@@ -1,10 +1,11 @@
+'use client';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const ProductCard = ({ visibleProducts, product }) => {
+const ProductCard = ({ visibleProducts, product, gridView }) => {
 	const dispatch = useDispatch();
 	const wishlist = useSelector((state) => state.wishlist.wishlist);
 	const { userProfile } = useSelector((state) => state.user);
@@ -16,7 +17,6 @@ const ProductCard = ({ visibleProducts, product }) => {
 
 	const handleToggle = (product) => {
 		const isInWishlist = wishlist?.[userId]?.some((p) => p.id === product.id);
-
 		dispatch(toggleWishlistItem(userId, product));
 
 		if (!isInWishlist) {
@@ -31,22 +31,40 @@ const ProductCard = ({ visibleProducts, product }) => {
 	const productsToShow = visibleProducts || product || [];
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[20px] gap-x-2">
+		<div
+			className={`grid transition-all duration-300 ease-in-out gap-y-[20px] gap-x-4 px-4
+				${gridView === 'two'
+					? 'grid-cols-2'
+					: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+				}`}
+		>
 			{productsToShow.map((product) => (
 				<Link key={product.id} href={`/shop/${product.id}`}>
-					<div className="bg-white overflow-hidden ">
-						{/* Product Image + Hover */}
-						<div className="relative group">
+					<div className="bg-white overflow-hidden group transition-all duration-300">
+						{/* Product Image Box */}
+						<div className="relative flex justify-center items-center">
 							<img
 								src={product.productImages?.[0]}
 								alt={product.title}
-								className="w-full lg:h-[450px] h-[250px] lg:object-cover object-fill transition-opacity duration-300 group-hover:opacity-0"
+								className={`w-full transition-all duration-300 ease-in-out 
+									${gridView === 'two'
+										? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[80%] object-fill'
+										: 'h-[350px] object-fill'}
+									opacity-100 group-hover:opacity-0
+								`}
 							/>
+
+							{/* Hover Second Image */}
 							{product.productImages?.[1] ? (
 								<img
 									src={product.productImages[1]}
 									alt={`${product.title} hover`}
-									className="w-full lg:h-[450px] h-[250px] lg:object-cover object-fill absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									className={`w-full absolute top-0 left-0 transition-opacity duration-300 ease-in-out 
+										${gridView === 'two'
+											? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[80%] object-fill'
+											: 'h-[350px] object-fill'}
+										opacity-0 group-hover:opacity-100
+									`}
 								/>
 							) : product.productVideo ? (
 								<video
@@ -55,25 +73,27 @@ const ProductCard = ({ visibleProducts, product }) => {
 									loop
 									autoPlay
 									playsInline
-									className="w-full lg:h-[450px] h-[250px] lg:object-cover object-fill absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+									className={`w-full absolute top-0 left-0 transition-opacity duration-300 ease-in-out 
+										${gridView === 'two'
+											? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[100%] object-fill'
+											: 'h-[350px] object-fill'}
+										opacity-0 group-hover:opacity-100
+									`}
 								/>
 							) : null}
 						</div>
 
-						{/* Product Info + Wishlist */}
+						{/* Product Info */}
 						<div className="p-3 flex justify-between items-start">
 							<div className="flex flex-col gap-[5px]">
-								{/* <p className="text-black lg:text-[15px] text-[10px]">
-									{product?.productCategory}
-								</p> */}
 								<h3 className="lg:text-[20px] text-[15px] font-semibold">
 									{product.productName}
 								</h3>
 								<p className="text-gray-700 font-bold lg:text-[15px] text-[15px]">
-									${product.productPrice}
+									₹{product.productPrice}
 								</p>
 
-								<div className="flex gap-2">
+								<div className="flex gap-2 mt-1">
 									{product.variation.map((item, index) => (
 										<div
 											key={index}

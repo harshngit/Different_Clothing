@@ -1,22 +1,18 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import FilterSidebar from './FilterSidebar';
-import Link from 'next/link';
-import allProducts from '@/data/ProductData';
+import ProductCard from '../ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import { toast, ToastContainer } from 'react-toastify';
+import { FiGrid, FiColumns, FiBox, FiSquare } from 'react-icons/fi';
 
 const ITEMS_PER_PAGE = 8;
 
 export default function ProductGrid({ product }) {
-
-
-
-
-
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
+	const [gridView, setGridView] = useState('four'); // 'four' by default
 
 	const [filters, setFilters] = useState({
 		priceRange: [500, 3000],
@@ -26,8 +22,16 @@ export default function ProductGrid({ product }) {
 		categories: [],
 	});
 
-	const totalPages = Math.ceil(product.length / ITEMS_PER_PAGE);
+	const dispatch = useDispatch();
+	const wishlist = useSelector((state) => state.wishlist.wishlist);
+	const { userProfile } = useSelector((state) => state.user);
+	const userId = userProfile?.uid;
 
+	useEffect(() => {
+		dispatch(loadWishlistFromStorage());
+	}, [dispatch]);
+
+	const totalPages = Math.ceil(product.length / ITEMS_PER_PAGE);
 	const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 	const endIndex = startIndex + ITEMS_PER_PAGE;
 	const visibleProducts = product.slice(startIndex, endIndex);
@@ -39,7 +43,6 @@ export default function ProductGrid({ product }) {
 
 	const handleApplyFilters = () => {
 		setIsFilterOpen(false);
-		// Add filtering logic here if needed
 	};
 
 	const handleResetFilters = () => {
@@ -51,15 +54,6 @@ export default function ProductGrid({ product }) {
 			categories: [],
 		});
 	};
-	const dispatch = useDispatch();
-	const wishlist = useSelector((state) => state.wishlist.wishlist);
-
-	const { userProfile } = useSelector((state) => state.user)
-	const userId = userProfile?.uid;
-
-	useEffect(() => {
-		dispatch(loadWishlistFromStorage());
-	}, [dispatch]);
 
 	const handleToggle = (product) => {
 		dispatch(toggleWishlistItem(userId, product));
@@ -73,24 +67,52 @@ export default function ProductGrid({ product }) {
 	};
 
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
+
 	return (
 		<div className="pb-5">
-			{/* Filter Button */}
-			<div className='flex justify-between px-5 items-center mb-10 w-[100%] lg:ml-[0.5rem]'>
-				<div>
-					<h2 className='font-normal font-600 lg:text-[32px]'>
-						COLLECTION
-					</h2>
+			{/* Header */}
+			<div className='flex justify-between px-5 items-center mb-10 w-full'>
+				<h2 className='font-semibold text-2xl lg:text-[32px]'>COLLECTION</h2>
+				<div className='flex items-center gap-4'>
+					{/* Grid Toggle */}
+					<div className='lg:flex hidden gap-2 overflow-hidden'>
+						<button
+							onClick={() => setGridView('two')}
+							className={`p-2 ${gridView === 'two' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiColumns size={20} />
+						</button>
+						<button
+							onClick={() => setGridView('four')}
+							className={`p-2 ${gridView === 'four' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiGrid size={20} />
+						</button>
+					</div>
+					<div className='flex lg:hidden gap-2 overflow-hidden'>
+						<button
+							onClick={() => setGridView('two')}
+							className={`p-2 ${gridView === 'two' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiColumns size={20} />
+						</button>
+						<button
+							onClick={() => setGridView('four')}
+							className={`p-2 ${gridView === 'four' ? 'bg-black text-white' : 'text-black'}`}
+						>
+							<FiSquare size={20} />
+						</button>
+					</div>
+					<button
+						className='bg-[#565449] text-white px-5 py-3'
+						onClick={() => setIsFilterOpen(true)}
+					>
+						Filter
+					</button>
 				</div>
-				<button
-					className='bg-[#565449] text-white px-5 py-3'
-					onClick={() => setIsFilterOpen(true)}
-				>
-					Filter
-				</button>
 			</div>
 
-			{/* Sidebar */}
+			{/* Filter Sidebar */}
 			<FilterSidebar
 				isOpen={isFilterOpen}
 				onClose={() => setIsFilterOpen(false)}
@@ -100,67 +122,17 @@ export default function ProductGrid({ product }) {
 				onReset={handleResetFilters}
 			/>
 
-			{/* Grid */}
-			<div className="grid grid-cols-2 md:grid-cols-4 gap-y-[50px]">
-				{visibleProducts.map((product) => (
-					<Link href={`shop/${product.id}`}>
-						<div key={product.id} className="bg-white group">
-							<div className="relative">
-								<div>
-									<img
-										src={product.productImages?.[0]} // main image
-										alt={product.title}
-										className="w-full lg:h-[400px] object-cover transition-opacity duration-300 group-hover:opacity-0"
-									/>
-
-									<img
-										src={product.productImages?.[1]} // hover image
-										alt={`${product.title} hover`}
-										className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-									/>
-
-								</div>
-
-							</div>
-
-							{/* Product Info */}
-							<div className="p-3 flex justify-between items-start">
-								<div className='flex flex-col gap-2 justify-start items-start'>
-									<div>
-										<p className='text-black lg:text-[15px] text-[10px]'>{product?.productCategory}</p>
-										<Link href={`shop/${product.id}`}><h3 className="lg:text-[20px] text-[12px] font-semibold">{product.productName}</h3></Link>
-										<p className="text-gray-700 font-bold lg:-text-[15px] text-[12px]">${product.productPrice}</p>
-									</div>
-									{
-										product.variation.map((item) => (
-											<div className="flex justify-center items-center gap-2">
-												<div className={`w-5 h-5 rounded-full border border-black`} style={{ backgroundColor: item.color }}></div>
-											</div>
-										))
-									}
-								</div>
-								<button
-									onClick={(e) => {
-										e.preventDefault();
-										handleToggle(product);
-									}}
-								>
-									<img
-										src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
-										alt="heart icon"
-										className="w-6 h-6"
-									/>
-								</button>
-							</div>
-						</div>
-					</Link>
-				))}
-			</div>
+			{/* Product Grid */}
+			<ProductCard
+				visibleProducts={visibleProducts}
+				gridView={gridView}
+				handleToggle={handleToggle}
+				isLiked={isLiked}
+			/>
 
 			{/* Pagination */}
 			{totalPages > 1 && (
 				<div className="flex justify-center items-center gap-2 mt-6 text-sm">
-					{/* Previous Button */}
 					<button
 						onClick={() => handlePageChange(currentPage - 1)}
 						disabled={currentPage === 1}
@@ -168,50 +140,30 @@ export default function ProductGrid({ product }) {
 					>
 						‹
 					</button>
-
 					{(() => {
 						const pageNumbers = [];
 						if (totalPages <= 7) {
-							for (let i = 1; i <= totalPages; i++) {
-								pageNumbers.push(i);
-							}
+							for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
 						} else {
 							pageNumbers.push(1);
-
-							if (currentPage > 4) {
-								pageNumbers.push('...');
-							}
-
+							if (currentPage > 4) pageNumbers.push('...');
 							const start = Math.max(2, currentPage - 1);
 							const end = Math.min(totalPages - 1, currentPage + 1);
-
-							for (let i = start; i <= end; i++) {
-								pageNumbers.push(i);
-							}
-
-							if (currentPage < totalPages - 3) {
-								pageNumbers.push('...');
-							}
-
+							for (let i = start; i <= end; i++) pageNumbers.push(i);
+							if (currentPage < totalPages - 3) pageNumbers.push('...');
 							pageNumbers.push(totalPages);
 						}
-
-						return pageNumbers.map((page, index) => (
+						return pageNumbers.map((page, i) => (
 							<button
-								key={index}
+								key={i}
 								onClick={() => typeof page === 'number' && handlePageChange(page)}
 								disabled={page === '...'}
-								className={`w-8 h-8 flex items-center justify-center rounded-full ${currentPage === page
-									? 'bg-black text-white'
-									: ' text-black'
-									} ${page === '...' && 'cursor-default'}`}
+								className={`w-8 h-8 flex items-center justify-center rounded-full ${currentPage === page ? 'bg-black text-white' : 'text-black'} ${page === '...' && 'cursor-default'}`}
 							>
 								{page}
 							</button>
 						));
 					})()}
-
-					{/* Next Button */}
 					<button
 						onClick={() => handlePageChange(currentPage + 1)}
 						disabled={currentPage === totalPages}
