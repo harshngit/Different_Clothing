@@ -60,7 +60,7 @@ const HomeBanner = () => {
         </div>
 
 
-        <h1 className="absolute lg:hidden top-[58%] left-9  text-3xl md:text-[80px] font-bold">
+        <h1 className="absolute lg:hidden top-[58%] left-[50%]  text-3xl md:text-[80px] font-bold">
           <span className="text-white font-playfair font-normal">DIFFERENT</span> <span className="text-black font-playfair font-normal">CLOTHING</span>
         </h1>
 
