@@ -189,12 +189,14 @@ const CartBucket = () => {
 
 							{isAuthenticated ? (
 								cartItems.length > 0 ? (
-									<button
-										onClick={handleCheckout}
-										className="w-full mt-4 bg-black text-white py-2 hover:bg-gray-900"
-									>
-										Checkout
-									</button>
+									<Link href="/checkout">
+										<button
+											onClick={handleCheckout}
+											className="w-full mt-4 bg-black text-white py-2 hover:bg-gray-900"
+										>
+											Checkout
+										</button>
+									</Link>
 								) : (
 									<Link href="/shop">
 										<button className="w-full mt-4 bg-black text-white py-2 hover:bg-gray-900">Shop</button>
