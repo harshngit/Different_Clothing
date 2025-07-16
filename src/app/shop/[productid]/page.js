@@ -81,8 +81,6 @@ export default function ProductDetailPage({ params }) {
 		);
 	}
 	if (!productDetails) return <div className="text-center py-20 text-red-600">Product not found</div>;
-
-	// ✅ Render
 	return (
 		<div className="font-playfair">
 			<Navbar />

@@ -104,7 +104,7 @@ export default function ProductGrid({ product }) {
 						</button>
 					</div>
 					<button
-						className='bg-[#565449] text-white px-5 py-3'
+						className='bg-[#000] text-white px-5 py-3'
 						onClick={() => setIsFilterOpen(true)}
 					>
 						Filter

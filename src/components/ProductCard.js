@@ -40,7 +40,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 		>
 			{productsToShow.map((product) => (
 				<Link key={product.id} href={`/shop/${product.id}`}>
-					<div className="bg-white overflow-hidden group transition-all duration-300">
+					<div className="bg-white overflow-hidden group transition-all duration-300 relative">
 						{/* Product Image Box */}
 						<div className="relative flex justify-center items-center">
 							<img
@@ -81,6 +81,15 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 									`}
 								/>
 							) : null}
+
+							{/* Size Hover Overlay */}
+							{product?.productSize?.length > 0 && (
+								<div className="absolute bottom-0 left-0 w-full bg-white/70 text-black text-sm font-semibold flex justify-center items-center gap-3 py-2 transition-all duration-300 transform -translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-10">
+									{product.productSize.map((item, index) => (
+										<span key={index}>{item}</span>
+									))}
+								</div>
+							)}
 						</div>
 
 						{/* Product Info */}

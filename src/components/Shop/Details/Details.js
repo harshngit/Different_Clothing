@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaHeart, FaStar } from 'react-icons/fa';
+import { FaHeart } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuShare2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,27 +8,14 @@ import { addToCart } from "@/actions/cartAction";
 import { toast } from "react-toastify";
 import { loadWishlistFromStorage, toggleWishlistItem } from "@/actions/wishlistActions";
 
-const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
-	const variation = productDetails.variation || [];
-
-	const sizes = Array.from(
-		new Set([
-			...(productDetails?.productSize ? productDetails.productSize : [])
-		])
-	);
-
-	const colors = [...new Set(variation.map(v => v.color))] || [];
-
-	const data = [
-		{ title: "Description", content: productDetails.productDescription },
-		{ title: "Materials", content: productDetails.productMaterial },
-		{ title: "Delivery And Payment", content: productDetails.productDeliveryPayment },
-	];
-
+const Details = ({ productDetails }) => {
 	const dispatch = useDispatch();
-	const [timeLeft, setTimeLeft] = useState(5 * 60 + 59 + 47 / 100);
+	const variation = productDetails.variation || [];
+	const defaultColor = productDetails.productColor || "";
+	const defaultSizes = productDetails.productSize || [];
+
+	const [selectedColor, setSelectedColor] = useState(defaultColor);
 	const [selectedSize, setSelectedSize] = useState("");
-	const [selectedColor, setSelectedColor] = useState("");
 	const [openIndex, setOpenIndex] = useState(null);
 
 	const { userProfile } = useSelector((state) => state.user) || {};
@@ -36,50 +23,24 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 	const wishlist = useSelector((state) => state.wishlist.wishlist);
 	const userId = userProfile?.uid;
 
-	// Countdown timer
-	useEffect(() => {
-		const timer = setInterval(() => {
-			setTimeLeft((prev) => Math.max(prev - 0.01, 0));
-		}, 10);
-		return () => clearInterval(timer);
-	}, []);
+	const allVariantColors = [...new Set(variation.map(v => v.color))];
+	const allColors = [...new Set([defaultColor, ...allVariantColors])];
 
-	// Load wishlist from storage
 	useEffect(() => {
 		dispatch(loadWishlistFromStorage());
 	}, [dispatch]);
 
-	// Default size & color selector
+	// Auto set default size from productDetails
 	useEffect(() => {
-		if (sizes.length > 0 && !selectedSize) {
-			setSelectedSize(sizes[0]);
+		if (!selectedSize) {
+			setSelectedSize(defaultSizes[0] || "");
 		}
-		// if (colors.length > 0 && !selectedColor) {
-		// 	setSelectedColor(colors[0]);
-		// }
-	}, [sizes, colors]);
+	}, [defaultSizes]);
 
-	const toggle = (index) => {
-		setOpenIndex(index === openIndex ? null : index);
-	};
-
-	const formatTime = (totalSeconds) => {
-		const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
-		const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
-		const seconds = String(Math.floor(totalSeconds % 60)).padStart(2, "0");
-		return { hours, minutes, seconds };
-	};
-
-	const { hours, minutes, seconds } = formatTime(timeLeft);
-	const fullStars = Math.floor(rating);
-	const hasHalf = rating % 1 >= 0.5;
-	const emptyStars = total - fullStars - (hasHalf ? 1 : 0);
-
-	const selectedVariation = variation.find(
-		(v) =>
-			v.size === selectedSize &&
-			v.color.toLowerCase() === selectedColor.toLowerCase()
-	);
+	// Update available sizes when color changes
+	const sizesToShow = selectedColor === defaultColor
+		? defaultSizes
+		: variation.find(v => v.color.toLowerCase() === selectedColor.toLowerCase())?.size || [];
 
 	const handleAddToCart = () => {
 		if (!selectedSize || !selectedColor) {
@@ -88,7 +49,7 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		}
 
 		const itemExists = cartItems?.some(
-			(item) =>
+			item =>
 				item.product === (productDetails._id || productDetails.id) &&
 				item.size === selectedSize &&
 				item.color === selectedColor
@@ -119,19 +80,11 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		toast.success("Item added to cart!");
 	};
 
-	const variantColors = productDetails?.variation?.map(v => v.color) || [];
-	const baseColor = productDetails?.productColor ? [productDetails.productColor] : [];
-
-	const allColors = Array.from(new Set([...variantColors, ...baseColor])); // remove duplicates
-
-
-	// Wishlist functions
 	const handleToggleWishlist = () => {
 		if (!userId) {
 			toast.error("Please log in to use wishlist.");
 			return;
 		}
-
 		dispatch(toggleWishlistItem(userId, productDetails));
 
 		const isInWishlist = wishlist?.[userId]?.some(p => p.id === productDetails.id);
@@ -142,82 +95,82 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 		}
 	};
 
-	const isLiked = () => wishlist?.[userId]?.some(p => p.id === productDetails.id);
+	const isLiked = () =>
+		wishlist?.[userId]?.some(p => p.id === productDetails.id);
+
+	const toggleAccordion = index => {
+		setOpenIndex(openIndex === index ? null : index);
+	};
+
+	const infoSections = [
+		{ title: "Description", content: productDetails.productDescription },
+		{ title: "Materials", content: productDetails.productMaterial },
+		{ title: "Delivery And Payment", content: productDetails.productDeliveryPayment },
+	];
 
 	return (
-		<div className='px-5 py-5 w-full flex flex-col justify-start items-start gap-[10px]'>
-			<div>
-				<div className='flex justify-between items-center w-full'>
-					<p className='font-thin lg:text-[15px] text-[15px] text-[#000]'>{productDetails.productCategory}</p>
-				</div>
-				<div className='w-full'>
-					<h2 className='font-normal lg:text-[25px] text-[25px] text-[#000]'>{productDetails.productName}</h2>
-				</div>
-
+		<div className="px-5 py-5 w-full flex flex-col justify-start items-start gap-[10px]">
+			{/* Title & Category */}
+			<div className="w-full">
+				<p className="font-thin text-[15px] text-[#000]">{productDetails.productCategory}</p>
+				<h2 className="font-normal text-[25px] text-[#000]">{productDetails.productName}</h2>
 			</div>
 
+			{/* Price */}
+			<h2 className="font-normal text-[20px] text-[#000]">
+				₹{productDetails.productPrice}
+			</h2>
 
-			<div className='flex items-center gap-5 w-full'>
-				<h2 className='font-normal text-[20px] text-[#000]'>
-					₹{productDetails.productPrice}
-				</h2>
-				{/* <div className='bg-[#836953] rounded-xl text-[12px] text-white px-3 py-1'>SAVE 33%</div> */}
-			</div>
+			{/* Stock */}
+			<p className="text-[#666666]">
+				Only <span className="font-bold">{productDetails.productQuantity}</span> item(s) left in stock!
+			</p>
 
-			<div className='w-full'>
-				<p className='lg:text-[15px] text-[#666666]'>
-					Only <span className="font-bold">{productDetails.productQuantity}</span> item(s) left in stock!
-				</p>
-			</div>
-
-			{/* color selection */}
-
-			<div className="flex flex-col gap-2">
+			{/* Color Selection */}
+			<div className="flex flex-col gap-2 mt-4 w-full">
 				<div className="text-base font-medium">Select Color</div>
-				<div className="flex gap-3">
-					{allColors.map((color, index) => (
-						<button
-							key={index}
-							onClick={() => setSelectedColor(color)}
-							className={`w-6 h-6 rounded-sm border 
-              ${selectedColor === color ? 'ring-2 ring-black' : 'border-black'}`}
+				<div className="flex flex-wrap gap-3">
+					{allColors.map((color, idx) => (
+						<div
+							key={idx}
+							onClick={() => {
+								setSelectedColor(color);
+								setSelectedSize("");
+							}}
+							className={`w-6 h-6 rounded-full border cursor-pointer ${selectedColor === color ? "ring-2 ring-black" : "border-black"}`}
 							style={{ backgroundColor: color }}
 						/>
 					))}
 				</div>
 			</div>
 
-
 			{/* Size Selection */}
-			<div className="w-full">
+			<div className="w-full mt-4">
 				<div className="flex justify-between items-center mb-2">
 					<div className="text-lg font-semibold">
-						Size: <span className="font-normal">{selectedSize}</span>
+						Size: <span className="font-normal">{selectedSize || "Select a size"}</span>
 					</div>
-					<a href="#" className="underline font-medium text-black hover:text-blue-600">Size Guide</a>
+					<a href="#" className="underline text-black text-sm hover:text-blue-600">Size Guide</a>
 				</div>
-				<div className="flex flex-col gap-2 w-full">
-					<div className="flex gap-3 flex-wrap">
-						{sizes.map((size, index) => (
+				<div className="flex flex-wrap gap-3">
+					{sizesToShow.length > 0 ? (
+						sizesToShow.map((size, index) => (
 							<button
 								key={index}
 								onClick={() => setSelectedSize(size)}
-								className={`px-4 py-2 border rounded-md text-sm 
-              ${selectedSize === size ? 'bg-black text-white' : 'bg-white text-black'} 
-              border-black`}
+								className={`px-4 py-2 border rounded-md text-sm ${selectedSize === size ? "bg-black text-white" : "bg-white text-black"} cursor-pointer border-black`}
 							>
 								{size}
 							</button>
-						))}
-					</div>
+						))
+					) : (
+						<p className="text-gray-500 text-sm">No sizes available.</p>
+					)}
 				</div>
-
-				{/* Color Selection */}
-
 			</div>
 
-			{/* Add to Cart */}
-			<div className="w-full flex justify-start items-center">
+			{/* Add to Cart & Wishlist */}
+			<div className="w-full flex justify-start items-center mt-4">
 				<div
 					onClick={handleAddToCart}
 					className="w-[90%] px-4 py-4 text-center bg-black text-white font-normal text-[18px] cursor-pointer"
@@ -225,57 +178,36 @@ const Details = ({ rating = 4, total = 5, count = 3, productDetails }) => {
 					Add to Cart
 				</div>
 				<button
-					onClick={(e) => {
-						e.preventDefault();
-						handleToggleWishlist();
-					}}
-					className="px-4 py-4 bg-white border-[1px] border-black text-[18px]"
+					onClick={handleToggleWishlist}
+					className="px-4 py-4 bg-white border border-black text-[18px]"
 				>
 					<img
-						src={isLiked() ? '/asset/heartred.png' : '/asset/heart.png'}
-						alt="heart icon"
+						src={isLiked() ? "/asset/heartred.png" : "/asset/heart.png"}
+						alt="heart"
 						className="w-6 h-6"
 					/>
 				</button>
 			</div>
 
-			{/* Rating */}
-			{/* <div className="flex items-center gap-1 text-black">
-				{[...Array(fullStars)].map((_, i) => (
-					<FaStar key={`full-${i}`} fill="black" className="w-4 h-4" />
-				))}
-				{hasHalf && <FaStar className="w-4 h-4 opacity-50" />}
-				{[...Array(emptyStars)].map((_, i) => (
-					<FaStar key={`empty-${i}`} className="w-4 h-4 opacity-20" />
-				))}
-				<span className="ml-1 text-sm font-medium">({count})</span>
-			</div> */}
-
 			{/* Share */}
-			<div className="flex gap-2 items-center cursor-pointer text-black">
+			<div className="flex gap-2 items-center cursor-pointer text-black mt-3">
 				<LuShare2 className="text-[19px]" />
 				<h3>Share</h3>
 			</div>
 
-			{/* Accordion */}
-			<div className="w-full divide-y divide-gray-200">
-				{data.map((item, index) => (
+			{/* Accordion Info */}
+			<div className="w-full divide-y divide-gray-200 mt-4">
+				{infoSections.map((item, index) => (
 					<div key={index}>
 						<button
 							className="w-full flex justify-between items-center py-3 font-normal text-[18px] text-left"
-							onClick={() => toggle(index)}
+							onClick={() => toggleAccordion(index)}
 						>
 							{item.title}
-							<IoIosArrowDown
-								className={`w-5 h-5 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}
-							/>
+							<IoIosArrowDown className={`w-5 h-5 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`} />
 						</button>
-						<div
-							className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
-						>
-							<p className="py-2 text-gray-700">
-								{(item?.content || '').replace(/<[^>]+>/g, '')}
-							</p>
+						<div className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
+							<p className="py-2 text-gray-700">{(item?.content || "").replace(/<[^>]+>/g, "")}</p>
 						</div>
 					</div>
 				))}

@@ -20,6 +20,10 @@ const ProfilePage = () => {
 		{
 			name: "Wishlist",
 			link: "/wishlist",
+		},
+		{
+			name: "Address",
+			link: "/address",
 		}
 	];
 

@@ -54,28 +54,22 @@ const Home = () => {
       <section className="relative pt-[0px]">
         <HomeBanner />
       </section>
-
       <section className="relative overflow-hidden lg:pt-[70px] xl:pt-[600px] pt-[550px]">
         <AboutHome />
       </section>
-
       <section className="relative overflow-hidden">
         <Deal productList={product} />
       </section>
-
       <section className="relative overflow-hidden">
         <Photosection />
       </section>
-
       <section className="relative overflow-hidden">
         {/* Optionally pass the latest product data to ProductsHome */}
         <ProductsHome />
       </section>
-
       {/* <section className='relative overflow-hidden'>
         <CTA />
       </section> */}
-
       <section className="">
         <Footer />
       </section>
