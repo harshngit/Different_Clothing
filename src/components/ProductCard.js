@@ -111,6 +111,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 										/>
 									))}
 								</div>
+
 							</div>
 
 							<button
