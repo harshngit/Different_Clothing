@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaFacebookSquare, FaHeart, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuShare2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
@@ -142,6 +142,33 @@ const Details = ({ productDetails }) => {
 		{ title: "Delivery And Payment", content: productDetails.productDeliveryPayment },
 	];
 
+	const handleShare = (platform) => {
+		const url = encodeURIComponent(window.location.href);
+		const text = encodeURIComponent("Check this out product!");
+
+		let shareUrl = "";
+
+		switch (platform) {
+			case "whatsapp":
+				shareUrl = `https://wa.me/?text=${text}%20${url}`;
+				break;
+			case "facebook":
+				shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+				break;
+			case "twitter":
+				shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+				break;
+			case "instagram":
+				navigator.clipboard.writeText(window.location.href);
+				toast.success("Link copied!");
+				return;
+			default:
+				return;
+		}
+
+		window.open(shareUrl, "_blank");
+	};
+
 	return (
 		<div className="px-5 py-5 w-full flex flex-col justify-start items-start gap-[10px]">
 			<div className="w-full">
@@ -245,12 +272,28 @@ const Details = ({ productDetails }) => {
 				</button>
 			</div>
 
-			<div className="flex gap-2 items-center cursor-pointer text-black mt-3">
-				<LuShare2 className="text-[19px]" />
-				<h3>Share</h3>
+			<div className="flex items-center gap-3 mt-4 text-black">
+				<span className="font-medium">Share</span>
+
+				<FaWhatsapp
+					className="cursor-pointer text-[22px] hover:text-green-600"
+					onClick={() => handleShare("whatsapp")}
+				/>
+				<FaFacebookSquare
+					className="cursor-pointer text-[22px] hover:text-blue-600"
+					onClick={() => handleShare("facebook")}
+				/>
+				<FaTwitter
+					className="cursor-pointer text-[22px] hover:text-sky-500"
+					onClick={() => handleShare("twitter")}
+				/>
+				<FaInstagram
+					className="cursor-pointer text-[22px] hover:text-pink-500"
+					onClick={() => handleShare("instagram")}
+				/>
 			</div>
 
-			<div className="w-full divide-y divide-gray-200 mt-4">
+			<div className="w-full lg:hidden block divide-y divide-gray-200 mt-4">
 				{infoSections.map((item, index) => (
 					<div key={index}>
 						<button

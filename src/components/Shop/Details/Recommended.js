@@ -1,5 +1,6 @@
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions'
 import ProductCard from '@/components/ProductCard'
+import ProductCardMobileSwiper from '@/components/ProductCardMobileSwiper'
 import allProducts from '@/data/ProductData'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -50,7 +51,12 @@ const Recommended = ({ product }) => {
 			<div className='felx justify-start item-center  px-5 pb-5'>
 				<p className='text-[#8c8c8c] text-[16px]'>Trending Now </p>
 			</div>
-			<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			<div className='lg:block hidden'>
+				<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			</div>
+			<div className='lg:hidden block'>
+				<ProductCardMobileSwiper isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			</div>
 
 			<ToastContainer position="bottom-left" />
 		</div>

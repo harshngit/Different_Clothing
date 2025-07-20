@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const ProductCard = ({ visibleProducts, product, gridView }) => {
 	const dispatch = useDispatch();
 	const wishlist = useSelector((state) => state.wishlist.wishlist);
-	const { userProfile } = useSelector((state) => state.user);
+	const { userProfile, isAuthenticated } = useSelector((state) => state.user);
 	const userId = userProfile?.uid;
 
 	useEffect(() => {
@@ -114,18 +114,37 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 
 							</div>
 
-							<button
-								onClick={(e) => {
-									e.preventDefault();
-									handleToggle(product);
-								}}
-							>
-								<img
-									src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
-									alt="heart icon"
-									className="w-6 h-6"
-								/>
-							</button>
+							{
+								isAuthenticated ? (
+									<button
+										onClick={(e) => {
+											e.preventDefault();
+											handleToggle(product);
+										}}
+									>
+										<img
+											src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
+											alt="heart icon"
+											className="w-6 h-6"
+										/>
+									</button>
+								) : (
+									<Link href={"/login"}>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												handleToggle(product);
+											}}
+										>
+											<img
+												src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
+												alt="heart icon"
+												className="w-6 h-6"
+											/>
+										</button>
+									</Link>
+								)
+							}
 						</div>
 					</div>
 				</Link>

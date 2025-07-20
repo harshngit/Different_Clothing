@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions'
 import { toast, ToastContainer } from 'react-toastify'
 import ProductCard from '../ProductCard'
+import ProductCardMobileSwiper from '../ProductCardMobileSwiper'
 
 const TrendingNow = () => {
 
@@ -77,7 +78,12 @@ const TrendingNow = () => {
 				</div>
 			</div>
 
-			<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			<div className='lg:block hidden'>
+				<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			</div>
+			<div className='lg:hidden block'>
+				<ProductCardMobileSwiper isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			</div>
 
 			<ToastContainer position="bottom-left" />
 		</div>

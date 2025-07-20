@@ -10,6 +10,7 @@ import {
 	GoogleAuthProvider,
 } from 'firebase/auth';
 import { auth } from '@/app/firebase.config';
+import { toast } from 'react-toastify';
 
 export const loginUsingEmail = createAsyncThunk(
 	'auth/login',
@@ -46,6 +47,7 @@ export const registerUser = createAsyncThunk(
 			};
 		} catch (error) {
 			return rejectWithValue(error.message || 'Registration failed');
+			toast.error(error.message)
 		}
 	}
 );

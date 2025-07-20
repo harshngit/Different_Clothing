@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleWishlistItem, loadWishlistFromStorage } from '@/actions/wishlistActions';
 import { toast, ToastContainer } from 'react-toastify';
 import ProductCard from '../ProductCard';
+import ProductCardMobileSwiper from '../ProductCardMobileSwiper';
 
 const Deal = ({ productList = [] }) => {
 	const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Deal = ({ productList = [] }) => {
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
 
 	return (
-		<div className='bg-white w-full lg:h-screen h-auto pt-10'>
+		<div className='bg-white w-full lg:h-auto h-auto pt-10 pb-10'>
 			{/* Header */}
 			<div className='lg:py-5 py-5 px-5 lg:px-10 flex justify-between items-center'>
 				<h2 className='font-bold font-playfair lg:text-[32px] text-[18px]'>TRENDING NOW</h2>
@@ -49,7 +50,12 @@ const Deal = ({ productList = [] }) => {
 			</div>
 
 			{/* Products Grid */}
-			<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			<div className='lg:block hidden'>
+				<ProductCard isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			</div>
+			<div className='lg:hidden block'>
+				<ProductCardMobileSwiper isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
+			</div>
 
 			{/* Toast Message */}
 			<ToastContainer position="bottom-left" />

@@ -3,7 +3,7 @@
 import { logout } from '@/actions/authActions';
 import Link from 'next/link';
 import React from 'react'
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 const ProfilePage = () => {
@@ -39,6 +39,11 @@ const ProfilePage = () => {
 	};
 	return (
 		<div className="w-full max-w-md mx-auto p-6">
+			<div className="flex justify-start items-center mb-4">
+				<Link href="/">
+					<FiArrowLeft className="text-lg" />
+				</Link>
+			</div>
 			<div>
 				<h2 className='text-[40px] my-[20px]'>
 					{userProfile?.displayName}

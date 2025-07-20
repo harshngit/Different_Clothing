@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 
-const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, contact, setContact, handleCreateUser }) => {
+const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, contact, setContact, handleCreateUser, handleNextStep }) => {
 	const [showPassword, setShowPassword] = useState(false)
 	return (
 		<div className=' px-5 py-5 rounded-lg lg:w-[30%] w-[80%] flex justify-start items-end flex-col'>
@@ -59,8 +59,8 @@ const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, c
 					<p className='text-[#004aff]'>Forget Password</p>
 				</Link>
 			</div> */}
-			<div className='w-full flex justify-center items-center mt-5 bg-black px-5 py-2 rounded-lg text-white cursor-pointer hover:bg-gray-800 transition-all duration-200 ease-linear '>
-				<button onClick={handleCreateUser} className='text-center'>Sign In</button>
+			<div onClick={handleNextStep} className='w-full flex justify-center items-center mt-5 bg-black px-5 py-2 rounded-lg text-white cursor-pointer hover:bg-gray-800 transition-all duration-200 ease-linear '>
+				<button className='text-center'>Next Step</button>
 			</div>
 			<div className='w-full flex justify-center items-center mt-5 px-5 py-2 rounded-lg text-black gap-5'>
 				<div className='bg-black w-10 h-[0.5px]'></div>
