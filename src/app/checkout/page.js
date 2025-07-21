@@ -12,6 +12,9 @@ const Checkout = () => {
 	return (
 		<div className="font-playfair">
 			{/* <Navbar /> */}
+			<section className=''>
+
+			</section>
 			<section className="">
 				<CheckoutPage />
 			</section>

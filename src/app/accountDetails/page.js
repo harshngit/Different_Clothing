@@ -57,12 +57,6 @@ const AccountDetails = () => {
 			<section className="relative pt-[10px] pb-[50px]">
 				<Account accountDetails={accountDetails} deleteUserAccount={deleteUserAccount} />
 			</section>
-			{/* <section className="relative">
-				<Recommended />
-			</section>
-			<section className="relative">
-				<DetailCta />
-			</section> */}
 			<Footer />
 		</div>
 	)

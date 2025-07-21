@@ -6,6 +6,7 @@ import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "@/app/firebase.config";
 import { FaJediOrder } from "react-icons/fa6";
 import { FaBoxOpen } from "react-icons/fa";
+import Link from "next/link";
 
 const Orderpage = () => {
 	const [orders, setOrders] = useState([]);
@@ -111,9 +112,11 @@ const Orderpage = () => {
 						))}
 
 						<div className='flex gap-2'>
-							<button className='bg-gray-100 text-gray-800 text-sm px-4 py-2 rounded-md'>
-								See Details
-							</button>
+							<Link href={`/orders/${order?.OrderID}`}>
+								<button className='bg-gray-100 text-gray-800 text-sm px-4 py-2 rounded-md'>
+									See Details
+								</button>
+							</Link>
 							<button className='bg-black text-white text-sm px-4 py-2 rounded-md'>
 								Print Bill
 							</button>
