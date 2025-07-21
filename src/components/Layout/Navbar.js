@@ -57,7 +57,7 @@ export default function Navbar() {
 
     return () => unsubscribe(); // Cleanup on unmount
   }, [userProfile?.uid]);
-  console.log(accountDetails)
+  // console.log(accountDetails)
 
   const fetchProduct = async () => {
     try {

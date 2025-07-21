@@ -1,24 +1,21 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from 'react';
-import {
-	doc,
-	onSnapshot,
-	collection,
-	query,
-	where,
-	orderBy,
-	getDocs,
-} from 'firebase/firestore';
+import { db } from '@/app/firebase.config';  // Ensure this is correct
+import { doc, onSnapshot } from 'firebase/firestore';
 import Footer from '@/components/Layout/Footer';
-import { db } from '@/app/firebase.config';
 import Navbar from '@/components/Layout/Navbar';
+import LoadingScreen from '@/components/Loader/LoadingScreen';
+import { useRouter } from 'next/navigation';
+import ReturnForm from '@/components/Return/ReturnForm';
 
-export default function ReturnForm({ params }) {
-	const [orderDetails, setOrderDetails] = useState({})
+export default function ReturnPage({ params }) {
+
+	const [orderDetails, setOrderDetails] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const id = params?.OrderID
-	console.log(id)
+
+	const id = params?.OrderID;
+
 	useEffect(() => {
 		if (!id) return;
 
@@ -28,7 +25,7 @@ export default function ReturnForm({ params }) {
 				if (docSnap.exists()) {
 					setOrderDetails({ id: docSnap.id, ...docSnap.data() });
 				} else {
-					console.warn('No product found.');
+					console.warn('No order found.');
 					setOrderDetails(null);
 				}
 				setLoading(false);
@@ -41,13 +38,20 @@ export default function ReturnForm({ params }) {
 
 		return () => unsubscribe();
 	}, [id]);
+
+
+	// Loading screen
+	if (loading) {
+		return <LoadingScreen />;
+	}
+
 	return (
 		<div className="font-playfair">
 			<Navbar />
 			<section className="relative pt-[10px] pb-[50px]">
-				<ReturnForm />
+				<ReturnForm orderDetails={orderDetails} />
 			</section>
 			<Footer />
 		</div>
-	)
+	);
 }
