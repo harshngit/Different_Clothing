@@ -4,30 +4,47 @@ import { useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { db } from '@/app/firebase.config';
 import { doc, updateDoc } from 'firebase/firestore';
-import { Input, Button, Select, Option } from '@material-tailwind/react';
+import { Input, Button } from '@material-tailwind/react';
 import ImageUploading from 'react-images-uploading';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 
 const ReturnForm = ({ orderDetails }) => {
-	const [returnReason, setReturnReason] = useState('');
-	const [images, setImages] = useState([]);
+	// Function to generate a 5-digit random number
+	const generateRandomNumber = () => {
+		return Math.floor(10000 + Math.random() * 90000); // Generates a number between 10000 and 99999
+	}
+
+	// State to store the returnOrder object (returnId, returnReason, and images)
+	const [returnOrder, setReturnOrder] = useState({
+		returnId: generateRandomNumber(),  // Generate returnId
+		returnReason: "",  // Store return reason here
+		images: [],  // Store uploaded images here
+	});
+
 	const [loading, setLoading] = useState(false);
 
 	const router = useRouter();
 
 	console.log(orderDetails?.OrderID); // Debugging to check if OrderID exists
 
+	// Handle image selection
 	const handleImageChange = (imageList) => {
-		setImages(imageList);  // Update image state with the selected images
+		setReturnOrder({ ...returnOrder, images: imageList });  // Update images in the returnOrder object
 	};
 
+	// Handle return reason selection
+	const handleReturnReasonChange = (e) => {
+		setReturnOrder({ ...returnOrder, returnReason: e.target.value });  // Update returnReason in returnOrder object
+	};
+
+	// Handle form submission
 	const handleSubmit = async () => {
-		// if (!returnReason || images.length === 0) {
-		// 	alert("Please fill in all fields and upload images.");
-		// 	return;
-		// }
+		if (!returnOrder.returnReason || returnOrder.images.length === 0) {
+			alert("Please fill in all fields and upload images.");
+			return;
+		}
 
 		setLoading(true);
 
@@ -35,14 +52,15 @@ const ReturnForm = ({ orderDetails }) => {
 			const updatedOrderRef = doc(db, 'Order', orderDetails.OrderID);
 
 			// Create an array of image URLs from the uploaded images
-			const uploadedImageURLs = images.map((image) => image.data_url);
+			const uploadedImageURLs = returnOrder.images.map((image) => image.data_url);
 
-			// Update the Firestore document with the new return reason and images
+			// Update the Firestore document with the new return data
 			await updateDoc(updatedOrderRef, {
-				returnReason,
+				returnId: returnOrder.returnId,
+				returnReason: returnOrder.returnReason,
 				returnImages: uploadedImageURLs,
-				orderStatus: 'Return Requested',
-				status: 'Return',
+				orderStatus: "Return Processing",
+				status: "Processing",
 			});
 
 			toast.success("Return request submitted successfully!");
@@ -53,6 +71,16 @@ const ReturnForm = ({ orderDetails }) => {
 			setLoading(false);
 		}
 	};
+
+	// Predefined return reasons
+	const reason = [
+		{ value: "", label: "Select a reason" },
+		{ value: "Damaged", label: "Damaged" },
+		{ value: "Incorrect Size", label: "Incorrect Size" },
+		{ value: "Not as Expected", label: "Not as Expected" },
+		{ value: "Order of T-shirt brand", label: "Order of T-shirt brand" },
+
+	];
 
 	return (
 		<div className="max-w-xl mx-auto py-10 px-4">
@@ -118,18 +146,17 @@ const ReturnForm = ({ orderDetails }) => {
 			{/* Return Reason Select */}
 			<div className="mb-6">
 				<label htmlFor="returnReason" className="block text-sm font-medium mb-2">Return Reason</label>
-				{/* <Select
-					id="returnReason"
-					value={returnReason}
-					onChange={(e) => setReturnReason(e.target.value)}
-					className="w-full"
+				<select
+					value={returnOrder.returnReason}
+					onChange={handleReturnReasonChange}  // Set the selected return reason
+					className="w-full p-2 border border-gray-300 rounded-lg"
 				>
-					<Option value="">Select a reason</Option>
-					<Option value="Damaged">Damaged</Option>
-					<Option value="Incorrect Size">Incorrect Size</Option>
-					<Option value="Not as Expected">Not as Expected</Option>
-					<Option value="Other">Other</Option>
-				</Select> */}
+					{reason.map((reason) => (
+						<option key={reason.value} value={reason.value}>
+							{reason.label}
+						</option>
+					))}
+				</select>
 			</div>
 
 			{/* Image Uploading Section */}
@@ -137,7 +164,7 @@ const ReturnForm = ({ orderDetails }) => {
 				<label className="block text-sm font-medium mb-2">Upload Images</label>
 				<ImageUploading
 					multiple
-					value={images}
+					value={returnOrder.images}
 					onChange={handleImageChange}
 					dataURLKey="data_url"
 				>
@@ -187,7 +214,7 @@ const ReturnForm = ({ orderDetails }) => {
 				<Button
 					onClick={handleSubmit}
 					disabled={loading}
-					className="bg-black text-white px-4 py-2 rounded-md"
+					className=""
 				>
 					{loading ? "Submitting..." : "Submit Return"}
 				</Button>

@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "@/app/firebase.config";
-import { FaJediOrder } from "react-icons/fa6";
-import { FaBoxOpen } from "react-icons/fa";
+import { FaJediOrder, FaRightLeft } from "react-icons/fa6";
 import Link from "next/link";
+import LoadingScreen from "../Loader/LoadingScreen";
+import { FaSpinner, FaTruck, FaBoxOpen, FaTimesCircle, FaHourglassHalf, FaBox } from "react-icons/fa";
 
 const Orderpage = () => {
 	const [orders, setOrders] = useState([]);
@@ -41,9 +42,8 @@ const Orderpage = () => {
 	}, [uid]);
 
 	if (loading) {
-		return <p className="p-10">Loading orders...</p>;
+		return <LoadingScreen />;
 	}
-
 	if (!orders.length) {
 		return <div className="py-2 px-5">
 			<div className='flex justify-start items-start lg:px-10 lg:py-10 px-5 py-5'>
@@ -75,9 +75,33 @@ const Orderpage = () => {
 									</p>
 								</div>
 							</div>
-							<span className='text-black font-medium text-sm bg-gray-100 px-3 py-1 rounded-full'>
-								✔ {order.orderStatus || "Pending"}
+
+
+							<span className={`flex items-center gap-2 font-medium text-sm px-3 py-1 rounded-full transition-all duration-300 ${order.status === "unfulfilled" ? "bg-black text-white" :
+								order.status === "Processing" ? "bg-blue-100 text-blue-800" :
+									order.status === "Shipped" ? "bg-indigo-100 text-indigo-800" :
+										order.status === "Delivered" ? "bg-green-100 text-green-800" :
+											order.status === "Cancelled" ? "bg-red-100 text-red-800" :
+												"bg-yellow-100 text-yellow-800"
+								}`}>
+								{
+									order.status === "Processing" ? (
+										<FaSpinner className="animate-spin" />
+									) : order.status === "Shipped" ? (
+										<FaTruck />
+									) : order.status === "Delivered" ? (
+										<FaBoxOpen />
+									) : order.status === "Cancelled" ? (
+										<FaTimesCircle />
+									) : order.status == "unfulfilled" ? (
+										<FaBox />
+									) : (
+										<FaHourglassHalf />
+									)
+								}
+								{order.status || "Pending"}
 							</span>
+
 						</div>
 
 						<div className="flex justify-start items-start gap-[5px] flex-col mb-2">

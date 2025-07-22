@@ -37,7 +37,10 @@ const Details = ({ productDetails }) => {
 		if (!selectedSize) {
 			setSelectedSize(defaultSizes[0] || "");
 		}
-	}, [defaultSizes]);
+		if (!selectedColor) {
+			setSelectedSize(defaultColor[0] || "");
+		}
+	}, [defaultSizes, defaultColor]);
 
 	const sizesToShow =
 		selectedColor === defaultColor
