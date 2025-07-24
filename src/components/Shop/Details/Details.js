@@ -2,20 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { FaFacebookSquare, FaHeart, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import { LuShare2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "@/actions/cartAction";
 import { toast } from "react-toastify";
-import {
-	loadWishlistFromStorage,
-	toggleWishlistItem,
-} from "@/actions/wishlistActions";
+import { addToCart } from "@/actions/cartAction";
+import { loadWishlistFromStorage, toggleWishlistItem } from "@/actions/wishlistActions";
 
 const Details = ({ productDetails }) => {
 	const dispatch = useDispatch();
 	const variation = productDetails.variation || [];
-	const defaultColor = productDetails.productColor || "";
-	const defaultSizes = productDetails.productSize || [];
+	const defaultColor = productDetails.productData?.[0]?.productColor || "";
+	const defaultSizes = [productDetails.productData?.[0]?.productSize || ""];
 
 	const [selectedColor, setSelectedColor] = useState(defaultColor);
 	const [selectedSize, setSelectedSize] = useState("");
@@ -27,7 +23,8 @@ const Details = ({ productDetails }) => {
 	const userId = userProfile?.uid;
 
 	const allVariantColors = [...new Set(variation.map((v) => v.color))];
-	const allColors = [...new Set([defaultColor, ...allVariantColors])];
+	const allDefaultColors = [...new Set(productDetails.productData?.map((p) => p.productColor))];
+	const allColors = [...new Set([...allDefaultColors, ...allVariantColors])];
 
 	useEffect(() => {
 		dispatch(loadWishlistFromStorage());
@@ -37,22 +34,26 @@ const Details = ({ productDetails }) => {
 		if (!selectedSize) {
 			setSelectedSize(defaultSizes[0] || "");
 		}
-		if (!selectedColor) {
-			setSelectedSize(defaultColor[0] || "");
-		}
-	}, [defaultSizes, defaultColor]);
+	}, [defaultSizes]);
 
 	const sizesToShow =
 		selectedColor === defaultColor
-			? defaultSizes
+			? productDetails.productData
+				?.filter((p) => p.productColor?.toLowerCase() === selectedColor?.toLowerCase())
+				?.map((p) => p.productSize)
 			: variation
-				.filter((v) =>
-					v.color.toLowerCase() === selectedColor.toLowerCase()
-				)
-				.flatMap((v) => v.size || []);
+				?.filter((v) => v.color?.toLowerCase() === selectedColor?.toLowerCase())
+				?.flatMap((v) => v.size || []);
 
 	const getVariantQuantity = () => {
-		if (selectedColor === defaultColor) return productDetails.productQuantity || 0;
+		if (selectedColor === defaultColor) {
+			const match = productDetails.productData?.find(
+				(p) =>
+					p.productColor?.toLowerCase() === selectedColor?.toLowerCase() &&
+					p.productSize === selectedSize
+			);
+			return match?.productInventory ? parseInt(match.productInventory) : 0;
+		}
 		const match = variation.find(
 			(v) =>
 				v.color?.toLowerCase() === selectedColor?.toLowerCase() &&
@@ -62,11 +63,37 @@ const Details = ({ productDetails }) => {
 	};
 
 	const getSizeQuantity = (color, size) => {
-		if (color === defaultColor) return productDetails.productQuantity || 0;
+		if (color === defaultColor) {
+			const match = productDetails.productData?.find(
+				(p) =>
+					p.productColor?.toLowerCase() === color?.toLowerCase() &&
+					p.productSize === size
+			);
+			return match?.productInventory ? parseInt(match.productInventory) : 0;
+		}
 		const match = variation.find(
-			(v) => v.color?.toLowerCase() === color?.toLowerCase() && (v.size || []).includes(size)
+			(v) =>
+				v.color?.toLowerCase() === color?.toLowerCase() &&
+				(v.size || []).includes(size)
 		);
 		return match?.quantity ?? 0;
+	};
+
+	const getSelectedPrice = () => {
+		if (selectedColor === defaultColor) {
+			const match = productDetails.productData?.find(
+				(p) =>
+					p.productColor === selectedColor &&
+					p.productSize === selectedSize
+			);
+			return parseInt(match?.productPrice || productDetails.productPrice);
+		}
+		const match = variation?.find(
+			(v) =>
+				v.color === selectedColor &&
+				v.size?.includes(selectedSize)
+		);
+		return parseInt(match?.price || productDetails.productPrice);
 	};
 
 	const variantQuantity = getVariantQuantity();
@@ -99,7 +126,7 @@ const Details = ({ productDetails }) => {
 			user: userProfile,
 			product: productDetails._id || productDetails.id,
 			name: productDetails.productName,
-			price: productDetails.productPrice,
+			price: getSelectedPrice(),
 			image: productDetails.productImages?.[0],
 			size: selectedSize,
 			quantity: 1,
@@ -122,9 +149,7 @@ const Details = ({ productDetails }) => {
 		}
 		dispatch(toggleWishlistItem(userId, productDetails));
 
-		const isInWishlist = wishlist?.[userId]?.some(
-			(p) => p.id === productDetails.id
-		);
+		const isInWishlist = wishlist?.[userId]?.some((p) => p.id === productDetails.id);
 		if (!isInWishlist) {
 			toast.success("Product added to wishlist", { autoClose: 1500 });
 		} else {
@@ -132,12 +157,8 @@ const Details = ({ productDetails }) => {
 		}
 	};
 
-	const isLiked = () =>
-		wishlist?.[userId]?.some((p) => p.id === productDetails.id);
-
-	const toggleAccordion = (index) => {
-		setOpenIndex(openIndex === index ? null : index);
-	};
+	const isLiked = () => wishlist?.[userId]?.some((p) => p.id === productDetails.id);
+	const toggleAccordion = (index) => setOpenIndex(openIndex === index ? null : index);
 
 	const infoSections = [
 		{ title: "Description", content: productDetails.productDescription },
@@ -148,7 +169,6 @@ const Details = ({ productDetails }) => {
 	const handleShare = (platform) => {
 		const url = encodeURIComponent(window.location.href);
 		const text = encodeURIComponent("Check this out product!");
-
 		let shareUrl = "";
 
 		switch (platform) {
@@ -179,25 +199,26 @@ const Details = ({ productDetails }) => {
 				<h2 className="font-normal text-[25px] text-[#000]">{productDetails.productName}</h2>
 			</div>
 
-			<h2 className="font-normal text-[20px] text-[#000]">
-				₹{productDetails.productPrice}
-			</h2>
+			{
+				selectedSize ? (
+					<h2 className="font-normal text-[20px] text-[#000]">₹{getSelectedPrice()}</h2>
+				) : (
+					<p className="text-red-500 text-[16px] font-medium">Please select size</p>
+				)
+			}
 
 			<p className="text-[#666666]">
-				<p className="text-[#666666]">
-					{isSoldOut ? (
-						selectedSize ? (
-							<span className="text-red-500 font-semibold">Sold Out</span>
-						) : (
-							<span className="text-black font-medium">Please select a size</span>
-						)
+				{isSoldOut ? (
+					!selectedSize ? (
+						<span className="text-red-500 font-semibold">Sold Out</span>
 					) : (
-						<>
-							Only <span className="font-bold">{variantQuantity}</span> item(s) left in stock!
-						</>
-					)}
-				</p>
-
+						<span className="text-black font-medium">Please select a size</span>
+					)
+				) : (
+					<>
+						Only <span className="font-bold">{variantQuantity}</span> item(s) left in stock!
+					</>
+				)}
 			</p>
 
 			<div className="flex flex-col gap-2 mt-4 w-full">
@@ -210,8 +231,7 @@ const Details = ({ productDetails }) => {
 								setSelectedColor(color);
 								setSelectedSize("");
 							}}
-							className={`w-6 h-6 rounded-full border cursor-pointer ${selectedColor === color ? "ring-2 ring-black" : "border-black"
-								}`}
+							className={`w-6 h-6 rounded-full border cursor-pointer ${selectedColor === color ? "ring-2 ring-black" : "border-black"}`}
 							style={{ backgroundColor: color }}
 						/>
 					))}
@@ -258,8 +278,7 @@ const Details = ({ productDetails }) => {
 				<button
 					onClick={handleAddToCart}
 					disabled={isSoldOut}
-					className={`w-[90%] px-4 py-4 text-center font-normal text-[18px] ${isSoldOut ? "bg-gray-400 text-white cursor-not-allowed" : "bg-black text-white cursor-pointer"
-						}`}
+					className={`w-[90%] px-4 py-4 text-center font-normal text-[18px] ${isSoldOut ? "bg-gray-400 text-white cursor-not-allowed" : "bg-black text-white cursor-pointer"}`}
 				>
 					{isSoldOut ? "Sold Out" : "Add to Cart"}
 				</button>
@@ -277,23 +296,10 @@ const Details = ({ productDetails }) => {
 
 			<div className="flex items-center gap-3 mt-4 text-black">
 				<span className="font-medium">Share</span>
-
-				<FaWhatsapp
-					className="cursor-pointer text-[22px] hover:text-green-600"
-					onClick={() => handleShare("whatsapp")}
-				/>
-				<FaFacebookSquare
-					className="cursor-pointer text-[22px] hover:text-blue-600"
-					onClick={() => handleShare("facebook")}
-				/>
-				<FaTwitter
-					className="cursor-pointer text-[22px] hover:text-sky-500"
-					onClick={() => handleShare("twitter")}
-				/>
-				<FaInstagram
-					className="cursor-pointer text-[22px] hover:text-pink-500"
-					onClick={() => handleShare("instagram")}
-				/>
+				<FaWhatsapp className="cursor-pointer text-[22px] hover:text-green-600" onClick={() => handleShare("whatsapp")} />
+				<FaFacebookSquare className="cursor-pointer text-[22px] hover:text-blue-600" onClick={() => handleShare("facebook")} />
+				<FaTwitter className="cursor-pointer text-[22px] hover:text-sky-500" onClick={() => handleShare("twitter")} />
+				<FaInstagram className="cursor-pointer text-[22px] hover:text-pink-500" onClick={() => handleShare("instagram")} />
 			</div>
 
 			<div className="w-full lg:hidden block divide-y divide-gray-200 mt-4">
@@ -304,18 +310,12 @@ const Details = ({ productDetails }) => {
 							onClick={() => toggleAccordion(index)}
 						>
 							{item.title}
-							<IoIosArrowDown
-								className={`w-5 h-5 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""
-									}`}
-							/>
+							<IoIosArrowDown className={`w-5 h-5 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`} />
 						</button>
 						<div
-							className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-								}`}
+							className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
 						>
-							<p className="py-2 text-gray-700">
-								{(item?.content || "").replace(/<[^>]+>/g, "")}
-							</p>
+							<p className="py-2 text-gray-700">{(item?.content || "").replace(/<[^>]+>/g, "")}</p>
 						</div>
 					</div>
 				))}

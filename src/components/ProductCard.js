@@ -83,10 +83,10 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 							) : null}
 
 							{/* Size Hover Overlay */}
-							{product?.productSize?.length > 0 && (
+							{product?.productData?.length > 0 && (
 								<div className="absolute bottom-0 left-0 w-full bg-white/70 text-black text-sm font-semibold flex justify-center items-center gap-3 py-2 transition-all duration-300 transform -translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-10">
-									{product.productSize.map((item, index) => (
-										<span key={index}>{item}</span>
+									{product.productData?.map((item, index) => (
+										<span key={index}>{item.productSize}</span>
 									))}
 								</div>
 							)}
@@ -98,9 +98,11 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 								<h3 className="lg:text-[20px] text-[15px] font-semibold">
 									{product.productName}
 								</h3>
-								<p className="text-gray-700 font-bold lg:text-[15px] text-[15px]">
-									₹{product.productPrice}
-								</p>
+								{product?.productData?.map((item) => (
+									<p className="text-gray-700 font-bold lg:text-[15px] text-[15px]">
+										₹{item.productPrice}
+									</p>
+								))}
 
 								<div className="flex gap-2 mt-1">
 									{product.variation.map((item, index) => (
@@ -108,6 +110,13 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 											key={index}
 											className="w-5 h-5 border border-black"
 											style={{ backgroundColor: item.color }}
+										/>
+									))}
+									{product.productData.map((item, index) => (
+										<div
+											key={index}
+											className="w-5 h-5 border border-black"
+											style={{ backgroundColor: item.productColor }}
 										/>
 									))}
 								</div>
