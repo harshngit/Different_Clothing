@@ -83,11 +83,19 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 							) : null}
 
 							{/* Size Hover Overlay */}
-							{product?.productData?.length > 0 && (
+							{(product?.productData?.length > 0 || product?.variation?.length > 0) && (
 								<div className="absolute bottom-0 left-0 w-full bg-white/70 text-black text-sm font-semibold flex justify-center items-center gap-3 py-2 transition-all duration-300 transform -translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-10">
+									{/* Sizes from productData */}
 									{product.productData?.map((item, index) => (
-										<span key={index}>{item.productSize}</span>
+										<span key={`pd-${index}`}>{item.productSize}</span>
 									))}
+
+									{/* Sizes from variation */}
+									{product.variation?.flatMap((variant, idx) =>
+										(variant.size || []).map((size, sIdx) => (
+											<span key={`var-${idx}-${sIdx}`}>{size}</span>
+										))
+									)}
 								</div>
 							)}
 						</div>
