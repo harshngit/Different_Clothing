@@ -63,6 +63,10 @@
     display: none;
 }
 
+#invoice-container {
+    width: 70%;
+}
+
 .scrollbar-hide {
     -ms-overflow-style: none;
     /* IE and Edge */
@@ -73,6 +77,10 @@
 /*  */
 
 @media screen and (max-width:500px) {
+    #invoice-container {
+        width: 100%;
+    }
+
     .swiper-deal .swiper-button-prev {
         top: 50% !important;
         left: 10px !important;

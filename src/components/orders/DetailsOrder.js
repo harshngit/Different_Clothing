@@ -39,7 +39,7 @@ const DetailsOrder = ({ orderDetails }) => {
 					</div>
 				</div>
 				{(orderDetails?.status === "unfulfilled" || orderDetails?.status === "Shipped") && (
-					<button className="bg-red-100 hover:bg-red-500 transition-all w-[] duration-500 hover:text-white text-red text-sm px-4 py-2 rounded-md w-[50%]">
+					<button className="bg-red-100 hover:bg-red-500 transition-all  duration-500 hover:text-white text-red text-sm px-4 py-2 rounded-md w-[50%]">
 						Cancel Order
 					</button>
 				)}

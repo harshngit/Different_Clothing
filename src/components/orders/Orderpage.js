@@ -7,7 +7,8 @@ import { db } from "@/app/firebase.config";
 import { FaJediOrder, FaRightLeft } from "react-icons/fa6";
 import Link from "next/link";
 import LoadingScreen from "../Loader/LoadingScreen";
-import { FaSpinner, FaTruck, FaBoxOpen, FaTimesCircle, FaHourglassHalf, FaBox } from "react-icons/fa";
+import { FaSpinner, FaTruck, FaBoxOpen, FaTimesCircle, FaBox, FaHourglassHalf, FaCheckCircle } from "react-icons/fa";
+
 
 const Orderpage = () => {
 	const [orders, setOrders] = useState([]);
@@ -82,7 +83,9 @@ const Orderpage = () => {
 									order.status === "Shipped" ? "bg-indigo-100 text-indigo-800" :
 										order.status === "Delivered" ? "bg-green-100 text-green-800" :
 											order.status === "Cancelled" ? "bg-red-100 text-red-800" :
-												"bg-yellow-100 text-yellow-800"
+												order.status === "Return Confirm" ? "bg-green-100 text-green-800" :
+													order.status === "Cancel Return" ? "bg-red-100 text-red-800" :
+														"bg-yellow-100 text-yellow-800"
 								}`}>
 								{
 									order.status === "Processing" ? (
@@ -91,9 +94,11 @@ const Orderpage = () => {
 										<FaTruck />
 									) : order.status === "Delivered" ? (
 										<FaBoxOpen />
-									) : order.status === "Cancelled" ? (
+									) : order.status === "Cancelled" || order.status === "Cancel Return" ? (
 										<FaTimesCircle />
-									) : order.status == "unfulfilled" ? (
+									) : order.status === "Return Confirm" ? (
+										<FaCheckCircle />
+									) : order.status === "unfulfilled" ? (
 										<FaBox />
 									) : (
 										<FaHourglassHalf />
@@ -101,6 +106,7 @@ const Orderpage = () => {
 								}
 								{order.status || "Pending"}
 							</span>
+
 
 						</div>
 
@@ -141,9 +147,11 @@ const Orderpage = () => {
 									See Details
 								</button>
 							</Link>
-							<button className='bg-black text-white text-sm px-4 py-2 rounded-md'>
-								Print Bill
-							</button>
+							<Link href={`/orders/orderbill/${order?.OrderID}`}>
+								<button className='bg-black text-white text-sm px-4 py-2 rounded-md'>
+									Print Bill
+								</button>
+							</Link>
 						</div>
 					</div>
 				))}

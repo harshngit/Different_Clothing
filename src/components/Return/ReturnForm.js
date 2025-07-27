@@ -11,9 +11,9 @@ import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 
 const ReturnForm = ({ orderDetails }) => {
-	// Function to generate a 5-digit random number
+
 	const generateRandomNumber = () => {
-		return Math.floor(10000 + Math.random() * 90000); // Generates a number between 10000 and 99999
+		return Math.floor(10000 + Math.random() * 90000);
 	}
 
 	// State to store the returnOrder object (returnId, returnReason, and images)
