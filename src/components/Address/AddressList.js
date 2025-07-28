@@ -7,26 +7,16 @@ import { useRouter } from "next/navigation";
 
 const AddressList = ({ accountDetails, openModal, userProfile }) => {
 	const router = useRouter();
-
-	// Function to handle address deletion
 	const handleDelete = async (addressId) => {
 		try {
-			// Get the user document reference
 			const userDocRef = doc(db, "users", userProfile.uid);
-
-			// Filter out the address with the specified addressId
 			const updatedAddresses = accountDetails.address.filter(
 				(item) => item.id !== addressId
 			);
-
-			// Update the user's address in Firestore
 			await updateDoc(userDocRef, {
 				address: updatedAddresses,
 			});
-
-			// After successful deletion, you may want to update the state
-			// Or simply re-fetch the data if required
-			router.reload(); // Or use any other state update method to re-render the component
+			router.reload();
 		} catch (error) {
 			console.error("Error deleting address:", error);
 		}
