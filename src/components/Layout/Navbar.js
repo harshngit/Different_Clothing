@@ -10,11 +10,39 @@ import { collection, doc, getDocs, onSnapshot, orderBy, query, where } from "fir
 import { db } from "@/app/firebase.config";
 import { MdChevronRight } from "react-icons/md";
 const navItems = [
-  { label: "FOR HIM", href: "/forhim", children: [] },
-  { label: "FOR HER", href: "/forher" },
-  { label: "SIGNATURE", href: "/signature" },
-  { label: "ARABIC", href: "/arabic" },
+  {
+    label: "FOR HIM",
+    href: "/forhim",
+    children: [
+      { label: "Hoodie", href: "#" },
+      { label: "Sweatshirt", href: "#" },
+      { label: "Oversized tee", href: "#" },
+      { label: "Sweatpants", href: "#" },
+      { label: "Regular tee", href: "#" },
+    ],
+  },
+  {
+    label: "FOR HER",
+    href: "/forher",
+    children: [
+      { label: "Hoodie", href: "#" },
+      { label: "Sweatshirt", href: "#" },
+      { label: "Oversized tee", href: "#" },
+      { label: "Leggings", href: "#" },
+      { label: "Crop tops", href: "#" },
+      { label: "Sweatpants", href: "#" },
+    ],
+  },
+  {
+    label: "ARABIC",
+    href: "/arabic",
+    children: [
+      { label: "Hoodie", href: "#" },
+    ],
+  },
 ];
+
+
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -134,17 +162,66 @@ export default function Navbar() {
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const [timer, setTimer] = useState(null);
+
+  const handleMouseEnter = (index) => {
+    // Clear any previous timer before setting the active dropdown
+    if (timer) {
+      clearTimeout(timer);
+    }
+    setActiveDropdown(index); // Show dropdown when hovering over the parent item
+  };
+
+  const handleMouseLeave = () => {
+    // Set a timer to hide the dropdown after a short delay
+    const newTimer = setTimeout(() => {
+      setActiveDropdown(null); // Hide dropdown after cursor leaves
+    }, 300); // Adjust delay in milliseconds as per your preference
+
+    setTimer(newTimer);
+  };
+
+
   const navList = (
     <ul className="flex flex-col lg:flex-row items-start gap-1 text-white uppercase font-playfair font-semibold">
       {navItems.map((item, idx) => (
-        <li key={idx} className="relative group">
+        <li
+          key={idx}
+          className="relative"
+          onMouseEnter={() => handleMouseEnter(idx)}
+          onMouseLeave={handleMouseLeave}
+        >
           <Link
             href={item.href}
-            className={`relative px-3 py-1 transition lg:text-[12px] block text-black`}
+            className="relative px-3 group py-1 transition lg:text-[12px] block text-black"
           >
             {item.label}
             <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
           </Link>
+
+          {/* Dropdown Menu */}
+          {item.children && activeDropdown === idx && (
+            <ul
+              className="absolute top-[2rem] left-0 bg-white text-black shadow-lg rounded-sm w-[200px] z-10"
+              onMouseEnter={() => handleMouseEnter(idx)}
+              onMouseLeave={handleMouseLeave}
+            >
+              {item.children.map((child, childIdx) => (
+                <li
+                  key={childIdx}
+                  className="flex justify-between border-t border-b border-gray-300 items-center px-2 py-1 cursor-pointer hover:bg-gray-100"
+                >
+                  <Link href={child.href} className="block px-2 py-2 text-[12px]">
+                    {child.label}
+
+                  </Link>
+                  <span className="text-gray-400 text-base"><MdChevronRight /></span>
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
       ))}
     </ul>
@@ -421,7 +498,7 @@ export default function Navbar() {
         className={`w-full z-[99] bg-white font-playfair transition-all duration-300 ${isSticky ? "fixed top-0 shadow-sm" : "relative"
           }`}>
         <div className="w-full  py-1 bg-[#fff]">
-          <div className="w-full flex lg:justify-between items-center px-4 lg:px-8">
+          <div className="w-full flex lg:justify-between items-center px-4 lg:px-4">
             <div className="hidden lg:flex lg:w-[45%]">{navList}</div>
             <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={() => setOpenDrawer(true)}>
               <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
