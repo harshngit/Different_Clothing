@@ -44,6 +44,8 @@ const ForHim = () => {
 		getProducts();
 	}, []);
 
+	console.log(product)
+
 	return (
 		<div className='font-playfair'>
 			<Navbar />

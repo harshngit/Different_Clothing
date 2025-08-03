@@ -30,6 +30,8 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 
 	const productsToShow = visibleProducts || product || [];
 
+	console.log(visibleProducts)
+
 	return (
 		<div
 			className={`grid transition-all duration-300 ease-in-out gap-y-[20px] gap-x-4 px-4
@@ -44,7 +46,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 						{/* Product Image Box */}
 						<div className="relative flex justify-center items-center">
 							<img
-								src={product.productImages?.[0]}
+								src={product?.productImages?.[0]}
 								alt={product.title}
 								className={`w-full transition-all duration-300 ease-in-out 
 									${gridView === 'two'
@@ -55,9 +57,9 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 							/>
 
 							{/* Hover Second Image */}
-							{product.productImages?.[1] ? (
+							{product?.productImages?.[1] ? (
 								<img
-									src={product.productImages[1]}
+									src={product?.productImages?.[1]}
 									alt={`${product.title} hover`}
 									className={`w-full absolute top-0 left-0 transition-opacity duration-300 ease-in-out 
 										${gridView === 'two'
