@@ -23,7 +23,7 @@ const Orderpage = () => {
 
 			try {
 				const orderRef = collection(db, "Order");
-				const q = query(orderRef, where("uid", "==", uid));
+				const q = query(orderRef, where("uid", "==", uid), orderBy("createdAt", "desc"));
 				const snapshot = await getDocs(q);
 
 				const fetchedOrders = snapshot.docs.map((doc) => ({

@@ -20,7 +20,7 @@ const Orders = () => {
 
 			try {
 				const productRef = collection(db, "Order");
-				const q = query(productRef, where("uid", "==", uid));
+				const q = query(productRef, where("uid", "==", uid), orderBy("createdAt", "desc"));
 				const querySnapshot = await getDocs(q);
 
 				const products = querySnapshot.docs.map((doc) => ({
