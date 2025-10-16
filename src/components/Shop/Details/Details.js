@@ -190,8 +190,8 @@ const Details = ({ productDetails }) => {
 	return (
 		<div className="px-5 py-5 w-full flex flex-col justify-start items-start gap-[10px]">
 			<div className="w-full">
-				<p className="font-thin text-[15px] text-[#000]">{productDetails.productCategory}</p>
-				<h2 className="font-normal text-[25px] text-[#000]">{productDetails.productName}</h2>
+				<p className="font-thin text-[15px] uppercase text-[#000]">{productDetails.productCategory}</p>
+				<h2 className="font-normal text-[25px] capitalize text-[#000]">{productDetails.productName}</h2>
 			</div>
 
 			{

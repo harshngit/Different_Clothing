@@ -10,6 +10,7 @@ import Navbar from "@/components/Layout/Navbar";
 import Footer from "@/components/Layout/Footer";
 // toast removed
 import AddressForm from "@/components/Register/AddressForm";
+import { formatFirebaseAuthError } from "@/utils/errorText";
 
 const Register = () => {
 	const router = useRouter();
@@ -20,6 +21,7 @@ const Register = () => {
 	const [password, setPassword] = useState("");
 	const [contact, setContact] = useState("");
 	const [loading, setloading] = useState(false);
+    const [errorText, setErrorText] = useState("");
 	// Helper function to generate a random 5-letter ID
 	const generateRandomId = () => {
 		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -45,19 +47,20 @@ const Register = () => {
 
 	const [step, setStep] = useState(1); // 1 = User Info, 2 = Address
 
-	const handleNextStep = () => {
+    const handleNextStep = () => {
+        setErrorText("");
         if (!name || !email || !password || !contact) {
-            // inline validation message (toast removed)
-			return;
-		}
-		setStep(2);
-	};
+            setErrorText("Please fill all fields");
+            return;
+        }
+        setStep(2);
+    };
 
 	const handleBackStep = () => {
 		setStep(1);
 	};
 
-	const handleCreateUser = () => {
+    const handleCreateUser = () => {
 		setloading(true);
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(async (userCredential) => {
@@ -81,11 +84,11 @@ const Register = () => {
 
                 // success notification removed
 				router.push("/success");
-			})
-			.catch((err) => {
-				console.log(err);
-                // error notification removed
-			})
+            })
+            .catch((err) => {
+                console.log(err);
+                setErrorText(formatFirebaseAuthError(err));
+            })
 			.finally(() => {
 				setloading(false);
 			});
@@ -110,6 +113,7 @@ const Register = () => {
 						contact={contact}
 						setContact={setContact}
 						handleNextStep={handleNextStep}
+                        errorText={errorText}
 					/>
 				) : (
 					<AddressForm

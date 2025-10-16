@@ -7,19 +7,22 @@ import LoginForm from "@/components/Login/LoginForm";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { formatFirebaseAuthError } from "@/utils/errorText";
 
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false)
+	const [errorText, setErrorText] = useState('')
 	const dispatch = useDispatch();
 	const router = useRouter();
 
 	const { isAuthenticated, loading, error, users } = useSelector((state) => state.user || {});
 
 	const handleLogin = async () => {
+		setErrorText('');
 		if (!email || !password) {
-			alert('Email and Password are required');
+			setErrorText('Email and password are required');
 			return;
 		}
 
@@ -28,7 +31,7 @@ const Login = () => {
 			console.log('User logged in:', user);
 			router.push('/');
 		} catch (err) {
-			alert(err);
+			setErrorText(formatFirebaseAuthError(err));
 		}
 	};
 
@@ -55,6 +58,7 @@ const Login = () => {
 					showPassword={showPassword}
 					setShowPassword={setShowPassword}
 					loading={loading}
+					errorText={errorText}
 				/>
 			</section>
 			<section className="relative">

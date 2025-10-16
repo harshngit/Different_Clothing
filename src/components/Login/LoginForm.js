@@ -3,11 +3,16 @@ import Link from 'next/link'
 import React from 'react'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 
-const LoginForm = ({ password, setPassword, email, setEmail, showPassword, setShowPassword, handleLogin }) => {
+const LoginForm = ({ password, setPassword, email, setEmail, showPassword, setShowPassword, handleLogin, errorText }) => {
 	return (
 		<div className='lg:mt-0 mt-5 px-5 py-5 rounded-lg lg:w-[30%] w-[90%] flex justify-start items-end flex-col'>
 			<div className='flex justify-center items-start flex-col w-[100%] gap-5'>
 				<h2 className='text-[#000] font-semibold text-[30px]'>Login</h2>
+                {errorText ? (
+                    <div className='w-full bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded'>
+                        {errorText}
+                    </div>
+                ) : null}
 			</div>
 			<div className='flex justify-start items-start flex-col w-[100%] mt-8 gap-5 relative'>
 				<Input label='Email' type="text" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full py-2 px-4 border-[2px] border-[#000] ' placeholder='Enter Your Email' />

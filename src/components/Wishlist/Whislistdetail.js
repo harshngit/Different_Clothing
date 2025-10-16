@@ -73,17 +73,25 @@ const Whislistdetail = () => {
 							<div className="p-3 flex justify-between items-start">
 								<div className='flex flex-col gap-2 justify-start items-start'>
 									<p className='text-black lg:text-[15px] text-[10px]'>{product?.productCategory}</p>
-									<h3 className="lg:text-[20px] text-[12px] font-semibold">{product.productName}</h3>
-									<p className="text-gray-700 font-bold lg:-text-[15px] text-[12px]">${product.productPrice}</p>
+									<h3 className="lg:text-[20px] capitalize text-[12px] font-semibold">{product.productName}</h3>
+									<p className="text-gray-700 font-bold lg:text-[15px] text-[12px]">$₹{product?.productData?.[0]?.productPrice ?? ''}</p>
 
+									<div className="flex gap-2 mt-1">
 									{product.variation.map((item, index) => (
-										<div key={index} className="flex justify-center items-center gap-2">
-											<div
-												className="w-5 h-5 rounded-full border border-black"
-												style={{ backgroundColor: item.color }}
-											/>
-										</div>
+										<div
+											key={index}
+											className="w-5 h-5 border rounded-full border-black"
+											style={{ backgroundColor: item.color }}
+										/>
 									))}
+									{product.productData.map((item, index) => (
+										<div
+											key={index}
+											className="w-5 h-5 border rounded-full border-black"
+											style={{ backgroundColor: item.productColor }}
+										/>
+									))}
+								</div>
 								</div>
 
 								{/* Wishlist Toggle */}
