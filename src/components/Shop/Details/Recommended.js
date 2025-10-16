@@ -6,7 +6,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast, ToastContainer } from 'react-toastify'
+// toast removed
 
 const Recommended = ({ product }) => {
 	const dispatch = useDispatch();
@@ -23,11 +23,7 @@ const Recommended = ({ product }) => {
 		dispatch(toggleWishlistItem(userId, product));
 
 		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
-		if (!isInWishlist) {
-			toast.success("Product added to wishlist", { autoClose: 1500 });
-		} else {
-			toast.info("Product removed from wishlist", { autoClose: 1500 });
-		}
+        // optionally show inline indicator (toast removed)
 	};
 
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
@@ -58,7 +54,7 @@ const Recommended = ({ product }) => {
 				<ProductCardMobileSwiper isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
 			</div>
 
-			<ToastContainer position="bottom-left" />
+            {/* toast removed */}
 		</div>
 	)
 }

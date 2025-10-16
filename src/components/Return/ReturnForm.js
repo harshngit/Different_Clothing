@@ -8,7 +8,7 @@ import { Input, Button } from '@material-tailwind/react';
 import ImageUploading from 'react-images-uploading';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast, ToastContainer } from 'react-toastify';
+// toast removed
 
 const ReturnForm = ({ orderDetails }) => {
 
@@ -63,7 +63,7 @@ const ReturnForm = ({ orderDetails }) => {
 				status: "Processing",
 			});
 
-			toast.success("Return request submitted successfully!");
+            // success notification removed
 			router.push("/orders"); // Redirect to the orders page
 			setLoading(false);
 		} catch (error) {
@@ -84,7 +84,7 @@ const ReturnForm = ({ orderDetails }) => {
 
 	return (
 		<div className="max-w-xl mx-auto py-10 px-4">
-			<ToastContainer />
+            {/* toast removed */}
 			{/* Back to Orders Button */}
 			<div className="flex justify-start items-center">
 				<Link href="/orders">

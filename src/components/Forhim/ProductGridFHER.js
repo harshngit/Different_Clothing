@@ -4,7 +4,7 @@ import Link from 'next/link';
 import FilterSidebar from '../Shop/FilterSidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
-import { toast, ToastContainer } from 'react-toastify';
+// toast removed
 import { FiColumns, FiGrid, FiSquare } from 'react-icons/fi';
 import ProductCard from '../ProductCard';
 
@@ -61,11 +61,7 @@ const ProductGridFHER = ({ product }) => {
 		dispatch(toggleWishlistItem(userId, product));
 
 		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
-		if (!isInWishlist) {
-			toast.success("Product added to wishlist", { autoClose: 1500 });
-		} else {
-			toast.info("Product removed from wishlist", { autoClose: 1500 });
-		}
+    // optionally show inline indicator (toast removed)
 	};
 
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);
@@ -208,7 +204,7 @@ const ProductGridFHER = ({ product }) => {
 					</button>
 				</div>
 			)}
-			<ToastContainer position="bottom-left" />
+            {/* toast removed */}
 		</div>
 	)
 }

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
+// toast removed
 import { Button } from '@material-tailwind/react';
 
 const Whislistdetail = () => {
@@ -25,11 +25,7 @@ const Whislistdetail = () => {
 		dispatch(toggleWishlistItem(userId, product));
 
 		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
-		if (!isInWishlist) {
-			toast.success("Product added to wishlist", { autoClose: 1500 });
-		} else {
-			toast.info("Product removed from wishlist", { autoClose: 1500 });
-		}
+    // optionally show inline indicator (toast removed)
 	};
 
 	const isLiked = (productId) => wishlist?.[userId]?.some(p => p.id === productId);

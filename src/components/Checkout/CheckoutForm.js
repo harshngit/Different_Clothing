@@ -5,7 +5,7 @@ import { Input, Select, Option, Radio } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { placeOrder } from "@/actions/orderAction";
-import { toast, ToastContainer } from "react-toastify";
+// toast removed
 import CartAddress from "./CartAddress";
 import { db } from "@/app/firebase.config";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -52,7 +52,7 @@ const CheckoutForm = () => {
 		};
 
 		dispatch(placeOrder(orderData, cartItems, userProfile, finalAmount, router))
-			.then(() => toast.success("Order placed successfully!"))
+            .then(() => {})
 			.catch((error) => console.error(error));
 	};
 
@@ -90,7 +90,7 @@ const CheckoutForm = () => {
 
 	return (
 		<>
-			<ToastContainer />
+            {/* toast removed */}
 			<div className="lg:h-[100vh] h-auto overflow-y-scroll">
 				<div className='flex flex-col  justify-start items-start px-10 py-10'>
 					<h2 className='text-[20px] font-semibold'>Select the address</h2>

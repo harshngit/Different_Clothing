@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "@/app/firebase.config";
-import { toast } from "react-toastify";
+// toast removed
 import { Input, MenuItem, Select } from "@material-tailwind/react";
 
 const AddAddressForm = ({ closeModal }) => {
@@ -47,7 +47,7 @@ const AddAddressForm = ({ closeModal }) => {
 			await updateDoc(userRef, {
 				address: arrayUnion(addressWithId),
 			});
-			toast.success("Address added successfully");
+            // success notification removed
 
 			// Reset the form data
 			setFormData({

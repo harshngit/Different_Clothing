@@ -48,13 +48,13 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="relative font-playfair">
+    <div className="font-playfair">
       {/* <ThemeProvider> */}
       <NavbarTwo />
-      <section className="relative pt-[0px]">
+      <section className="relative -top-[65px] pt-[0px]">
         <HomeBanner />
       </section>
-      <section className="relative overflow-hidden lg:pt-[70px] xl:pt-[600px] pt-[550px]">
+      <section className=" ">
         <AboutHome />
       </section>
       <section className="relative overflow-hidden">
@@ -65,11 +65,11 @@ const Home = () => {
       </section>
       <section className="relative overflow-hidden">
         {/* Optionally pass the latest product data to ProductsHome */}
-        <ProductsHome />
+        {/* <ProductsHome /> */}
       </section>
-      {/* <section className='relative overflow-hidden'>
+      <section className='relative overflow-hidden'>
         <CTA />
-      </section> */}
+      </section>
       <section className="">
         <Footer />
       </section>

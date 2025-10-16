@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
-import { toast } from 'react-toastify';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -24,11 +23,7 @@ const ProductCardMobileSwiper = ({ visibleProducts, product }) => {
 		const isInWishlist = wishlist?.[userId]?.some((p) => p.id === product.id);
 		dispatch(toggleWishlistItem(userId, product));
 
-		if (!isInWishlist) {
-			toast.success('Product added to wishlist', { autoClose: 1500 });
-		} else {
-			toast.info('Product removed from wishlist', { autoClose: 1500 });
-		}
+    // optionally show inline indicator (toast removed)
 	};
 
 	const isLiked = (productId) => wishlist?.[userId]?.some((p) => p.id === productId);

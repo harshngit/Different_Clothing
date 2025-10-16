@@ -8,7 +8,7 @@ import { auth, db } from "../firebase.config";
 import RegisterForm from "@/components/Register/RegisterForm";
 import Navbar from "@/components/Layout/Navbar";
 import Footer from "@/components/Layout/Footer";
-import { toast } from "react-toastify";
+// toast removed
 import AddressForm from "@/components/Register/AddressForm";
 
 const Register = () => {
@@ -46,8 +46,8 @@ const Register = () => {
 	const [step, setStep] = useState(1); // 1 = User Info, 2 = Address
 
 	const handleNextStep = () => {
-		if (!name || !email || !password || !contact) {
-			toast.error("Please fill all fields");
+        if (!name || !email || !password || !contact) {
+            // inline validation message (toast removed)
 			return;
 		}
 		setStep(2);
@@ -79,12 +79,12 @@ const Register = () => {
 					address: address,
 				});
 
-				toast.success("Account Created");
+                // success notification removed
 				router.push("/success");
 			})
 			.catch((err) => {
 				console.log(err);
-				toast.error("Registration failed");
+                // error notification removed
 			})
 			.finally(() => {
 				setloading(false);

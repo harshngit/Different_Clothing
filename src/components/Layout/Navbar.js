@@ -195,32 +195,114 @@ export default function Navbar() {
         >
           <Link
             href={item.href}
-            className="relative px-3 group py-1 transition lg:text-[12px] block text-black"
+            className="relative px-3 group py-1 transition lg:text-[14px] block text-black"
           >
             {item.label}
             <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
           </Link>
 
-          {/* Dropdown Menu */}
+          {/* Mega Menu Dropdown */}
           {item.children && activeDropdown === idx && (
-            <ul
-              className="absolute top-[2rem] left-0 bg-white text-black shadow-lg rounded-sm w-[200px] z-10"
+            <div
+              className="fixed top-[3rem] left-0 right-0 bg-white text-black shadow-2xl z-50 border-t border-gray-200"
               onMouseEnter={() => handleMouseEnter(idx)}
               onMouseLeave={handleMouseLeave}
             >
-              {item.children.map((child, childIdx) => (
-                <li
-                  key={childIdx}
-                  className="flex justify-between border-t border-b border-gray-300 items-center px-2 py-1 cursor-pointer hover:bg-gray-100"
-                >
-                  <Link href={child.href} className="block px-2 py-2 text-[12px]">
-                    {child.label}
+              <div className="max-w-7xl mx-auto px-8 py-12">
+                <div className="flex gap-16">
+                  {/* Left Side - Categories */}
+                  <div className="w-1/4 border-r border-gray-200 pr-8">
+                    <ul className="space-y-1">
+                      {/* Main Category Link */}
+                      <li className="group">
+                          <Link 
+                            href={"/shop"} 
+                            className="block py-2 text-sm font-normal text-black transition uppercase tracking-wide relative group"
+                          >
+                            Shop All
+                            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-[50%]" />
+                          </Link>
+                        </li>
+                      
+                      {/* Subcategories */}
+                      {item.children.map((child, childIdx) => (
+                        <li key={childIdx} className="group">
+                          <Link 
+                            href={child.href} 
+                            className="block py-2 text-sm font-normal text-black transition uppercase tracking-wide relative group"
+                          >
+                            {child.label}
+                            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-[50%]" />
+                          </Link>
+                        </li>
+                      ))}
+                      
+                      {/* Additional Links */}
+                     
+                    </ul> 
+                  </div>
 
-                  </Link>
-                  <span className="text-gray-400 text-base"><MdChevronRight /></span>
-                </li>
-              ))}
-            </ul>
+                  {/* Right Side - Product Images Grid */}
+                  <div className="flex-1">
+                    <div className="grid grid-cols-4 gap-6">
+                      {(() => {
+                        let filteredProducts = [];
+                        
+                        if (item.label === "FOR HIM") {
+                          filteredProducts = product.filter(p => 
+                            p.productCategory?.toLowerCase().includes('him') || 
+                            p.productCategory?.toLowerCase().includes('for him') ||
+                            p.productGender?.toLowerCase() === 'men' ||
+                            p.productGender?.toLowerCase() === 'male'
+                          );
+                        } else if (item.label === "FOR HER") {
+                          filteredProducts = product.filter(p => 
+                            p.productCategory?.toLowerCase().includes('her') || 
+                            p.productCategory?.toLowerCase().includes('for her') ||
+                            p.productGender?.toLowerCase() === 'women' ||
+                            p.productGender?.toLowerCase() === 'female'
+                          );
+                        } else if (item.label === "ARABIC") {
+                          filteredProducts = product.filter(p => 
+                            p.productCategory?.toLowerCase().includes('arabic') ||
+                            p.productName?.toLowerCase().includes('arabic') ||
+                            p.productSubCategory?.toLowerCase().includes('arabic')
+                          );
+                        } else {
+                          filteredProducts = product;
+                        }
+                        
+                        // If no products found, show first 4 products as fallback
+                        if (filteredProducts.length === 0) {
+                          filteredProducts = product.slice(0, 4);
+                        }
+                        
+                        return filteredProducts.slice(0, 4).map((productItem, idx) => (
+                          <Link 
+                            key={idx} 
+                            href={`/shop/${productItem.id}`}
+                            className="group relative overflow-hidden"
+                          >
+                            <div className="aspect-[3/4] bg-gray-100 overflow-hidden">
+                              <img
+                                src={productItem.productImages?.[0] || '/placeholder.jpg'}
+                                alt={productItem.productName}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            {/* <div className="mt-3 text-center">
+                              <p className="text-xs text-gray-500 uppercase tracking-wide">
+                                {productItem.productCategory || productItem.productName}
+                              </p>
+                            </div> */}
+                          </Link>
+                        ));
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </li>
       ))}
@@ -230,15 +312,11 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navListExtra = (
-    <ul className="flex flex-col lg:flex-row items-end  gap-1 text-white uppercase font-playfair lg:text-[12px] font-semibold">
+    <ul className="flex flex-col lg:flex-row items-end  gap-1 text-white uppercase font-playfair lg:text-[14px] font-semibold">
       <li className="relative" ref={dropdownRef}>
         <Link
-          href="#"
+          href="/search"
           className="relative px-3 py-2 text-black group"
-          onClick={(e) => {
-            e.preventDefault();
-            setOpenDropdownSearch((prev) => !prev);
-          }}
         >
           Search
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
@@ -277,7 +355,7 @@ export default function Navbar() {
                       onMouseLeave={() => setIsOpen(false)}
                     >
                       {/* Trigger */}
-                      <div className="cursor-pointer text-[12px] mt-2 ml-2 relative text-black">
+                      <div className="cursor-pointer text-[14px] mt-2 ml-2 relative text-black">
                         My Profile
                         <span
                           className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
@@ -350,7 +428,7 @@ export default function Navbar() {
             onMouseLeave={() => setIsOpen(false)}
           >
             {/* Trigger */}
-            <div className="cursor-pointer relative !text-[12px] text-black">
+            <div className="cursor-pointer relative !text-[14px] text-black">
               My Profile
               <span
                 className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
@@ -491,13 +569,13 @@ export default function Navbar() {
     <>
       <div className="bg-black h-[35px] w-full flex justify-center items-center z-10">
         <div className="lg:text-[11px] text-[10px] text-white">
-          Complimentary U.S. No-Rush Shipping on orders of $95 or more. Shop now
+          Complimentary U.S. No-Rush Shipping on orders of $95 or more. <Link href={"/shop"}>Shop Now</Link>
         </div>
       </div>
       <div ref={navRef}
-        className={`w-full z-[99] bg-white font-playfair transition-all duration-300 ${isSticky ? "fixed top-0 shadow-sm" : "relative"
+        className={`w-full z-[999] top-[-5px] font-playfair transition-all duration-300 ${isSticky ? "sticky top-0 bg-white shadow-sm" : "relative bg-transparent"
           }`}>
-        <div className="w-full  py-1 bg-[#fff]">
+        <div className="w-full  py-1 bg-transparent backdrop-blur-lg">
           <div className="w-full flex lg:justify-between items-center px-4 lg:px-4">
             <div className="hidden lg:flex lg:w-[45%]">{navList}</div>
             <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={() => setOpenDrawer(true)}>
@@ -654,11 +732,12 @@ export default function Navbar() {
             <RxCross1 className="text-[20px] cursor-pointer" onClick={() => setOpenDrawer(false)} />
           </div>
           <ul className="flex flex-col gap-6 mt-6 text-[#2F3435] font-playfair text-[20px]">
-            <li><Link href="/forhim">For Him</Link></li>
-            <li><Link href="/forher">For Her</Link></li>
-            <li><Link href="/signature">Signature</Link></li>
-            <li><Link href="/arabic">Arabic</Link></li>
-            <li><Link href="/wishlist">Wishlist</Link></li>
+            <li><Link href="/search" onClick={() => setOpenDrawer(false)}>Search</Link></li>
+            <li><Link href="/forhim" onClick={() => setOpenDrawer(false)}>For Him</Link></li>
+            <li><Link href="/forher" onClick={() => setOpenDrawer(false)}>For Her</Link></li>
+            <li><Link href="/signature" onClick={() => setOpenDrawer(false)}>Signature</Link></li>
+            <li><Link href="/arabic" onClick={() => setOpenDrawer(false)}>Arabic</Link></li>
+            <li><Link href="/wishlist" onClick={() => setOpenDrawer(false)}>Wishlist</Link></li>
           </ul>
         </div>
       </div>

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { db } from '@/app/firebase.config'
 import { useDispatch, useSelector } from 'react-redux'
 import { doc, onSnapshot } from 'firebase/firestore'
-import { toast } from 'react-toastify'
+// toast removed
 import { logout } from '@/actions/authActions'
 
 const AccountDetails = () => {
@@ -24,7 +24,7 @@ const AccountDetails = () => {
 			}
 
 			await deleteDoc(doc(db, "users", userProfile.uid));
-			toast.success("User account deleted successfully.");
+            // success notification removed
 			setAccountDetails({}); // Clear local state if needed
 			dispatch(logout()).unwrap();
 		} catch (error) {

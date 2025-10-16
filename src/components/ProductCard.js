@@ -3,7 +3,6 @@ import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistA
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 const ProductCard = ({ visibleProducts, product, gridView }) => {
 	const dispatch = useDispatch();
@@ -20,9 +19,9 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 		dispatch(toggleWishlistItem(userId, product));
 
 		if (!isInWishlist) {
-			toast.success('Product added to wishlist', { autoClose: 1500 });
+			// toast.success('Product added to wishlist', { autoClose: 1500 });
 		} else {
-			toast.info('Product removed from wishlist', { autoClose: 1500 });
+			// toast.info('Product removed from wishlist', { autoClose: 1500 });
 		}
 	};
 
@@ -34,7 +33,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 
 	return (
 		<div
-			className={`grid transition-all duration-300 ease-in-out gap-y-[20px] gap-x-4 px-4
+			className={`grid transition-all duration-300 ease-in-out 
 				${gridView === 'two'
 					? 'grid-cols-2'
 					: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
@@ -51,7 +50,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 								className={`w-full transition-all duration-300 ease-in-out 
 									${gridView === 'two'
 										? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[80%] object-fill'
-										: 'h-[350px] object-fill'}
+										: 'h-[500px] object-fill'}
 									opacity-100 group-hover:opacity-0
 								`}
 							/>
@@ -64,7 +63,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 									className={`w-full absolute top-0 left-0 transition-opacity duration-300 ease-in-out 
 										${gridView === 'two'
 											? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[80%] object-fill'
-											: 'h-[350px] object-fill'}
+											: 'h-[500px] object-fill'}
 										opacity-0 group-hover:opacity-100
 									`}
 								/>
@@ -105,27 +104,28 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 						{/* Product Info */}
 						<div className="p-3 flex justify-between items-start">
 							<div className="flex flex-col gap-[5px]">
-								<h3 className="lg:text-[20px] text-[15px] font-semibold">
+							<p className="lg:text-[12px] text-[10px] font-semibold capitalize">
+									{product.productCategory}
+								</p>
+								<h3 className="lg:text-[20px] text-[15px] font-semibold capitalize">
 									{product.productName}
 								</h3>
-								{product?.productData?.map((item) => (
-									<p className="text-gray-700 font-bold lg:text-[15px] text-[15px]">
-										₹{item.productPrice}
-									</p>
-								))}
+                                <p className="text-black font-bold lg:text-[18px] text-[18px]">
+                                    ₹{product?.productData?.[0]?.productPrice ?? ''}
+                                </p>
 
 								<div className="flex gap-2 mt-1">
 									{product.variation.map((item, index) => (
 										<div
 											key={index}
-											className="w-5 h-5 border border-black"
+											className="w-5 h-5 border rounded-full border-black"
 											style={{ backgroundColor: item.color }}
 										/>
 									))}
 									{product.productData.map((item, index) => (
 										<div
 											key={index}
-											className="w-5 h-5 border border-black"
+											className="w-5 h-5 border rounded-full border-black"
 											style={{ backgroundColor: item.productColor }}
 										/>
 									))}

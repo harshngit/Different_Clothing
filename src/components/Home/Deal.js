@@ -8,7 +8,7 @@ import SimpleSlider from './SimpleSwiper';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleWishlistItem, loadWishlistFromStorage } from '@/actions/wishlistActions';
-import { toast, ToastContainer } from 'react-toastify';
+// toast removed
 import ProductCard from '../ProductCard';
 import ProductCardMobileSwiper from '../ProductCardMobileSwiper';
 
@@ -27,11 +27,7 @@ const Deal = ({ productList = [] }) => {
 		dispatch(toggleWishlistItem(userId, product));
 
 		const isInWishlist = wishlist?.[userId]?.some(p => p.id === product.id);
-		if (!isInWishlist) {
-			toast.success("Product added to wishlist ❤️", { autoClose: 1500 });
-		} else {
-			toast.info("Product removed from wishlist 🤍", { autoClose: 1500 });
-		}
+        // optionally show inline indicator (toast removed)
 	};
 
 	const product = productList
@@ -57,8 +53,7 @@ const Deal = ({ productList = [] }) => {
 				<ProductCardMobileSwiper isLiked={isLiked} product={product.slice(0, 4)} handleToggle={handleToggle} />
 			</div>
 
-			{/* Toast Message */}
-			<ToastContainer position="bottom-left" />
+            {/* Global toast container is provided at layout level */}
 		</div>
 	);
 };

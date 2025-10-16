@@ -4,7 +4,6 @@ import Link from 'next/link';
 import FilterSidebar from '../Shop/FilterSidebar';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
 import ProductCard from '../ProductCard';
 import { FiColumns, FiGrid, FiSquare } from 'react-icons/fi';
 
@@ -191,7 +190,7 @@ const ProductGridSignature = ({ product }) => {
 				</div>
 			)}
 
-			<ToastContainer position="bottom-left" />
+			{/** toast removed */}
 
 		</div>
 	)

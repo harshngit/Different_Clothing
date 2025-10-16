@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaFacebookSquare, FaHeart, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+// Removed toast notifications
 import { addToCart } from "@/actions/cartAction";
 import { loadWishlistFromStorage, toggleWishlistItem } from "@/actions/wishlistActions";
 
@@ -100,13 +100,13 @@ const Details = ({ productDetails }) => {
 	const isSoldOut = variantQuantity <= 0;
 
 	const handleAddToCart = () => {
-		if (!selectedSize || !selectedColor) {
-			toast.error("Please select size and color");
+        if (!selectedSize || !selectedColor) {
+            // notify user via UI state or inline message (toast removed)
 			return;
 		}
 
-		if (isSoldOut) {
-			toast.error("Selected variant is out of stock");
+        if (isSoldOut) {
+            // notify user via UI state or inline message (toast removed)
 			return;
 		}
 
@@ -117,8 +117,8 @@ const Details = ({ productDetails }) => {
 				item.color === selectedColor
 		);
 
-		if (itemExists) {
-			toast.success("This item is already in your cart.");
+        if (itemExists) {
+            // notify user via UI state or inline message (toast removed)
 			return;
 		}
 
@@ -138,23 +138,18 @@ const Details = ({ productDetails }) => {
 			couponAmountDetails: "",
 		};
 
-		dispatch(addToCart(cartItem));
-		toast.success("Item added to cart!");
+        dispatch(addToCart(cartItem));
 	};
 
 	const handleToggleWishlist = () => {
-		if (!userId) {
-			toast.error("Please log in to use wishlist.");
+        if (!userId) {
+            // notify user via UI state or inline message (toast removed)
 			return;
 		}
 		dispatch(toggleWishlistItem(userId, productDetails));
 
 		const isInWishlist = wishlist?.[userId]?.some((p) => p.id === productDetails.id);
-		if (!isInWishlist) {
-			toast.success("Product added to wishlist", { autoClose: 1500 });
-		} else {
-			toast.info("Product removed from wishlist", { autoClose: 1500 });
-		}
+        // optionally show inline indicator (toast removed)
 	};
 
 	const isLiked = () => wishlist?.[userId]?.some((p) => p.id === productDetails.id);

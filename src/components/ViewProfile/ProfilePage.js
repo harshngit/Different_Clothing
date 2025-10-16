@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React from 'react'
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+// toast removed
 const ProfilePage = () => {
 	const { userProfile } = useSelector(state => state.user)
 	const menuItems = [
@@ -32,7 +32,7 @@ const ProfilePage = () => {
 		try {
 			await dispatch(logout()).unwrap();
 			router.push("/");
-			toast.success("Logout Successfull")
+            // notification removed
 		} catch (error) {
 			console.error("Logout failed:", error);
 		}
