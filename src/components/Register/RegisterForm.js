@@ -3,17 +3,13 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 
-const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, contact, setContact, handleCreateUser, handleNextStep, errorText }) => {
+const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, contact, setContact, handleCreateUser, handleNextStep, errorText, setErrorText }) => {
 	const [showPassword, setShowPassword] = useState(false)
 	return (
 		<div className=' px-5 py-5 rounded-lg lg:w-[30%] w-[80%] flex justify-start items-end flex-col'>
 			<div className='flex justify-center items-start flex-col w-[100%] gap-5'>
 				<h2 className='text-[#000] font-semibold text-[30px]'>Create an Account</h2>
-                {errorText ? (
-                    <div className='w-full bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded'>
-                        {errorText}
-                    </div>
-                ) : null}
+                
 				{/* <p className='text-gray-400 text-center'>Hey, Enter your details to get sign in <br /> to your account</p> */}
 			</div>
 			<div className='flex justify-start items-start w-[100%] mt-8 gap-5'>
@@ -64,7 +60,14 @@ const RegisterForm = ({ name, setName, email, setEmail, password, setPassword, c
 					<p className='text-[#004aff]'>Forget Password</p>
 				</Link>
 			</div> */}
-			<div onClick={handleNextStep} className='w-full flex justify-center items-center mt-5 bg-black px-5 py-2 rounded-lg text-white cursor-pointer hover:bg-gray-800 transition-all duration-200 ease-linear '>
+			<div onClick={() => {
+				setErrorText('');
+				if (!name || !email || !password || !contact) {
+					setErrorText('Please fill all fields');
+					return;
+				}
+				handleNextStep();
+			}} className='w-full flex justify-center items-center mt-5 bg-black px-5 py-2 rounded-lg text-white cursor-pointer hover:bg-gray-800 transition-all duration-200 ease-linear '>
 				<button className='text-center'>Next Step</button>
 			</div>
 			<div className='w-full flex justify-center items-center mt-5 px-5 py-2 rounded-lg text-black gap-5'>

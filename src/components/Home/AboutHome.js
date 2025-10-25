@@ -136,7 +136,7 @@ const AboutHome = () => {
 				</div>
 			</div> */}
 
-            <div className='relative flex justify-center lg:flex-row flex-col items-center mt-[-70px]'>
+            <div className='relative flex justify-center lg:flex-row flex-col items-center '>
 				<div className='lg:w-[50%] w-full relative'>
                     <img
                         src={himImage || "/asset/Home/1.png"}

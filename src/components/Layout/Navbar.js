@@ -56,6 +56,7 @@ export default function Navbar() {
   const [openDropdownSearch, setOpenDropdownSearch] = useState(false);
   const [product, setProduct] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSticky, setIsSticky] = useState(false);
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -204,7 +205,7 @@ export default function Navbar() {
           {/* Mega Menu Dropdown */}
           {item.children && activeDropdown === idx && (
             <div
-              className="fixed top-[3rem] left-0 right-0 bg-white text-black shadow-2xl z-50 border-t border-gray-200"
+              className={`fixed ${isSticky ? 'top-[3.5rem]' : 'top-[5rem]'} left-0 right-0 bg-white text-black shadow-2xl z-50 border-t border-gray-200`}
               onMouseEnter={() => handleMouseEnter(idx)}
               onMouseLeave={handleMouseLeave}
             >
@@ -322,101 +323,7 @@ export default function Navbar() {
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
         </Link>
 
-        {openDropdownSearch && (
-          <div
-            className={`fixed top-0 left-0 w-full  z-50 bg-white border-b shadow-md px-6 py-4 transform transition-all duration-700 ease-in-out ${openDropdownSearch ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-              }`}
-          >
-            {/* <div className="h-auto flex justify-center items-center">
-              <h2 className="text-[30px] text-[#8A8A8A]">DIFFERENT CLOTHING</h2>
-            </div> */}
-
-            {/* Top Bar */}
-            <div className="flex items-center justify-between flex-wrap">
-              <div className="flex items-center space-x-4 flex-grow">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="px-4 py-2 border-b border-black w-[80%] text-black text-sm focus:outline-none flex-1"
-                />
-                <button
-                  onClick={() => setOpenDropdownSearch(false)}
-                  className="hover:text-black text-gray-800 text-2xl ml-4"
-                >
-                  &times;
-                </button>
-                <div className="flex space-x-4 text-sm text-gray-600 font-medium">
-                  {isAuthenticated ? (<>
-                    <li
-                      className="relative"
-                      onMouseEnter={() => setIsOpen(true)}
-                      onMouseLeave={() => setIsOpen(false)}
-                    >
-                      {/* Trigger */}
-                      <div className="cursor-pointer text-[14px] mt-2 ml-2 relative text-black">
-                        My Profile
-                        <span
-                          className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
-                            }`}
-                        />
-                      </div>
-                    </li>
-                  </>) : (<><Link href="/login" className="relative px-3 py-2 text-[12px] text-black group">
-                    Login
-                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-                  </Link></>)}
-                  <Link href="/wishlist" className="relative px-3 py-2 text-[12px] text-black group">
-                    Wishlist
-                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                  <Link href="/cart" className="relative px-3 py-2 text-[12px] text-black group">
-                    Bag ({cartItems.length})
-                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Featured Product Section */}
-            <div className="flex flex-col m-5 justify-start items-center w-full">
-              <div className="flex w-[30%] justify-start items-start">
-                <h4 className="text-xs text-left font-semibold text-gray-700 mb-4">FEATURED PRODUCTS</h4>
-              </div>
-              <div className="space-y-3  h-[20vh] overflow-y-scroll scrollbar-hide w-[30%]">
-                {filteredProducts.length > 0 ? (
-                  filteredProducts.map((item) => (
-                    <Link href={`/shop/${item?.id}`}>
-                      <div
-                        key={item.id}
-                        className="flex gap-4 items-center p-3  transition duration-300 "
-                      >
-                        {/* Product Image */}
-                        <div className="w-12 h-12 object-fill overflow-hidden bg-gray-100 flex items-center justify-center">
-                          <img
-                            src={item.productImages?.[0] || "/placeholder.jpg"} // fallback image
-                            alt={item.productName}
-                            className="object-contain w-full h-full"
-                          />
-                        </div>
-
-                        {/* Product Info */}
-                        <div className="flex flex-col justify-center">
-                          <span className="text-xs text-gray-500">{item.productCategory || "No SKU"}</span>
-                          <span className="text-sm font-medium text-gray-800">{item.productName || "Unnamed Product"}</span>
-                        </div>
-                      </div>
-                    </Link>
-
-                  ))
-                ) : (
-                  <div className="text-sm text-gray-500">No matching products</div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+       
 
       </li>
 
@@ -492,19 +399,18 @@ export default function Navbar() {
 
       ) : (
         <li
-          className="relative"
+          className="relative group " 
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
         >
           {/* Trigger */}
 
-          <div className="cursor-pointer relative text-black">
-            Login
-            <span
-              className={`absolute bottom-0 left-0 h-[2px] bg-black transition-all duration-300 ${isOpen ? "w-full" : "w-0"
-                }`}
-            />
-          </div>
+         
+          <Link href="/login" className="relative px-3 py-2 text-black group">
+          Login
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+        </Link>
+         
 
 
           {/* Dropdown */}
@@ -548,7 +454,6 @@ export default function Navbar() {
   );
 
   // Main Navbar js 
-  const [isSticky, setIsSticky] = useState(false);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -573,9 +478,9 @@ export default function Navbar() {
         </div>
       </div>
       <div ref={navRef}
-        className={`w-full z-[999] top-[-5px] font-playfair transition-all duration-300 ${isSticky ? "sticky top-0 bg-white shadow-sm" : "relative bg-transparent"
+        className={`w-full z-[999] top-[-5px] font-playfair transition-all duration-300 ${isSticky ? "sticky top-0 bg-white shadow-sm" : "relative bg-white"
           }`}>
-        <div className="w-full  py-1 bg-transparent backdrop-blur-lg">
+        <div className="w-full  py-1 bg-white">
           <div className="w-full flex lg:justify-between items-center px-4 lg:px-4">
             <div className="hidden lg:flex lg:w-[45%]">{navList}</div>
             <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={() => setOpenDrawer(true)}>
@@ -642,19 +547,62 @@ export default function Navbar() {
                   </li>
                 </ul>
               </>) : (<>
-              </>)}
-              {isAuthenticated ? (<div className="flex justify-center items-center">
-                <ul className="flex justify-center items-center gap-3">
-                  <Link href={'/cart'}>
-                    <li
-                      className="relative text-[15px]"
+                <ul className="">
+                  <li
+                    className="relative"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    {/* Trigger */}
+                    <div className="cursor-pointer relative text-black">
+                      <FaUser className="w-10" />
+                    </div>
+
+                    {/* Dropdown */}
+                    <div
+                      className={`absolute left-[-0.75rem] top-[1rem] text-[10px] mt-1 w-[120px] bg-white text-black shadow-lg rounded-lg z-50 transition-all duration-200 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                        }`}
                     >
-                      BAG({cartItems.length})
-                    </li>
-                  </Link>
-                  <li onClick={() => setIsSearchOpen(true)} className="block lg:hidden cursor-pointer">
+                      <div className="flex justify-start flex-col items-start gap-1 px-4 py-2">
+                        <p className="font-thin lg:text-[10px] text-[10px]">Welcome</p>
+                        <h2 className="font-normal lg:text-[10px] text-[10px]">
+                          Guest User
+                        </h2>
+                      </div>
+                      <ul className="divide-y divide-gray-200 !text-[10px] ">
+                        <Link href="/login">
+                          <li className="flex justify-between border-t border-b border-gray-300 items-center px-4 py-2 cursor-pointer hover:bg-gray-100">
+                            <span className=" text-gray-800">Login</span>
+                            <span className="text-gray-400 text-base"><MdChevronRight /></span>
+                          </li>
+                        </Link>
+
+                        <Link href="/register">
+                          <li className="flex justify-between border-b border-gray-300 items-center px-4 py-2 cursor-pointer hover:bg-gray-100">
+                            <span className=" text-gray-800">Sign Up</span>
+                            <span className="text-gray-400 text-base"><MdChevronRight /></span>
+                          </li>
+                        </Link>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </>)}
+              <div className="flex justify-center items-center">
+                <ul className="flex justify-center items-center gap-3">
+                  {isAuthenticated ? (
+                    <Link href={'/cart'}>
+                      <li
+                        className="relative text-[15px]"
+                      >
+                        BAG({cartItems.length})
+                      </li>
+                    </Link>
+                  ) : null}
+                  <Link href="/search">
+                  <li  className="block lg:hidden cursor-pointer">
                     <FaSearch className="text-xl text-black" />
                   </li>
+                  </Link>
                   {isSearchOpen && (
                     <div className="fixed inset-0 z-[9999] bg-white transition-all duration-500 ease-in-out lg:hidden">
                       <div className="flex justify-center items-center"></div>
@@ -712,16 +660,7 @@ export default function Navbar() {
                     </div>
                   )}
                 </ul>
-              </div>) : (<>
-                <Link href="/login" className="relative px-3 text-[15px] py-2 text-black group">
-                  Login
-                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-                </Link>
-                <Link href="/register" className="relative px-3 text-[15px] py-2 text-black group">
-                  Sign
-                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
-                </Link>
-              </>)}
+              </div>
             </div>
           </div>
         </div>

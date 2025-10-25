@@ -51,7 +51,7 @@ const Home = () => {
     <div className="font-playfair">
       {/* <ThemeProvider> */}
       <NavbarTwo />
-      <section className="relative -top-[65px] pt-[0px]">
+      <section className="relative  pt-[0px]">
         <HomeBanner />
       </section>
       <section className=" ">

@@ -2,6 +2,8 @@
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { FaHeart } from 'react-icons/fa';
+import { CiHeart } from "react-icons/ci";
 import { useDispatch, useSelector } from 'react-redux';
 
 const ProductCard = ({ visibleProducts, product, gridView }) => {
@@ -50,7 +52,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 								className={`w-full transition-all duration-300 ease-in-out 
 									${gridView === 'two'
 										? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[80%] object-fill'
-										: 'h-[500px] object-fill'}
+										: 'h-[450px] object-fill'}
 									opacity-100 group-hover:opacity-0
 								`}
 							/>
@@ -63,7 +65,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 									className={`w-full absolute top-0 left-0 transition-opacity duration-300 ease-in-out 
 										${gridView === 'two'
 											? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[80%] object-fill'
-											: 'h-[500px] object-fill'}
+											: 'h-[450px] object-fill'}
 										opacity-0 group-hover:opacity-100
 									`}
 								/>
@@ -76,8 +78,8 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 									playsInline
 									className={`w-full absolute top-0 left-0 transition-opacity duration-300 ease-in-out 
 										${gridView === 'two'
-											? 'lg:h-[550px] h-[200px] lg:object-fill lg:w-[100%] object-fill'
-											: 'h-[350px] object-fill'}
+											? 'lg:h-[450px] h-[200px] lg:object-fill lg:w-[100%] object-fill'
+											: 'h-[450px] object-fill'}
 										opacity-0 group-hover:opacity-100
 									`}
 								/>
@@ -92,25 +94,25 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 									))}
 
 									{/* Sizes from variation */}
-									{product.variation?.flatMap((variant, idx) =>
+									{/* {product.variation?.flatMap((variant, idx) =>
 										(variant.size || []).map((size, sIdx) => (
 											<span key={`var-${idx}-${sIdx}`}>{size}</span>
 										))
-									)}
+									)} */}
 								</div>
 							)}
 						</div>
 
 						{/* Product Info */}
 						<div className="p-3 flex justify-between items-start">
-							<div className="flex flex-col gap-[5px]">
+							<div className="flex flex-col gap-[0px]">
 							<p className="lg:text-[12px] text-[10px] font-semibold capitalize">
 									{product.productCategory}
 								</p>
-								<h3 className="lg:text-[20px] text-[15px] font-semibold capitalize">
+								<h3 className="lg:text-[15px] text-[15px] font-semibold capitalize">
 									{product.productName}
 								</h3>
-                                <p className="text-black font-bold lg:text-[18px] text-[18px]">
+                                <p className="text-black font-bold lg:text-[16px] text-[18px]">
                                     ₹{product?.productData?.[0]?.productPrice ?? ''}
                                 </p>
 
@@ -133,37 +135,41 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 
 							</div>
 
-							{
-								isAuthenticated ? (
-									<button
-										onClick={(e) => {
-											e.preventDefault();
-											handleToggle(product);
-										}}
-									>
-										<img
-											src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
-											alt="heart icon"
-											className="w-6 h-6"
-										/>
-									</button>
-								) : (
-									<Link href={"/login"}>
+							<div className="flex-shrink-0 ml-2">
+								{
+									isAuthenticated ? (
 										<button
 											onClick={(e) => {
 												e.preventDefault();
 												handleToggle(product);
 											}}
+											className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
 										>
-											<img
-												src={isLiked(product.id) ? '/asset/heartred.png' : '/asset/heart.png'}
-												alt="heart icon"
-												className="w-6 h-6"
-											/>
+											{isLiked(product.id) ? (
+												<FaHeart className="w-6 h-6 text-red-500" />
+											) : (
+												<CiHeart className="w-6 h-6 text-gray-600 hover:text-red-500 transition-colors duration-200" />
+											)}
 										</button>
-									</Link>
-								)
-							}
+									) : (
+										<Link href={"/login"}>
+											<button
+												onClick={(e) => {
+													e.preventDefault();
+													handleToggle(product);
+												}}
+												className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
+											>
+												{isLiked(product.id) ? (
+													<FaHeart className="w-6 h-6 text-red-500" />
+												) : (
+													<CiHeart className="w-6 h-6 text-gray-600 hover:text-red-500 transition-colors duration-200" />
+												)}
+											</button>
+										</Link>
+									)
+								}
+							</div>
 						</div>
 					</div>
 				</Link>

@@ -8,6 +8,7 @@ const AddressForm = ({
 	handleSkipAddress,
 	handleBackStep,
 	loading,
+	errorText, setErrorText
 }) => {
 	// Working on the first address object in the array
 	const currentAddress = address[0];
@@ -21,7 +22,11 @@ const AddressForm = ({
 	return (
 		<div className="w-full max-w-md mx-auto p-6 bg-white">
 			<h2 className="text-2xl font-semibold mb-4 text-center">Address Details</h2>
-
+			{errorText ? (
+                    <div className='w-full bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded'>
+                        {errorText}
+                    </div>
+                ) : null}
 			<div className="space-y-4">
 				<div>
 					<label>Address Line 1</label>

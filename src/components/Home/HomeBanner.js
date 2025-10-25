@@ -136,7 +136,7 @@ const HomeBanner = () => {
   
 
 
-    <div className="relative min-h-screen w-full overflow-hidden ">
+    <div className="relative min-h-[20] w-full overflow-hidden ">
       {/* Slides */}
       <div className="relative w-full h-screen">
         {slides.map((slide, index) => (
@@ -158,10 +158,10 @@ const HomeBanner = () => {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 h-full flex items-center px-6 sm:px-12 lg:px-20">
+            <div className="relative z-10 h-full flex items-end pb-[100px] px-6 sm:px-12 lg:px-[120px]">
               <div className="max-w-4xl">
                 {/* Heading */}
-                <h1 className="text-white text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold leading-tight mb-6 sm:mb-8 animate-fade-in">
+                <h1 className="text-white text-6xl sm:text-7xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-6 sm:mb-8 animate-fade-in">
                   {slide.title}
                   <br />
                   {slide.subtitle}
@@ -188,7 +188,7 @@ const HomeBanner = () => {
           prevSlide();
           setIsAutoPlaying(false);
         }}
-        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 sm:p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+        className="absolute left-4 lg:block hidden sm:left-8 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 sm:p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
         aria-label="Previous slide"
       >
         <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,7 +201,7 @@ const HomeBanner = () => {
           nextSlide();
           setIsAutoPlaying(false);
         }}
-        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 sm:p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+        className="absolute right-4 lg:block hidden sm:right-8 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 sm:p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
         aria-label="Next slide"
       >
         <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

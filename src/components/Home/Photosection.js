@@ -33,14 +33,14 @@ const Photosection = () => {
 
       {/* Right Section - Text and Call to Action */}
       <div className="lg:w-[50%] w-full bg-black flex items-center justify-center p-4 md:p-12 relative">
-        <div className="max-w-xl text-center lg:text-center">
+        <div className="max-w-xl text-left lg:text-center">
           {/* Headline */}
-          <div className="mb-6 sm:mb-8 text-center lg:text-left ml-12 ">
-            <h1 className="text-3xl  md:text-9xl text-white leading-tight font-playfair sm:mb-4">
+          <div className="mb-6 sm:mb-8 text-left lg:text-left lg:ml-12 ">
+            <h1 className="text-8xl  md:text-9xl text-white leading-tight font-playfair sm:mb-4">
               Just Be
             </h1>
             <div className="inline-block">
-              <h1 className="text-3xl md:text-9xl mt-[-10px]  text-black bg-gray-200/80 px-3 md:px-4 py-1 leading-tight">
+              <h1 className="text-6xl md:text-9xl mt-[-10px]  text-black bg-gray-200/80 px-3 md:px-4 py-1 leading-tight">
                 Different
               </h1>
             </div>
@@ -52,7 +52,7 @@ const Photosection = () => {
           </p>
 
           {/* Call to Action Button */}
-          <div className="flex justify-center">
+          <div className="flex lg:justify-center justify-start">
             <button className="bg-white text-black font-bold uppercase px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm tracking-wider hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               Explore More
             </button>

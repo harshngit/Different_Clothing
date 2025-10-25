@@ -35,11 +35,11 @@ const Footer = () => {
         // </div>
         <>
             <footer className="bg-[#000] text-gray-200 px-10 w-full py-10 overflow-hidden font-alike">
-                <div className='grid lg:grid-cols-4 grid-cols-1'>
+                <div className='grid lg:grid-cols-4 gap-5 lg:gap-0 grid-cols-1'>
 
                     {/* Column 1 */}
-                    <div className="flex justify-start gap-5 items-start flex-col">
-                        <h4 className='lg:text-[10px] font-normal uppercase'>Contact Us </h4>
+                    <div className="flex justify-start lg:gap-5 gap-2 items-start flex-col">
+                        <h4 className='lg:text-[10px]  font-normal uppercase'>Contact Us </h4>
                         <ul className="space-y-2 lg:text-[12px] text-[10px]">
                             <li>
                                 +1 (844) 326-6000
@@ -50,9 +50,9 @@ const Footer = () => {
                     </div>
 
                     {/* Column 2 */}
-                    <div className='flex justify-start gap-5 items-start flex-col'>
-                        <h4 className='lg:text-[10px] font-normal uppercase'>Important Links</h4>
-                        <div className="space-y-2 flex flex-col gap-2 font-thin lg:text-[12px] text-[10px]">
+                    <div className='flex justify-start lg:gap-5 gap-2 items-start flex-col'>
+                        <h4 className='lg:text-[10px]    font-normal uppercase'>Important Links</h4>
+                        <div className="space-y-2 flex flex-col font-thin lg:text-[12px] text-[10px]">
                             <Link href="/forher">For Her</Link>
                             <Link href="/forhim">For Him</Link>
                             <Link href="/arabic">Arabic</Link>
@@ -62,16 +62,16 @@ const Footer = () => {
                     </div>
 
                     {/* Column 3 */}
-                    <div className="flex items-start flex-col gap-[30px] ">
+                    <div className="flex items-start flex-col lg:gap-[30px] gap-2 ">
                         <h4 className='lg:text-[10px] font-normal uppercase'>Company</h4>
-                        <div className="space-y-2 flex flex-col gap-2 font-thin lg:text-[12px] text-[10px]">
+                        <div className="space-y-2 flex flex-col  font-thin lg:text-[12px] text-[10px]">
                         <Link href="/privacy-policy">Privacy Policy</Link>
                         <Link href="/terms-and-conditions">Terms & Conditions</Link>
                         </div>
                     </div>
                     {/* Column 4 */}
-                    <div className="flex items-start flex-col gap-[30px] ">
-                        <h4 className='lg:text-[15px] text-[10px] font-normal'>Get the latest new from us</h4>
+                    <div className="flex items-start flex-col lg:gap-[30px] gap-2 ">
+                        <h4 className='lg:text-[15px] font-normal'>Get the latest new from us</h4>
                         <input type="text" placeholder='Enter your email address' className='px-5 py-5 bg-transparent border-[2px] border-white bg-white text-black w-full' />
                         <p className='text-[12px] font-normal'>By signing up, you agree to our Privacy Policy and Terms of Service.</p>
                         <button className='px-3 py-3 w-[40%] text-black bg-white'>Subscribe</button>

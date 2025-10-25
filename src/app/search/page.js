@@ -78,7 +78,7 @@ export default function SearchPage() {
 						</h1>
 						
 						{/* Search Input */}
-						<div className="w-[30%] relative">
+						<div className="lg:w-[30%] w-full relative">
 							<input
 								type="text"
 								placeholder="Search for products by name..."

@@ -113,10 +113,13 @@ const Register = () => {
 						contact={contact}
 						setContact={setContact}
 						handleNextStep={handleNextStep}
-                        errorText={errorText}
+						errorText={errorText}
+						setErrorText={setErrorText}
 					/>
 				) : (
 					<AddressForm
+					errorText={errorText}
+					setErrorText={setErrorText}
 						setloading={setloading}
 						loading={loading}
 						address={address}
