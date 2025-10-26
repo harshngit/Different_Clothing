@@ -35,7 +35,7 @@ const ProductCard = ({ visibleProducts, product, gridView }) => {
 
 	return (
 		<div
-			className={`grid transition-all duration-300 ease-in-out 
+			className={`grid transition-all duration-300 ease-in-out  xl:gap-y-[50px] gap-y-[20px] md:gap-y-[20px] 
 				${gridView === 'two'
 					? 'grid-cols-2'
 					: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'

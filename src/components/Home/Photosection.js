@@ -53,9 +53,11 @@ const Photosection = () => {
 
           {/* Call to Action Button */}
           <div className="flex lg:justify-center justify-start">
+            <Link href="/shop">
             <button className="bg-white text-black font-bold uppercase px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm tracking-wider hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               Explore More
             </button>
+            </Link>
           </div>
         </div>
       </div>

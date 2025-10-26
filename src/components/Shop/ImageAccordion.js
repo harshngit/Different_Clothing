@@ -51,7 +51,7 @@ export default function ImageAccordion() {
 				className="bg-center flex flex-col justify-center items-center bg-no-repeat bg-cover w-full lg:h-[655px] h-[300px]"
 				style={{ backgroundImage: `url('/asset/Shop/shopbanner1.png')` }}
 			>
-				<h2 className=' font-playfair font-extrabold text-[60px] text-[#fff]'>For Him</h2>
+				<h2 className=' font-playfair font-extrabold uppercase text-[60px] text-[#fff]'>For Him</h2>
 				<Link
 					href="/forhim"
 					className="group relative px-3 py-2 transition text-[18px] block overflow-hidden text-white"
@@ -64,7 +64,7 @@ export default function ImageAccordion() {
 				className="bg-center flex flex-col justify-center items-center bg-no-repeat bg-cover w-full lg:h-[655px] h-[300px]"
 				style={{ backgroundImage: `url('/asset/Shop/shopbanner2.png')` }}
 			>
-				<h2 className=' font-playfair font-extrabold text-[60px] text-[#fff]'>For Her</h2>
+				<h2 className=' font-playfair font-extrabold uppercase text-[60px] text-[#fff]'>For Her</h2>
 				<Link
 					href="/forher"
 					className="group relative px-3 py-2 transition text-[18px] block overflow-hidden text-white"
@@ -73,24 +73,12 @@ export default function ImageAccordion() {
 					<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
 				</Link>
 			</div>
-			<div
-				className="bg-center flex flex-col justify-center items-center bg-no-repeat bg-cover w-full lg:h-[655px] h-[300px]"
-				style={{ backgroundImage: `url('/asset/Shop/shopbanner3.png')` }}
-			>
-				<h2 className=' font-playfair font-extrabold text-[60px] text-[#fff]'>Signature</h2>
-				<Link
-					href="/signature"
-					className="group relative px-3 py-2 transition text-[18px] block overflow-hidden text-white"
-				>
-					Explore More
-					<span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
-				</Link>
-			</div>
+			
 			<div
 				className="bg-center flex flex-col justify-center items-center bg-no-repeat bg-cover w-full lg:h-[655px] h-[300px]"
 				style={{ backgroundImage: `url('/asset/Shop/shopbanner4.png')` }}
 			>
-				<h2 className=' font-playfair font-extrabold text-[60px] text-[#fff]'>Arabic</h2>
+				<h2 className=' font-playfair font-extrabold uppercase text-[60px] text-[#fff]'>Arabic</h2>
 				<Link
 					href="/arabic"
 					className="group relative px-3 py-2 transition text-[18px] block overflow-hidden text-white"

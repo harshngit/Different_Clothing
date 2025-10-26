@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/actions/authActions";
-import { FaAngleRight, FaArrowRight, FaSearch, FaUser } from "react-icons/fa";
+import { FaAngleRight, FaArrowRight, FaSearch, FaUser, FaShoppingCart, FaHeart } from "react-icons/fa";
 import { collection, doc, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/app/firebase.config";
 import { MdChevronRight } from "react-icons/md";
@@ -388,12 +388,14 @@ export default function Navbar() {
             </div>
           </li>
           <Link href={'/cart'}>
-            <li
-              className="lg:hidden relative text-[15px]"
-            >
-              BAG({cartItems.length})
+            <li className="lg:hidden relative cursor-pointer">
+              <FaShoppingCart className="text-2xl text-black" />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
             </li>
-
           </Link>
         </>
 
@@ -472,8 +474,8 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-black h-[35px] w-full flex justify-center items-center z-10">
-        <div className="lg:text-[11px] text-[10px] text-white">
+      <div className="bg-black h-[40px] w-full flex justify-center items-center z-10">
+        <div className="lg:text-[11px] text-[10px] pb-2 text-white flex justify-center items-center">
           Complimentary U.S. No-Rush Shipping on orders of $95 or more. <Link href={"/shop"}>Shop Now</Link>
         </div>
       </div>
@@ -589,12 +591,20 @@ export default function Navbar() {
               </>)}
               <div className="flex justify-center items-center">
                 <ul className="flex justify-center items-center gap-3">
+                  <Link href={'/wishlist'}>
+                    <li className="relative cursor-pointer">
+                      <FaHeart className="text-2xl text-black" />
+                    </li>
+                  </Link>
                   {isAuthenticated ? (
                     <Link href={'/cart'}>
-                      <li
-                        className="relative text-[15px]"
-                      >
-                        BAG({cartItems.length})
+                      <li className="relative cursor-pointer">
+                        <FaShoppingCart className="text-2xl text-black" />
+                        {cartItems.length > 0 && (
+                          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                            {cartItems.length}
+                          </span>
+                        )}
                       </li>
                     </Link>
                   ) : null}
@@ -671,12 +681,9 @@ export default function Navbar() {
             <RxCross1 className="text-[20px] cursor-pointer" onClick={() => setOpenDrawer(false)} />
           </div>
           <ul className="flex flex-col gap-6 mt-6 text-[#2F3435] font-playfair text-[20px]">
-            <li><Link href="/search" onClick={() => setOpenDrawer(false)}>Search</Link></li>
             <li><Link href="/forhim" onClick={() => setOpenDrawer(false)}>For Him</Link></li>
             <li><Link href="/forher" onClick={() => setOpenDrawer(false)}>For Her</Link></li>
-            <li><Link href="/signature" onClick={() => setOpenDrawer(false)}>Signature</Link></li>
             <li><Link href="/arabic" onClick={() => setOpenDrawer(false)}>Arabic</Link></li>
-            <li><Link href="/wishlist" onClick={() => setOpenDrawer(false)}>Wishlist</Link></li>
           </ul>
         </div>
       </div>

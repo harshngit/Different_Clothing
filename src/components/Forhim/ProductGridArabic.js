@@ -7,7 +7,7 @@ import ProductCard from '../ProductCard';
 import { FiColumns, FiGrid, FiSquare } from 'react-icons/fi';
 
 const ProductGridArabic = ({ product }) => {
-	const ITEMS_PER_PAGE = 8;
+	const ITEMS_PER_PAGE = 16;
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);

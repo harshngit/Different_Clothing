@@ -58,7 +58,7 @@ const ForHer = () => {
 			<section>
 				<CollectionHer />
 			</section>
-			<section className="relative px-4 py-6">
+			<section className="relative py-6">
 				{loading ? (
 					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 						{Array.from({ length: 4 }).map((_, i) => (

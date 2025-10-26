@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadWishlistFromStorage, toggleWishlistItem } from '@/actions/wishlistActions';
 import { FiGrid, FiColumns, FiBox, FiSquare } from 'react-icons/fi';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 16;
 
 export default function ProductGrid({ product }) {
 	const [currentPage, setCurrentPage] = useState(1);

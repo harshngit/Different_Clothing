@@ -141,7 +141,7 @@ const AboutHome = () => {
                     <img
                         src={himImage || "/asset/Home/1.png"}
                         alt="For Him"
-                        className="w-full lg:h-[701px] object-cover"
+                        className="w-full lg:h-[701px] h-[600px] object-cover"
                     />
 					<h2 className='font-500 group font-playfair text-[18px] absolute z-10 text-white left-[2%] bottom-3'>FOR HIM
 					</h2>
@@ -154,7 +154,7 @@ const AboutHome = () => {
                     <img
                         src={herImage || "/asset/Home/2.png"}
                         alt="For Her"
-                        className="w-full lg:h-[701px] object-cover"
+                        className="w-full lg:h-[701px] h-[600px] object-cover"
                     />
 					<h2 className='font-500 font-playfair group text-[18px] absolute z-10 text-white left-[2%] bottom-3 hover:uppercase transition duration-500'>FOR HER
 					</h2>

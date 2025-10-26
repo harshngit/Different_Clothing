@@ -56,7 +56,7 @@ const CropTop = () => {
 					desc={"Welcome to Different Clothing, where style meets comfort in every piece. Our collection is designed to offer the perfect balance of quality, versatility, and modern design, making it easy for you to express your unique style."}
 				/>
 			</section>
-			<section className="relative px-4 py-6">
+			<section className="relative py-6">
 				{loading ? (
 					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 						{Array.from({ length: 8 }).map((_, i) => (
