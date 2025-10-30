@@ -35,7 +35,7 @@ const navItems = [
   },
   {
     label: "ARABIC",
-    href: "/arabic",
+    href: "",
     children: [
       { label: "Hoodie", href: "/arabic/hoodie" },
     ],
@@ -167,6 +167,27 @@ export default function Navbar() {
 
   const [timer, setTimer] = useState(null);
 
+  // Mobile drawer controls (open from left, close to right)
+  const [drawerTranslate, setDrawerTranslate] = useState('-translate-x-full');
+  const openMobileDrawer = () => {
+    setOpenDrawer(true);
+    // next tick ensure transition runs from left
+    requestAnimationFrame(() => setDrawerTranslate('translate-x-0'));
+  };
+  const closeMobileDrawer = () => {
+    // animate back to the LEFT
+    setDrawerTranslate('-translate-x-full');
+    setTimeout(() => {
+      setOpenDrawer(false);
+      // keep positioned off-screen to the LEFT for next open
+      setDrawerTranslate('-translate-x-full');
+    }, 300);
+  };
+
+  // Mobile submenu toggles
+  const [mobileOpenHim, setMobileOpenHim] = useState(false);
+  const [mobileOpenHer, setMobileOpenHer] = useState(false);
+
   const handleMouseEnter = (index) => {
     // Clear any previous timer before setting the active dropdown
     if (timer) {
@@ -196,14 +217,25 @@ export default function Navbar() {
         >
           <Link
             href={item.href}
-            className="relative px-3 group py-1 transition lg:text-[14px] block text-black"
+            onClick={(e) => {
+              if (item.label === "ARABIC") {
+                e.preventDefault();
+              }
+            }}
+            className="relative px-3 group py-1 transition lg:text-[14px]  text-black flex items-center gap-2"
           >
             {item.label}
+            {item.label === 'ARABIC' ? (
+              <span className="ml-1 text-[9px] lg:text-[10px] normal-case animate-pulse text-red-500">(Coming soon)</span>
+            ) : null}
+            {item.label === 'FOR HIM' || item.label === 'FOR HER' ? (
+              <span className="inline-block"><MdChevronRight /></span>
+            ) : null}
             <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
           </Link>
 
-          {/* Mega Menu Dropdown */}
-          {item.children && activeDropdown === idx && (
+          {/* Mega Menu Dropdown (disabled for Arabic) */}
+          {item.children && activeDropdown === idx && item.label !== 'ARABIC' && (
             <div
               className={`fixed ${isSticky ? 'top-[3.5rem]' : 'top-[5rem]'} left-0 right-0 bg-white text-black shadow-2xl z-50 border-t border-gray-200`}
               onMouseEnter={() => handleMouseEnter(idx)}
@@ -307,6 +339,19 @@ export default function Navbar() {
           )}
         </li>
       ))}
+      {/* Extra static links */}
+      <li className="relative">
+        <Link href="/about" className="relative px-3 group py-1 transition lg:text-[14px] block text-black">
+          About
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+        </Link>
+      </li>
+      <li className="relative">
+        <Link href="/contact" className="relative px-3 group py-1 transition lg:text-[14px] block text-black">
+          Contact
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+        </Link>
+      </li>
     </ul>
   );
 
@@ -484,8 +529,8 @@ export default function Navbar() {
           }`}>
         <div className="w-full  py-1 bg-white">
           <div className="w-full flex lg:justify-between items-center px-4 lg:px-4">
-            <div className="hidden lg:flex lg:w-[45%]">{navList}</div>
-            <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={() => setOpenDrawer(true)}>
+            <div className="hidden lg:flex lg:w-[75%]">{navList}</div>
+            <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={openMobileDrawer}>
               <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
             </div>
             <Link href="/" className="w-[40%] flex justify-center items-center">
@@ -676,14 +721,51 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Drawer */}
-        <div className={`fixed top-0 right-0 w-screen h-screen bg-white z-[9998] px-6 pt-6 transition-transform duration-300 ${openDrawer ? "translate-x-0" : "translate-x-full"}`}>
-          <div className="flex justify-end">
-            <RxCross1 className="text-[20px] cursor-pointer" onClick={() => setOpenDrawer(false)} />
+        <div className={`fixed top-0 left-0 w-screen h-screen bg-white z-[9998] px-6 pt-6 transform transition-transform duration-300 ${drawerTranslate} ${openDrawer ? '' : 'pointer-events-none'}`}>
+          <div className="flex justify-between items-center border-b border-gray-600 pb-4">
+            <Link href="/" onClick={closeMobileDrawer}>
+              <img src="/asset/Navbar/logo.png" className="w-[100px]" alt="Logo" />
+            </Link>
+            <RxCross1 className="text-[20px] cursor-pointer" onClick={closeMobileDrawer} />
           </div>
-          <ul className="flex flex-col gap-6 mt-6 text-[#2F3435] font-playfair text-[20px]">
-            <li><Link href="/forhim" onClick={() => setOpenDrawer(false)}>For Him</Link></li>
-            <li><Link href="/forher" onClick={() => setOpenDrawer(false)}>For Her</Link></li>
-            <li><Link href="/arabic" onClick={() => setOpenDrawer(false)}>Arabic</Link></li>
+          <ul className="flex flex-col gap-4 mt-6 text-[#2F3435] font-playfair text-[20px]">
+            <li>
+              <button className="w-full flex justify-between items-center" onClick={() => setMobileOpenHim(!mobileOpenHim)}>
+                <span>For Him</span>
+                <MdChevronRight className={`${mobileOpenHim ? 'rotate-90' : ''} transition-transform`} />
+              </button>
+              {mobileOpenHim && (
+                <ul className="mt-2 ml-4 text-[16px] space-y-2">
+                  {navItems[0].children.map((child, i) => (
+                    <li key={i}>
+                      <Link href={child.href} onClick={closeMobileDrawer}>{child.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+            <li>
+              <button className="w-full flex justify-between items-center" onClick={() => setMobileOpenHer(!mobileOpenHer)}>
+                <span>For Her</span>
+                <MdChevronRight className={`${mobileOpenHer ? 'rotate-90' : ''} transition-transform`} />
+              </button>
+              {mobileOpenHer && (
+                <ul className="mt-2 ml-4 text-[16px] space-y-2">
+                  {navItems[1].children.map((child, i) => (
+                    <li key={i}>
+                      <Link href={child.href} onClick={closeMobileDrawer}>{child.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+            <li>
+              <Link href="/arabic" onClick={(e) => { e.preventDefault(); }}>
+                Arabic <span className="text-[12px] ml-2 uppercase tracking-wide">(Coming Soon)</span>
+              </Link>
+            </li>
+            <li><Link href="/about" onClick={closeMobileDrawer}>About</Link></li>
+            <li><Link href="/contact" onClick={closeMobileDrawer}>Contact</Link></li>
           </ul>
         </div>
       </div>

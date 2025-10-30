@@ -56,7 +56,8 @@ const Footer = () => {
                             <Link href="/forher">For Her</Link>
                             <Link href="/forhim">For Him</Link>
                             <Link href="/arabic">Arabic</Link>
-                            
+                            <Link href="/contact">Contact Us</Link>
+                            <Link href="/about">About Us</Link>
                            
                         </div>
                     </div>
