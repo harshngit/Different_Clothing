@@ -111,7 +111,7 @@ const CartBucket = () => {
 								<div key={idx} className="flex gap-5 p-4">
 									<img src={item.image} className="w-[168px] h-[180px] object-cover" />
 									<div className="flex flex-col w-[50%]">
-										<p className="text-[22px] font-semibold mb-2">{item.name}</p>
+										<p className="text-[22px] font-semibold capitalize mb-2">{item.name}</p>
 										<p className="text-sm mb-2">Size: {item.size}</p>
 										<div className="flex items-center gap-2 mb-2">
 											<p className="text-sm">Color:</p>

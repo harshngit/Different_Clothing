@@ -533,7 +533,7 @@ export default function Navbar() {
             <div className="lg:hidden flex w-[33.33%] justify-start items-center" onClick={openMobileDrawer}>
               <img src="/asset/Home/menu.png" className="w-[38px]" alt="Menu" />
             </div>
-            <Link href="/" className="w-[40%] flex justify-center items-center">
+            <Link href="/" className="w-[40%] flex justify-start items-center">
               <img src="/asset/Navbar/logo.png" className="lg:w-[55px] w-[50px]" alt="Logo" />
             </Link>
             <div className="hidden lg:flex lg:w-[45%] justify-end">{navListExtra}</div>
